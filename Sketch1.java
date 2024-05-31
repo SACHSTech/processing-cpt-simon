@@ -1,13 +1,14 @@
 import processing.core.PApplet;
+import processing.core.PImage;
 public class Sketch1 extends PApplet {
 	
-	
+	PImage imgBackground;
   /**
    * Called once at the beginning of execution, put your size all in this method
    */
   public void settings() {
 	// put your size call here
-    size(1000, 1000);
+    size(750, 750);
   }
 
   /** 
@@ -15,14 +16,15 @@ public class Sketch1 extends PApplet {
    * values here i.e background, stroke, fill etc.
    */
   public void setup() {
-    background(210, 255, 173);
+    imgBackground = loadImage("FirstStage.jpg");
+    imgBackground.resize(width, height);
   }
 
   /**
    * Called repeatedly, anything drawn to the screen goes here
    */
   public void draw() {
-	  
+	  background(imgBackground);
 	// sample code, delete this stuff
     stroke(128);
     line(150, 25, 270, 350);  
