@@ -64,7 +64,7 @@ public class Sketch1 extends PApplet {
             chopImagesR[i].resize(150, 150);
         }
          for (int i = 0; i < walkBarryR.length; i++) {
-            walkBarryR[i] = loadImage("Walk" + (i + 1) + ".png");
+            walkBarryR[i] = loadImage("WalkReversed" + (i + 1) + ".png");
             walkBarryR[i].resize(150, 150);
         }
 
@@ -99,13 +99,18 @@ public class Sketch1 extends PApplet {
         image(kickImages[kickImageIndex], fltBarryX, fltBarryY);
     } else if (movingRight) {
         image(kickImagesR[kickImageIndexR], fltBarryX, fltBarryY);
+    }else{
+        image(kickImages[kickImageIndex], fltBarryX, fltBarryY);
     }
     if (frameCount % (60 / animationFrameRate) == 0) {
         if (movingLeft) {
             kickImageIndex = (kickImageIndex + 1) % kickImages.length;
         } else if (movingRight) {
             kickImageIndexR = (kickImageIndexR + 1) % kickImagesR.length;
+        }else{
+            kickImageIndex = (kickImageIndex + 1) % kickImages.length;
         }
+        
     }
 }
 
@@ -114,12 +119,16 @@ private void animateChop() {
         image(chopImages[chopImageIndex], fltBarryX, fltBarryY);
     } else if (movingRight) {
         image(chopImagesR[chopImageIndexR], fltBarryX, fltBarryY);
+    }else{
+        image(chopImages[chopImageIndex], fltBarryX, fltBarryY);
     }
     if (frameCount % (60 / animationFrameRate) == 0) {
         if (movingLeft) {
             chopImageIndex = (chopImageIndex + 1) % chopImages.length;
         } else if (movingRight) {
             chopImageIndexR = (chopImageIndexR + 1) % chopImagesR.length;
+        }else{
+            chopImageIndex = (chopImageIndex + 1) % chopImages.length;
         }
     }
 }
@@ -129,12 +138,16 @@ private void animateWalk() {
         image(walkBarry[walkImageIndex], fltBarryX, fltBarryY);
     } else if (movingRight) {
         image(walkBarryR[walkImageIndexR], fltBarryX, fltBarryY);
+    }else{
+        image(walkBarry[walkImageIndex], fltBarryX, fltBarryY);
     }
     if (frameCount % (60 / animationFrameRate) == 0) {
         if (movingLeft) {
             walkImageIndex = (walkImageIndex + 1) % walkBarry.length;
         } else if (movingRight) {
             walkImageIndexR = (walkImageIndexR + 1) % walkBarryR.length;
+        }else{
+            walkImageIndex = (walkImageIndex + 1) % walkBarry.length;
         }
     }
 }
