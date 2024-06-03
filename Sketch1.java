@@ -5,12 +5,16 @@ public class Sketch1 extends PApplet {
     // Initializing / declaring variables
     PImage imgBackground;
     PImage imgPlatypus;
+    PImage imgDoc;
     PImage[] kickImages = new PImage[8];
     PImage[] chopImages = new PImage[8];
     PImage[] walkBarry = new PImage[5];
     PImage[] kickImagesR = new PImage[8];
     PImage[] chopImagesR = new PImage[8];
     PImage[] walkBarryR = new PImage[5];
+
+
+    PImage[] walkDoc = new PImage[5];
 
     boolean isKicking = false;
     boolean isChopping = false;
@@ -47,6 +51,9 @@ public class Sketch1 extends PApplet {
         imgPlatypus = loadImage("Barry.png");
         imgPlatypus.resize(150, 150);
 
+        imgDoc = loadImage("Doc.png");
+        imgDoc.resize(160, 160);
+
         // Resizing images and putting them into an Array for Barry's kicking animation
         for (int i = 0; i < kickImages.length; i++) {
             kickImages[i] = loadImage("Kick" + (i + 1) + ".png");
@@ -74,6 +81,11 @@ public class Sketch1 extends PApplet {
          for (int i = 0; i < walkBarryR.length; i++) {
             walkBarryR[i] = loadImage("WalkReversed" + (i + 1) + ".png");
             walkBarryR[i].resize(150, 150);
+        }
+        
+        for (int i = 0; i < walkDoc.length; i++) {
+            walkDoc[i] = loadImage("DocWalk" + (i + 1) + ".png");
+            walkDoc[i].resize(160, 160);
         }
 
         frameRate(60);
