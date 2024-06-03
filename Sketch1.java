@@ -12,8 +12,6 @@ public class Sketch1 extends PApplet {
     PImage[] kickImagesR = new PImage[8];
     PImage[] chopImagesR = new PImage[8];
     PImage[] walkBarryR = new PImage[5];
-
-
     PImage[] walkDoc = new PImage[5];
 
     boolean isKicking = false;
@@ -34,6 +32,13 @@ public class Sketch1 extends PApplet {
     int chopImageIndexR = 0;
     int walkImageIndexR = 0;
     int animationFrameRate = 20;
+
+    int numDoc = 5;
+    float[] DocX = new float[numDoc];
+    float DocY = fltBarryY;
+    int[] docWalkIndex = new int[numDoc];
+    int docSpeedR = -2;
+    boolean[] enemyVisible = new boolean[numDoc];
 
     /**
      * Size of the window
@@ -82,10 +87,16 @@ public class Sketch1 extends PApplet {
             walkBarryR[i] = loadImage("WalkReversed" + (i + 1) + ".png");
             walkBarryR[i].resize(150, 150);
         }
-        
+
         for (int i = 0; i < walkDoc.length; i++) {
             walkDoc[i] = loadImage("DocWalk" + (i + 1) + ".png");
             walkDoc[i].resize(160, 160);
+        }
+
+        for (int i = 0; i < numDoc; i++) {
+            DocX[i] = 750 + 200 * (i + 1); 
+            docWalkIndex[i] = 0;
+            enemyVisible[i] = true;
         }
 
         frameRate(60);
@@ -112,6 +123,19 @@ public class Sketch1 extends PApplet {
         } else {
             image(imgPlatypus, fltBarryX, fltBarryY);
         }
+
+        for (int i = 0; i < numDoc; i++) {
+            if (enemyVisible[i]) {
+                DocX[i] += docSpeedR;
+                animateEnemy(i);
+    
+                // Check for collision with Barry's kick
+                if (isKicking && checkCollision(fltBarryX, fltBarryY, DocX[i], DocY)) {
+                    enemyVisible[i] = false;
+                }
+            }
+        }
+
     }
 
    private void animateKick() {
@@ -171,20 +195,42 @@ private void animateWalk() {
         }
     }
 }
-
-    public void keyPressed() {
-        if (key == 'a' && !isChopping) {
-            isKicking = true;
-        } else if (key == 's' && !isKicking) {
-            isChopping = true;
-        } else if (keyCode == LEFT) {
-            movingLeft = true;
-            isWalking = true;
-        } else if (keyCode == RIGHT) {
-            movingRight = true;
-            isWalking = true;
+private void animateEnemy(int i) {
+    if (enemyVisible[i]) {
+        image(walkDoc[docWalkIndex[i]], DocX[i], DocY);
+        if (frameCount % (60 / animationFrameRate) == 0) {
+            docWalkIndex[i] = (docWalkIndex[i] + 1) % walkDoc.length;
         }
     }
+}
+
+private boolean checkCollision(float barryX, float barryY, float enemyX, float enemyY) {
+    float barryWidth = 150; 
+    float barryHeight = 150; 
+    float enemyWidth = 160; 
+    float enemyHeight = 160; 
+
+   
+    return barryX < enemyX + enemyWidth && 
+           barryX + barryWidth > enemyX && 
+           barryY < enemyY + enemyHeight && 
+           barryY + barryHeight > enemyY;
+}
+
+
+ public void keyPressed() {
+    if (key == 'a' && !isChopping) {
+            isKicking = true;
+     } else if (key == 's' && !isKicking) {
+            isChopping = true;
+     } else if (keyCode == LEFT) {
+            movingLeft = true;
+            isWalking = true;
+     } else if (keyCode == RIGHT) {
+            movingRight = true;
+            isWalking = true;
+    }
+  }
 
     public void keyReleased() {
         if (key == 'a') {
