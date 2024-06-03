@@ -5,9 +5,12 @@ public class Sketch1 extends PApplet {
   PImage imgBackground;
   PImage imgPlatypus;
   PImage[] kickImages;
+  PImage[] chopImages;
 
   boolean isKicking = false;
-  int currentImageIndex = 0;
+  boolean isChopping = false;
+  int kickImageIndex = 0;
+  int chopImageIndex = 0;
   int animationFrameRate = 20;
 
   public void settings() {
@@ -28,6 +31,12 @@ public class Sketch1 extends PApplet {
       kickImages[i].resize(150, 150);
     }
 
+    chopImages = new PImage[8];
+    for (int i = 0; i < chopImages.length; i++) {
+      chopImages[i] = loadImage("Chop" + (i + 1) + ".png");
+      chopImages[i].resize(150, 150);
+    }
+
     frameRate(60);
   }
 
@@ -36,28 +45,44 @@ public class Sketch1 extends PApplet {
     
     if (isKicking) {
       animateKick();
+    } else if (isChopping) {
+      animateChop();
     } else {
       image(imgPlatypus, 550, 550);
     }
   }
 
   private void animateKick() {
-    image(kickImages[currentImageIndex], 550, 550);
-    if (frameCount % (60 / animationFrameRate) == 0) { // Change frame at the desired rate
-      currentImageIndex = (currentImageIndex + 1) % kickImages.length;
+    image(kickImages[kickImageIndex], 550, 550);
+    if (frameCount % (60 / animationFrameRate) == 0) {
+      kickImageIndex = (kickImageIndex + 1) % kickImages.length;
+    }
+  }
+
+  private void animateChop() {
+    image(chopImages[chopImageIndex], 550, 550);
+    if (frameCount % (60 / animationFrameRate) == 0) {
+      chopImageIndex = (chopImageIndex + 1) % chopImages.length;
     }
   }
 
   public void keyPressed() {
-    if (key == 'a') {
+    if (key == 'a' && !isChopping) {
       isKicking = true;
+    }
+    if (key == 's' && !isKicking) {
+      isChopping = true;
     }
   }
 
   public void keyReleased() {
     if (key == 'a') {
       isKicking = false;
-      currentImageIndex = 0; 
+      kickImageIndex = 0; 
+    }
+    if (key == 's') {
+    isChopping = false;
+      chopImageIndex = 0;
     }
   }
 
