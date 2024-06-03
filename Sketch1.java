@@ -53,6 +53,7 @@ public class Sketch1 extends PApplet {
             kickImages[i].resize(150, 150);
         }
 
+        // Resizing images and putting them into an Array for Barry's chopping animation
         for (int i = 0; i < chopImages.length; i++) {
             chopImages[i] = loadImage("Chop" + (i + 1) + ".png");
             chopImages[i].resize(150, 150);
