@@ -7,12 +7,16 @@ public class Sketch1 extends PApplet {
     PImage[] kickImages = new PImage[8];
     PImage[] chopImages = new PImage[8];
     PImage[] walkBarry = new PImage[5];
+    PImage[] kickImagesR = new PImage[8];
+    PImage[] chopImagesR = new PImage[8];
+    PImage[] walkBarryR = new PImage[5];
 
     boolean isKicking = false;
     boolean isChopping = false;
     boolean isWalking = false;
     boolean movingLeft = false;
     boolean movingRight = false;
+    
 
     float fltBarryX = 550; 
     float fltBarryY = 550;
@@ -21,6 +25,9 @@ public class Sketch1 extends PApplet {
     int kickImageIndex = 0;
     int chopImageIndex = 0;
     int walkImageIndex = 0;
+    int kickImageIndexR = 0;
+    int chopImageIndexR = 0;
+    int walkImageIndexR = 0;
     int animationFrameRate = 20;
 
     public void settings() {
@@ -47,6 +54,18 @@ public class Sketch1 extends PApplet {
         for (int i = 0; i < walkBarry.length; i++) {
             walkBarry[i] = loadImage("Walk" + (i + 1) + ".png");
             walkBarry[i].resize(150, 150);
+        }
+        for (int i = 0; i < kickImagesR.length; i++) {
+            kickImagesR[i] = loadImage("KickReversed" + (i + 1) + ".png");
+            kickImagesR[i].resize(150, 150);
+        }
+        for (int i = 0; i < chopImagesR.length; i++) {
+            chopImagesR[i] = loadImage("ChopReversed" + (i + 1) + ".png");
+            chopImagesR[i].resize(150, 150);
+        }
+         for (int i = 0; i < walkBarryR.length; i++) {
+            walkBarryR[i] = loadImage("Walk" + (i + 1) + ".png");
+            walkBarryR[i].resize(150, 150);
         }
 
         frameRate(60);
@@ -75,26 +94,50 @@ public class Sketch1 extends PApplet {
         }
     }
 
-    private void animateKick() {
+   private void animateKick() {
+    if (movingLeft) {
         image(kickImages[kickImageIndex], fltBarryX, fltBarryY);
-        if (frameCount % (60 / animationFrameRate) == 0) {
+    } else if (movingRight) {
+        image(kickImagesR[kickImageIndexR], fltBarryX, fltBarryY);
+    }
+    if (frameCount % (60 / animationFrameRate) == 0) {
+        if (movingLeft) {
             kickImageIndex = (kickImageIndex + 1) % kickImages.length;
+        } else if (movingRight) {
+            kickImageIndexR = (kickImageIndexR + 1) % kickImagesR.length;
         }
     }
+}
 
-    private void animateChop() {
+private void animateChop() {
+    if (movingLeft) {
         image(chopImages[chopImageIndex], fltBarryX, fltBarryY);
-        if (frameCount % (60 / animationFrameRate) == 0) {
+    } else if (movingRight) {
+        image(chopImagesR[chopImageIndexR], fltBarryX, fltBarryY);
+    }
+    if (frameCount % (60 / animationFrameRate) == 0) {
+        if (movingLeft) {
             chopImageIndex = (chopImageIndex + 1) % chopImages.length;
+        } else if (movingRight) {
+            chopImageIndexR = (chopImageIndexR + 1) % chopImagesR.length;
         }
     }
+}
 
-    private void animateWalk() {
+private void animateWalk() {
+    if (movingLeft) {
         image(walkBarry[walkImageIndex], fltBarryX, fltBarryY);
-        if (frameCount % (60 / animationFrameRate) == 0) {
+    } else if (movingRight) {
+        image(walkBarryR[walkImageIndexR], fltBarryX, fltBarryY);
+    }
+    if (frameCount % (60 / animationFrameRate) == 0) {
+        if (movingLeft) {
             walkImageIndex = (walkImageIndex + 1) % walkBarry.length;
+        } else if (movingRight) {
+            walkImageIndexR = (walkImageIndexR + 1) % walkBarryR.length;
         }
     }
+}
 
     public void keyPressed() {
         if (key == 'a' && !isChopping) {
