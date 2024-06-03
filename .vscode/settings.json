@@ -1,11 +1,6 @@
 {
-    "java.project.referencedLibraries": {
-        "include": [
-            "lib/**/*.jar",
-            "/Users/MeMeMe/Downloads/core.jar"
-        ],
-        "exclude": [
-            "lib/repl_core.jar"
-        ]
-    }
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/Users/MeMeMe/Downloads/core.jar"
+    ]
 }

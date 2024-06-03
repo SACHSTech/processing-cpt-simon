@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Sketch2",
+            "request": "launch",
+            "mainClass": "Sketch2",
+            "projectName": "processing-cpt-simon-1_712cb17e"
+        },
+        {
+            "type": "java",
             "name": "Sketch1",
             "request": "launch",
             "mainClass": "Sketch1",
