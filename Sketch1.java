@@ -2,6 +2,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Sketch1 extends PApplet {
+    // Initializing / declaring variables
     PImage imgBackground;
     PImage imgPlatypus;
     PImage[] kickImages = new PImage[8];
@@ -30,17 +31,23 @@ public class Sketch1 extends PApplet {
     int walkImageIndexR = 0;
     int animationFrameRate = 20;
 
+    /**
+     * Size of the window
+     */
     public void settings() {
         size(750, 750);
     }
 
     public void setup() {
+        // Resizing image for background
         imgBackground = loadImage("FirstStage.jpg");
         imgBackground.resize(width, height);
 
+        // Resizing image for Platypus
         imgPlatypus = loadImage("Barry.png");
         imgPlatypus.resize(150, 150);
 
+        // Resizing images and putting them into an Array for Barry's kicking animation
         for (int i = 0; i < kickImages.length; i++) {
             kickImages[i] = loadImage("Kick" + (i + 1) + ".png");
             kickImages[i].resize(150, 150);
