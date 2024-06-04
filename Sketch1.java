@@ -14,6 +14,8 @@ public class Sketch1 extends PApplet {
     PImage[] walkBarryR = new PImage[5];
     PImage[] walkDoc = new PImage[5];
     PImage[] punchDoc = new PImage[6];
+    PImage[] walkDocR = new PImage[5];
+    PImage[] punchDocR = new PImage[6];
 
     boolean isKicking = false;
     boolean isChopping = false;
@@ -35,10 +37,15 @@ public class Sketch1 extends PApplet {
     int animationFrameRate = 20;
 
     int numDoc = 10;
+    int numDocR = 10; 
     float[] DocX = new float[numDoc];
+    float[] DocXR = new float[numDoc];
     float DocY = fltBarryY;
+    float DocYR = fltBarryY;
     int[] docWalkIndex = new int[numDoc];
+    int[] docWalkIndexR = new int[numDoc];
     int docSpeedR = -2;
+    int docSpeed = 2;
     boolean[] enemyVisible = new boolean[numDoc];
     boolean[] isPunching = new boolean[numDoc];
 
@@ -49,7 +56,7 @@ public class Sketch1 extends PApplet {
 
     boolean isInContact = false;  
     int contactCounter = 0;  
-    int contactDuration = 36;
+    int contactDuration = 48;
 
     /**
      * Size of the window
@@ -109,9 +116,27 @@ public class Sketch1 extends PApplet {
             punchDoc[i].resize(160, 160);
         }
 
+        for (int i = 0; i < walkDocR.length; i++) {
+            walkDocR[i] = loadImage("DocWalkR" + (i + 1) + ".png");
+            walkDocR[i].resize(160,160);
+        }
+
+        for (int i = 0; i < punchDocR.length; i++) {
+            punchDocR[i] = loadImage("DocPunchR" + (i + 1) + ".png");
+            punchDocR[i].resize(160,160);
+        }
+    
+
         for (int i = 0; i < numDoc; i++) {
             DocX[i] = 750 + 200 * (i + 1); 
             docWalkIndex[i] = 0;  
+            enemyVisible[i] = true;
+            isPunching[i] = false;
+        }
+
+        for (int i = 0; i < numDocR; i++) {
+            DocXR[i] = - 150 * (i + 1); 
+            docWalkIndexR[i] = 0;  
             enemyVisible[i] = true;
             isPunching[i] = false;
         }
@@ -162,13 +187,13 @@ public class Sketch1 extends PApplet {
 
         for (int i = 0; i < numDoc; i++) {
             if (enemyVisible[i]) {
-                // Adjust the distance threshold here
-                if (dist(fltBarryX, fltBarryY, DocX[i], DocY) < 65) {  
+                if (dist(fltBarryX, fltBarryY, DocX[i], DocY) < 60) {  
                     isPunching[i] = true;
                     isInContact = true; 
                 } else {
                     isPunching[i] = false;
                     DocX[i] += docSpeedR;
+                    DocXR[i] += docSpeed;
                 }
     
                 if (isPunching[i]) {
