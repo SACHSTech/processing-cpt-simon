@@ -78,6 +78,8 @@ public class Sketch1 extends PApplet {
     // Games
     boolean lastMove = false; 
 
+    boolean showHomeScreen = true;
+
     /**
      * Size of the window
      */
@@ -190,6 +192,24 @@ public class Sketch1 extends PApplet {
     }
 
     public void draw() {
+        if (showHomeScreen) {
+            displayHomeScreen();
+        } else {
+            runGame();
+        }
+    }
+    public void displayHomeScreen() {
+        background(0); // Black background
+        fill(255); // White text
+        textSize(48);
+        textAlign(CENTER, CENTER);
+        text("Barry's Adventure", width / 2, height / 2 - 50);
+        textSize(24);
+        text("Press any key to start", width / 2, height / 2 + 50);
+    }
+    
+
+    public void runGame() {
         if (kickDelay > 0){ 
             kickDelay--;
         }
@@ -262,6 +282,8 @@ public class Sketch1 extends PApplet {
         isInContact = false;
 
         // Handle invincibility
+        System.out.println(invincibilityCounter);
+        System.out.println(invincibilityDuration);
         if (isInvincible) {
             invincibilityCounter++;
             if (invincibilityCounter >= invincibilityDuration) {
@@ -279,24 +301,25 @@ public class Sketch1 extends PApplet {
                     isPunching[i] = false;
                     DocX[i] += docSpeedR;
                 }
-
+                
                 if (isPunching[i]) {
                     animateEnemyPunch(i);
                 } else {
                     animateEnemyWalk(i);
                 }
                 
-
+                // System.out.println(isInContact);
+                // System.out.println(isInvincible);
                 if (isInContact && !isInvincible) {
                     contactCounter++;
+                    // System.out.println(contactCounter);
+                    // System.out.println(contactDuration);
+                        
                     if (contactCounter >= contactDuration) {
                         barryLives--;
                         isInvincible = true;
                         contactCounter = 0; 
-                        if (barryLives <= 0) {
-                            println("Game Over");
-                            noLoop(); 
-                        }
+                        
                     }
                 } else {
                     contactCounter = 0;
@@ -327,13 +350,10 @@ public class Sketch1 extends PApplet {
                 if (isInContact && !isInvincible) {
                     contactCounter++;
                     if (contactCounter >= contactDuration) {
-                        barryLives--;
-                        isInvincible = true;
+                        // barryLives--;
+                        // isInvincible = true;
                         contactCounter = 0; 
-                        if (barryLives <= 0) {
-                            println("Game Over");
-                            noLoop();
-                        }
+                        
                     }
                 } else {
                     contactCounter = 0;
@@ -366,15 +386,13 @@ public class Sketch1 extends PApplet {
                 if (isInContact && !isInvincible) {
                     contactCounter++;
                     if (contactCounter >= contactDuration) {
-                        barryLives--;
-                        isInvincible = true;
+                        // barryLives--;
+                        // isInvincible = true;
                         contactCounter = 0;
-                        if (barryLives <= 0) {
-                            println("Game Over");
-                            noLoop(); 
-                        }
+                        
                     }
                 } else {
+
                     contactCounter = 0;
                 }
 
@@ -384,6 +402,7 @@ public class Sketch1 extends PApplet {
                 }
             }
         }
+        killBill();
     }
 
     private void animateKick() {
@@ -482,7 +501,13 @@ public class Sketch1 extends PApplet {
             }
         }
     }
+    public void killBill(){
+        if (barryLives <= 0) {
+            println("Game Over");
+            noLoop(); 
+        }
 
+    }
     private void animateEnemyPunchR(int i) {
         if (enemyVisibleDocR[i]) {
             image(punchDocR[docWalkIndexR[i]], DocXR[i], DocYR);
@@ -510,7 +535,7 @@ public class Sketch1 extends PApplet {
     }
 
     private boolean checkCollision(float barryX, float barryY, float enemyX, float enemyY) {
-        float barryWidth = 50; 
+        float barryWidth = 60; 
         float barryHeight = 100; 
         float enemyWidth = 100; 
         float enemyHeight = 100; 
@@ -552,8 +577,10 @@ public class Sketch1 extends PApplet {
             isWalking = false;
             walkImageIndex = 0;
         }
+        if (showHomeScreen) {
+            showHomeScreen = false;
+        }
     }
-
     public static void main(String[] args) {
         PApplet.main("Sketch1");
     }
