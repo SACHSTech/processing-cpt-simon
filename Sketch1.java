@@ -51,14 +51,14 @@ public class Sketch1 extends PApplet {
     float DocYR = fltBarryY;
     int[] docWalkIndex = new int[numDoc];
     int[] docWalkIndexR = new int[numDocR];
-    int docSpeedR = -2;
+    int docSpeedR = -3;
     int docSpeed = 2;
     boolean[] enemyVisibleDoc = new boolean[numDoc];
     boolean[] isPunching = new boolean[numDoc];
     boolean[] enemyVisibleDocR = new boolean[numDocR];
     boolean[] isPunchingR = new boolean[numDocR];
 
-    int numNorm = 5;
+    int numNorm = 10;
     float[] NormX = new float[numNorm];
     float NormY = fltBarryY + 50;
     int[] normWalkIndex = new int[numNorm];
@@ -71,9 +71,13 @@ public class Sketch1 extends PApplet {
     int invincibilityDuration = 120;
     int invincibilityCounter = 0;
 
-    boolean isInContact = false;
-    int contactCounter = 0;
-    int contactDuration = 48;
+    boolean isInContactDoc = false;
+    boolean isInContactDocR = false;
+    boolean isInContactNorm = false;
+    int[] contactCounterDoc = new int[numDoc];
+    int[] contactCounterDocR = new int[numDocR];
+    int[] contactCounterNorm = new int[numDoc];
+    int contactDuration = 24;
 
     // Games
     boolean lastMove = false; 
@@ -168,6 +172,7 @@ public class Sketch1 extends PApplet {
             docWalkIndex[i] = 0;
             enemyVisibleDoc[i] = true;
             isPunching[i] = false;
+            contactCounterDoc[i] = 0;
         }
 
         for (int i = 0; i < numDocR; i++) {
@@ -198,6 +203,7 @@ public class Sketch1 extends PApplet {
             runGame();
         }
     }
+
     public void displayHomeScreen() {
         background(0); // Black background
         fill(255); // White text
@@ -207,7 +213,6 @@ public class Sketch1 extends PApplet {
         textSize(24);
         text("Press any key to start", width / 2, height / 2 + 50);
     }
-    
 
     public void runGame() {
         if (kickDelay > 0){ 
@@ -279,11 +284,10 @@ public class Sketch1 extends PApplet {
         textSize(24);
         text("Lives: " + barryLives, 10, 30);
 
-        isInContact = false;
+        isInContactDoc = false;
+        isInContactDocR = false;
+        isInContactNorm = false;
 
-        // Handle invincibility
-        System.out.println(invincibilityCounter);
-        System.out.println(invincibilityDuration);
         if (isInvincible) {
             invincibilityCounter++;
             if (invincibilityCounter >= invincibilityDuration) {
@@ -296,7 +300,7 @@ public class Sketch1 extends PApplet {
             if (enemyVisibleDoc[i]) {
                 if (dist(fltBarryX, fltBarryY, DocX[i], DocY) < 60) {
                     isPunching[i] = true;
-                    isInContact = true;
+                    BarryLives(true, contactCounterDoc);
                 } else {
                     isPunching[i] = false;
                     DocX[i] += docSpeedR;
@@ -307,23 +311,8 @@ public class Sketch1 extends PApplet {
                 } else {
                     animateEnemyWalk(i);
                 }
-                
-                // System.out.println(isInContact);
-                // System.out.println(isInvincible);
-                if (isInContact && !isInvincible) {
-                    contactCounter++;
-                    // System.out.println(contactCounter);
-                    // System.out.println(contactDuration);
-                        
-                    if (contactCounter >= contactDuration) {
-                        barryLives--;
-                        isInvincible = true;
-                        contactCounter = 0; 
-                        
-                    }
-                } else {
-                    contactCounter = 0;
-                }
+   
+                BarryLives(isInContactDoc, contactCounterDoc);
 
                 // Check for collision with Barry's kick
                 if (isKicking && checkCollision(fltBarryX, fltBarryY, DocX[i], DocY)) {
@@ -334,30 +323,20 @@ public class Sketch1 extends PApplet {
         for (int i = 0; i < numDocR; i++) {
             if (enemyVisibleDocR[i]) {
                 if (dist(fltBarryX, fltBarryY, DocXR[i], DocYR) < 60) {
-                    isPunching[i] = true;
-                    isInContact = true;
+                    isPunchingR[i] = true;
+                     BarryLives(true, contactCounterDocR);
                 } else {
-                    isPunching[i] = false;
+                    isPunchingR[i] = false;
                     DocXR[i] += docSpeed;
                 }
 
-                if (isPunching[i]) {
+                if (isPunchingR[i]) {
                     animateEnemyPunchR(i);
                 } else {
                     animateEnemyWalkR(i);
                 }
 
-                if (isInContact && !isInvincible) {
-                    contactCounter++;
-                    if (contactCounter >= contactDuration) {
-                        // barryLives--;
-                        // isInvincible = true;
-                        contactCounter = 0; 
-                        
-                    }
-                } else {
-                    contactCounter = 0;
-                }
+                BarryLives(isInContactDocR, contactCounterDocR);
 
                 // Check for collision with Barry's kick
                 if (isKicking && checkCollision(fltBarryX, fltBarryY, DocXR[i], DocYR)) {
@@ -371,7 +350,7 @@ public class Sketch1 extends PApplet {
             if (enemyVisibleNorm[i]) {
                 if (dist(fltBarryX, fltBarryY, NormX[i], NormY) < 60) {
                     isBiting[i] = true;
-                    isInContact = true;
+                    BarryLives(true, contactCounterNorm);
                 } else {
                     isBiting[i] = false;
                     NormX[i] += normSpeed;
@@ -383,18 +362,7 @@ public class Sketch1 extends PApplet {
                     animateNormWalk(i);
                 }
 
-                if (isInContact && !isInvincible) {
-                    contactCounter++;
-                    if (contactCounter >= contactDuration) {
-                        // barryLives--;
-                        // isInvincible = true;
-                        contactCounter = 0;
-                        
-                    }
-                } else {
-
-                    contactCounter = 0;
-                }
+               BarryLives(isInContactNorm, contactCounterNorm);
 
                 // Check for collision with Barry's kick
                 if (isChopping && checkCollision(fltBarryX, fltBarryY, NormX[i], NormY)) {
@@ -501,13 +469,14 @@ public class Sketch1 extends PApplet {
             }
         }
     }
-    public void killBill(){
+
+    public void killBill() {
         if (barryLives <= 0) {
             println("Game Over");
             noLoop(); 
         }
-
     }
+
     private void animateEnemyPunchR(int i) {
         if (enemyVisibleDocR[i]) {
             image(punchDocR[docWalkIndexR[i]], DocXR[i], DocYR);
@@ -533,6 +502,23 @@ public class Sketch1 extends PApplet {
             }
         }
     }
+
+    private void BarryLives(boolean isInContactEnemy, int[] contactCounter) {
+        
+        for (int i = 0; i < contactCounter.length; i++) {
+       if (isInContactEnemy && !isInvincible) {
+        contactCounter[i]++; // Increment the counter
+        if (contactCounter[i] >= contactDuration) {
+            println("Contact Counter: " + contactCounter[i]); // Debugging statement
+            barryLives--; // Decrement lives if duration is reached
+            isInvincible = true;
+            contactCounter[i] = 0; // Reset the counter
+        }
+    } else {
+        // contactCounter[i] = 0; // Reset the counter if not in contact with enemy
+    }
+}
+}
 
     private boolean checkCollision(float barryX, float barryY, float enemyX, float enemyY) {
         float barryWidth = 60; 
@@ -581,7 +567,11 @@ public class Sketch1 extends PApplet {
             showHomeScreen = false;
         }
     }
+
     public static void main(String[] args) {
         PApplet.main("Sketch1");
     }
 }
+
+
+
