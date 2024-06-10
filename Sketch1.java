@@ -59,12 +59,19 @@ public class Sketch1 extends PApplet {
     boolean[] isPunchingR = new boolean[numDocR];
 
     int numNorm = 10;
+    int numNormR = 10;
     float[] NormX = new float[numNorm];
+    float[] NormXR = new float[numNormR];
     float NormY = fltBarryY + 50;
+    float NormYR = fltBarryY + 50;
     int[] normWalkIndex = new int[numNorm];
+    int[] normWalkIndexR = new int[numNormR];
     int normSpeed = 4;
+    int normSpeedR = 4;
     boolean[] enemyVisibleNorm = new boolean[numNorm];
+    boolean[] enemyVisibleNormR = new boolean[numNormR];
     boolean[] isBiting = new boolean[numNorm];
+    boolean[] isBitingR = new boolean[numNorm];
 
     int barryLives;
     boolean isInvincible = false;
@@ -315,7 +322,7 @@ public class Sketch1 extends PApplet {
                 BarryLives(isInContactDoc, contactCounterDoc);
 
                 // Check for collision with Barry's kick
-                if (isKicking && checkCollision(fltBarryX, fltBarryY, DocX[i], DocY)) {
+                if (isKicking && checkCollision(fltBarryX, fltBarryY, DocX[i], DocY) && !lastMove) {
                     enemyVisibleDoc[i] = false;
                 }
             }
@@ -339,7 +346,7 @@ public class Sketch1 extends PApplet {
                 BarryLives(isInContactDocR, contactCounterDocR);
 
                 // Check for collision with Barry's kick
-                if (isKicking && checkCollision(fltBarryX, fltBarryY, DocXR[i], DocYR)) {
+                if (isKicking && checkCollision(fltBarryX, fltBarryY, DocXR[i], DocYR) && lastMove) {
                     enemyVisibleDocR[i] = false;
                 }
             }
@@ -365,7 +372,7 @@ public class Sketch1 extends PApplet {
                BarryLives(isInContactNorm, contactCounterNorm);
 
                 // Check for collision with Barry's kick
-                if (isChopping && checkCollision(fltBarryX, fltBarryY, NormX[i], NormY)) {
+                if (isChopping && checkCollision(fltBarryX, fltBarryY, NormX[i], NormY) && lastMove) {
                     enemyVisibleNorm[i] = false;
                 }
             }
@@ -379,24 +386,11 @@ public class Sketch1 extends PApplet {
         } else {
             image(kickImagesR[kickImageIndexR], fltBarryX, fltBarryY);
         }
-        if (frameCount % (120 / animationFrameRate) == 0) {
+        if (frameCount % (60 / animationFrameRate) == 0) {
             if (lastMove) {
                 kickImageIndex = (kickImageIndex + 1) % kickImages.length;
             } else {
                 kickImageIndexR = (kickImageIndexR + 1) % kickImagesR.length;
-            }
-        }
-        if (frameCount % (120 / animationFrameRate) == 0) {
-            if (movingLeft) {
-                kickImageIndex = (kickImageIndex + 1) % kickImages.length;
-            } else if (movingRight) {
-                kickImageIndexR = (kickImageIndexR + 1) % kickImagesR.length;
-            } else {
-                if (lastMove) {
-                    kickImageIndex = (kickImageIndex + 1) % kickImages.length;
-                } else {
-                    kickImageIndexR = (kickImageIndexR + 1) % kickImagesR.length;
-                }
             }
         }
     }
