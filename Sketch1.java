@@ -23,6 +23,8 @@ public class Sketch1 extends PApplet {
 
     PImage[] walkNorm = new PImage[5];
     PImage[] biteNorm = new PImage[8];
+    PImage[] walkNormR = new PImage[5];
+    PImage[] biteNormR = new PImage[8];
 
     boolean isKicking = false;
     boolean isChopping = false;
@@ -30,8 +32,8 @@ public class Sketch1 extends PApplet {
     boolean movingLeft = false;
     boolean movingRight = false;
 
-    float fltBarryX = 550;
-    float fltBarryY = 550;
+    int intBarryX = 550;
+    int intBarryY = 550;
     int intBarrySpeed = 5;
 
     int kickImageIndex = 0;
@@ -43,31 +45,31 @@ public class Sketch1 extends PApplet {
     int animationFrameRate = 20;
     int kickDelay = 0;
 
-    int numDoc = 10;
-    int numDocR = 10;
-    float[] DocX = new float[numDoc];
-    float[] DocXR = new float[numDocR];
-    float DocY = fltBarryY;
-    float DocYR = fltBarryY;
+    int numDoc = 1;
+    int numDocR = 1;
+    int[] DocX = new int[numDoc];
+    int[] DocXR = new int[numDocR];
+    int DocY = intBarryY;
+    int DocYR = intBarryY;
     int[] docWalkIndex = new int[numDoc];
     int[] docWalkIndexR = new int[numDocR];
-    int docSpeedR = -3;
+    int docSpeedR = -2;
     int docSpeed = 2;
     boolean[] enemyVisibleDoc = new boolean[numDoc];
     boolean[] isPunching = new boolean[numDoc];
     boolean[] enemyVisibleDocR = new boolean[numDocR];
     boolean[] isPunchingR = new boolean[numDocR];
 
-    int numNorm = 10;
-    int numNormR = 10;
-    float[] NormX = new float[numNorm];
-    float[] NormXR = new float[numNormR];
-    float NormY = fltBarryY + 50;
-    float NormYR = fltBarryY + 50;
+    int numNorm = 1;
+    int numNormR = 1;
+    int[] NormX = new int[numNorm];
+    int[] NormXR = new int[numNormR];
+    int NormY = intBarryY + 50;
+    int NormYR = intBarryY + 50;
     int[] normWalkIndex = new int[numNorm];
     int[] normWalkIndexR = new int[numNormR];
     int normSpeed = 4;
-    int normSpeedR = 4;
+    int normSpeedR = -4;
     boolean[] enemyVisibleNorm = new boolean[numNorm];
     boolean[] enemyVisibleNormR = new boolean[numNormR];
     boolean[] isBiting = new boolean[numNorm];
@@ -81,9 +83,11 @@ public class Sketch1 extends PApplet {
     boolean isInContactDoc = false;
     boolean isInContactDocR = false;
     boolean isInContactNorm = false;
+    boolean isInContactNormR = false;
     int[] contactCounterDoc = new int[numDoc];
     int[] contactCounterDocR = new int[numDocR];
-    int[] contactCounterNorm = new int[numDoc];
+    int[] contactCounterNorm = new int[numNorm];
+    int[] contactCounterNormR = new int[numNormR];
     int contactDuration = 24;
 
     // Games
@@ -109,92 +113,26 @@ public class Sketch1 extends PApplet {
         imgPlatypusR = loadImage("BarryR.png");
         imgPlatypusR.resize(150, 150);
 
-        imgDoc = loadImage("Doc.png");
-        imgDoc.resize(160, 160);
-
-        imgNorm = loadImage("Norm.png");
-        imgNorm.resize(100, 100);
-
         // Resizing images and putting them into an Array for Barry's kicking animation
-        for (int i = 0; i < kickImages.length; i++) {
-            kickImages[i] = loadImage("Kick" + (i + 1) + ".png");
-            kickImages[i].resize(150, 150);
-        }
+        ImageArrays(kickImages, "Kick", 150);
+        ImageArrays(chopImages, "Chop", 150);
+        ImageArrays(walkBarry, "Walk", 150);
+        ImageArrays(kickImagesR, "KickReversed", 150);
+        ImageArrays(chopImagesR, "ChopReversed", 150);
+        ImageArrays(walkBarryR, "WalkReversed", 150);
+        ImageArrays(walkDoc, "DocWalk", 160);
+        ImageArrays(punchDoc, "DocPunch", 160);
+        ImageArrays(walkDocR, "DocWalkR", 160);
+        ImageArrays(punchDocR, "DocPunchR", 160);
+        ImageArrays(walkNorm, "NormWalk", 100);
+        ImageArrays(biteNorm, "NormBite", 100);
+        ImageArrays(walkNormR, "NormWalkR", 100);
+        ImageArrays(biteNormR, "NormBiteR", 100);
 
-        // Resizing images and putting them into an Array for Barry's chopping animation
-        for (int i = 0; i < chopImages.length; i++) {
-            chopImages[i] = loadImage("Chop" + (i + 1) + ".png");
-            chopImages[i].resize(150, 150);
-        }
-
-        for (int i = 0; i < walkBarry.length; i++) {
-            walkBarry[i] = loadImage("Walk" + (i + 1) + ".png");
-            walkBarry[i].resize(150, 150);
-        }
-        for (int i = 0; i < kickImagesR.length; i++) {
-            kickImagesR[i] = loadImage("KickReversed" + (i + 1) + ".png");
-            kickImagesR[i].resize(150, 150);
-        }
-        for (int i = 0; i < chopImagesR.length; i++) {
-            chopImagesR[i] = loadImage("ChopReversed" + (i + 1) + ".png");
-            chopImagesR[i].resize(150, 150);
-        }
-        for (int i = 0; i < walkBarryR.length; i++) {
-            walkBarryR[i] = loadImage("WalkReversed" + (i + 1) + ".png");
-            walkBarryR[i].resize(150, 150);
-        }
-
-        for (int i = 0; i < walkDoc.length; i++) {
-            walkDoc[i] = loadImage("DocWalk" + (i + 1) + ".png");
-            walkDoc[i].resize(160, 160);
-        }
-
-        for (int i = 0; i < punchDoc.length; i++) {
-            punchDoc[i] = loadImage("DocPunch" + (i + 1) + ".png");
-            punchDoc[i].resize(160, 160);
-        }
-
-        for (int i = 0; i < walkDocR.length; i++) {
-            walkDocR[i] = loadImage("DocWalkR" + (i + 1) + ".png");
-            walkDocR[i].resize(160, 160);
-        }
-
-        for (int i = 0; i < punchDocR.length; i++) {
-            punchDocR[i] = loadImage("DocPunchR" + (i + 1) + ".png");
-            punchDocR[i].resize(160, 160);
-        }
-
-        for (int i = 0; i < walkNorm.length; i++) {
-            walkNorm[i] = loadImage("NormWalk" + (i + 1) + ".png");
-            walkNorm[i].resize(100, 100);
-        }
-
-        for (int i = 0; i < biteNorm.length; i++) {
-            biteNorm[i] = loadImage("NormBite" + (i + 1) + ".png");
-            biteNorm[i].resize(100, 100);
-        }
-
-        for (int i = 0; i < numDoc; i++) {
-            DocX[i] = 750 + 200 * (i + 1);
-            docWalkIndex[i] = 0;
-            enemyVisibleDoc[i] = true;
-            isPunching[i] = false;
-            contactCounterDoc[i] = 0;
-        }
-
-        for (int i = 0; i < numDocR; i++) {
-            DocXR[i] = -150 * (i + 1);
-            docWalkIndexR[i] = 0;
-            enemyVisibleDocR[i] = true;
-            isPunchingR[i] = false;
-        }
-
-        for (int i = 0; i < numNorm; i++) {
-            NormX[i] = -150 * (i + 1); 
-            normWalkIndex[i] = 0;
-            enemyVisibleNorm[i] = true;
-            isBiting[i] = false;
-        }
+        EnemyDetails(numDoc, DocX, 750, 200, docWalkIndex, enemyVisibleDoc, isPunching, contactCounterDoc);        
+        EnemyDetails(numDocR, DocXR, 0, -150, docWalkIndexR, enemyVisibleDocR, isPunchingR, contactCounterDocR);
+        EnemyDetails(numNorm, NormX, 0, -150, normWalkIndex, enemyVisibleNorm, isBiting, contactCounterNorm);
+        EnemyDetails(numNormR, NormXR, 750, 200, normWalkIndexR, enemyVisibleNormR, isBitingR, contactCounterNormR);
 
         barryLives = 3;
         isInvincible = false;
@@ -232,10 +170,10 @@ public class Sketch1 extends PApplet {
 
         for (int i = 0; i < numDoc; i++) {
             if (enemyVisibleDoc[i]) {
-                if (checkCollision(fltBarryX - intBarrySpeed, fltBarryY, DocX[i], DocY)) {
+                if (checkCollision(intBarryX - intBarrySpeed, intBarryY, DocX[i], DocY)) {
                     canMoveLeft = false;
                 }
-                if (checkCollision(fltBarryX + intBarrySpeed, fltBarryY, DocX[i], DocY)) {
+                if (checkCollision(intBarryX + intBarrySpeed, intBarryY, DocX[i], DocY)) {
                     canMoveRight = false;
                 }
             }
@@ -243,10 +181,10 @@ public class Sketch1 extends PApplet {
 
         for (int i = 0; i < numDocR; i++) {
             if (enemyVisibleDocR[i]) {
-                if (checkCollision(fltBarryX - intBarrySpeed, fltBarryY, DocXR[i], DocYR)) {
+                if (checkCollision(intBarryX - intBarrySpeed, intBarryY, DocXR[i], DocYR)) {
                     canMoveLeft = false;
                 }
-                if (checkCollision(fltBarryX + intBarrySpeed, fltBarryY, DocXR[i], DocYR)) {
+                if (checkCollision(intBarryX + intBarrySpeed, intBarryY, DocXR[i], DocYR)) {
                     canMoveRight = false;
                 }
             }
@@ -255,22 +193,33 @@ public class Sketch1 extends PApplet {
         // Check for collisions with Norms
         for (int i = 0; i < numNorm; i++) {
             if (enemyVisibleNorm[i]) {
-                if (checkCollision(fltBarryX - intBarrySpeed, fltBarryY, NormX[i], NormY)) {
+                if (checkCollision(intBarryX - intBarrySpeed, intBarryY, NormX[i], NormY)) {
                 canMoveLeft = false;
                 }
-                if (checkCollision(fltBarryX + intBarrySpeed, fltBarryY, NormX[i], NormY)) {
+                if (checkCollision(intBarryX + intBarrySpeed, intBarryY, NormX[i], NormY)) {
                 canMoveRight = false;
                 }
             }
         }
 
+        for ( int i = 0; i < numNormR; i++) {
+            if (enemyVisibleNormR[i]) {
+                if (checkCollision(intBarryX - intBarrySpeed, intBarryY, NormXR[i], NormYR)) {
+                    canMoveLeft = false;
+                }
+                if (checkCollision(intBarryX + intBarrySpeed, intBarryY, NormXR[i], NormYR)) {
+                    canMoveRight = false;
+                }
+            }
+        }
+
         if (movingLeft && canMoveLeft) {
-            fltBarryX -= intBarrySpeed;
-            fltBarryX = max(fltBarryX, 0);
+            intBarryX -= intBarrySpeed;
+            intBarryX = max(intBarryX, 0);
         }
         if (movingRight && canMoveRight) {
-            fltBarryX += intBarrySpeed;
-            fltBarryX = min(fltBarryX, width);
+            intBarryX += intBarrySpeed;
+            intBarryX = min(intBarryX, width);
         }
 
         if (isKicking) {
@@ -281,9 +230,9 @@ public class Sketch1 extends PApplet {
             animateWalk();
         } else {
             if (lastMove) {
-                image(imgPlatypus, fltBarryX, fltBarryY);
+                image(imgPlatypus, intBarryX, intBarryY);
             } else {
-                image(imgPlatypusR, fltBarryX, fltBarryY);
+                image(imgPlatypusR, intBarryX, intBarryY);
             }
         }
 
@@ -294,6 +243,7 @@ public class Sketch1 extends PApplet {
         isInContactDoc = false;
         isInContactDocR = false;
         isInContactNorm = false;
+        isInContactNormR = false;
 
         if (isInvincible) {
             invincibilityCounter++;
@@ -305,7 +255,7 @@ public class Sketch1 extends PApplet {
 
         for (int i = 0; i < numDoc; i++) {
             if (enemyVisibleDoc[i]) {
-                if (dist(fltBarryX, fltBarryY, DocX[i], DocY) < 60) {
+                if (dist(intBarryX, intBarryY, DocX[i], DocY) < 60) {
                     isPunching[i] = true;
                     BarryLives(true, contactCounterDoc);
                 } else {
@@ -322,14 +272,14 @@ public class Sketch1 extends PApplet {
                 BarryLives(isInContactDoc, contactCounterDoc);
 
                 // Check for collision with Barry's kick
-                if (isKicking && checkCollision(fltBarryX, fltBarryY, DocX[i], DocY) && !lastMove) {
+                if (isKicking && checkCollision(intBarryX, intBarryY, DocX[i], DocY) && !lastMove) {
                     enemyVisibleDoc[i] = false;
                 }
             }
         }
         for (int i = 0; i < numDocR; i++) {
             if (enemyVisibleDocR[i]) {
-                if (dist(fltBarryX, fltBarryY, DocXR[i], DocYR) < 60) {
+                if (dist(intBarryX, intBarryY, DocXR[i], DocYR) < 60) {
                     isPunchingR[i] = true;
                      BarryLives(true, contactCounterDocR);
                 } else {
@@ -346,7 +296,7 @@ public class Sketch1 extends PApplet {
                 BarryLives(isInContactDocR, contactCounterDocR);
 
                 // Check for collision with Barry's kick
-                if (isKicking && checkCollision(fltBarryX, fltBarryY, DocXR[i], DocYR) && lastMove) {
+                if (isKicking && checkCollision(intBarryX, intBarryY, DocXR[i], DocYR) && lastMove) {
                     enemyVisibleDocR[i] = false;
                 }
             }
@@ -355,7 +305,7 @@ public class Sketch1 extends PApplet {
         // Move and animate Norms
         for (int i = 0; i < numNorm; i++) {
             if (enemyVisibleNorm[i]) {
-                if (dist(fltBarryX, fltBarryY, NormX[i], NormY) < 60) {
+                if (dist(intBarryX, intBarryY, NormX[i], NormY) < 60) {
                     isBiting[i] = true;
                     BarryLives(true, contactCounterNorm);
                 } else {
@@ -372,19 +322,61 @@ public class Sketch1 extends PApplet {
                BarryLives(isInContactNorm, contactCounterNorm);
 
                 // Check for collision with Barry's kick
-                if (isChopping && checkCollision(fltBarryX, fltBarryY, NormX[i], NormY) && lastMove) {
+                if (isChopping && checkCollision(intBarryX, intBarryY, NormX[i], NormY) && lastMove) {
                     enemyVisibleNorm[i] = false;
+                }
+            }
+        }
+
+        for (int i = 0; i < numNormR; i++) {
+            if (enemyVisibleNormR[i]) {
+                if (dist(intBarryX, intBarryY, NormXR[i], NormYR) < 60) {
+                    isBitingR[i] = true;
+                    BarryLives(true, contactCounterNormR);
+                } else {
+                    isBitingR[i] = false;
+                    NormXR[i] += normSpeedR;
+                }
+
+                if (isBitingR[i]) {
+                    animateNormBiteR(i);
+                } else {
+                    animateNormWalkR(i);
+                }
+
+               BarryLives(isInContactNormR, contactCounterNormR);
+
+                // Check for collision with Barry's kick
+                if (isChopping && checkCollision(intBarryX, intBarryY, NormXR[i], NormYR) && !lastMove) {
+                    enemyVisibleNormR[i] = false;
                 }
             }
         }
         killBill();
     }
 
+    private void ImageArrays(PImage[] images, String name, int intSize){
+        for (int i = 0; i < images.length; i++) {
+            images[i] = loadImage( name + (i + 1) + ".png");
+            images[i].resize(intSize, intSize);
+        }
+    }
+
+    private void EnemyDetails(int intNumEnemies, int[] intEnemies, int intStartPosition, int intSpacing, int[] intIndex, boolean[] isVisible, boolean[] isAttacking, int[] intContact){
+        for (int i = 0; i < intNumEnemies; i++) {
+            intEnemies[i] = intStartPosition + intSpacing * (i + 1);
+            intIndex[i] = 0;
+            isVisible[i] = true;
+            isAttacking[i] = false;
+            intContact[i] = 0;
+        } 
+    }
+
     private void animateKick() {
         if (lastMove) {
-            image(kickImages[kickImageIndex], fltBarryX, fltBarryY);
+            image(kickImages[kickImageIndex], intBarryX, intBarryY);
         } else {
-            image(kickImagesR[kickImageIndexR], fltBarryX, fltBarryY);
+            image(kickImagesR[kickImageIndexR], intBarryX, intBarryY);
         }
         if (frameCount % (60 / animationFrameRate) == 0) {
             if (lastMove) {
@@ -397,9 +389,9 @@ public class Sketch1 extends PApplet {
 
     private void animateChop() {
         if (lastMove) {
-            image(chopImages[chopImageIndex], fltBarryX, fltBarryY);
+            image(chopImages[chopImageIndex], intBarryX, intBarryY);
         } else {
-            image(chopImagesR[chopImageIndexR], fltBarryX, fltBarryY);
+            image(chopImagesR[chopImageIndexR], intBarryX, intBarryY);
         }
         if (frameCount % (60 / animationFrameRate) == 0) {
             if (movingLeft) {
@@ -418,11 +410,11 @@ public class Sketch1 extends PApplet {
 
     private void animateWalk() {
         if (movingLeft) {
-            image(walkBarry[walkImageIndex], fltBarryX, fltBarryY);
+            image(walkBarry[walkImageIndex], intBarryX, intBarryY);
         } else if (movingRight) {
-            image(walkBarryR[walkImageIndexR], fltBarryX, fltBarryY);
+            image(walkBarryR[walkImageIndexR], intBarryX, intBarryY);
         } else {
-            image(walkBarry[walkImageIndex], fltBarryX, fltBarryY);
+            image(walkBarry[walkImageIndex], intBarryX, intBarryY);
         }
         if (frameCount % (60 / animationFrameRate) == 0) {
             if (movingLeft) {
@@ -464,12 +456,7 @@ public class Sketch1 extends PApplet {
         }
     }
 
-    public void killBill() {
-        if (barryLives <= 0) {
-            println("Game Over");
-            noLoop(); 
-        }
-    }
+  
 
     private void animateEnemyPunchR(int i) {
         if (enemyVisibleDocR[i]) {
@@ -497,22 +484,44 @@ public class Sketch1 extends PApplet {
         }
     }
 
+    private void animateNormWalkR(int i) {
+        int index = normWalkIndexR[i] % walkNormR.length;
+        image(walkNormR[index], NormXR[i], NormYR);
+        if (frameCount % (60 / animationFrameRate) == 0) {
+            normWalkIndexR[i] = (normWalkIndexR[i] + 1) % walkNormR.length;
+        }
+    }
+
+    private void animateNormBiteR(int i) {
+        if (enemyVisibleNormR[i]) {
+            image(biteNormR[normWalkIndexR[i]], NormXR[i], NormYR);
+            if (frameCount % (60 / animationFrameRate) == 0) {
+                normWalkIndexR[i] = (normWalkIndexR[i] + 1) % biteNormR.length;
+            }
+        }
+    }
+
+    public void killBill() {
+        if (barryLives <= 0) {
+            println("Game Over");
+            noLoop(); 
+        }
+    }
+
     private void BarryLives(boolean isInContactEnemy, int[] contactCounter) {
         
         for (int i = 0; i < contactCounter.length; i++) {
-       if (isInContactEnemy && !isInvincible) {
-        contactCounter[i]++; // Increment the counter
-        if (contactCounter[i] >= contactDuration) {
-            println("Contact Counter: " + contactCounter[i]); // Debugging statement
-            barryLives--; // Decrement lives if duration is reached
-            isInvincible = true;
-            contactCounter[i] = 0; // Reset the counter
-        }
-    } else {
-        // contactCounter[i] = 0; // Reset the counter if not in contact with enemy
+            if (isInContactEnemy && !isInvincible) {
+                contactCounter[i]++; 
+            }
+
+             if (contactCounter[i] >= contactDuration) {
+                barryLives--; 
+                isInvincible = true;
+                contactCounter[i] = 0; 
+            }
+        } 
     }
-}
-}
 
     private boolean checkCollision(float barryX, float barryY, float enemyX, float enemyY) {
         float barryWidth = 60; 
