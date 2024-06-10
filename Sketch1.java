@@ -113,7 +113,7 @@ public class Sketch1 extends PApplet {
         imgPlatypusR = loadImage("BarryR.png");
         imgPlatypusR.resize(150, 150);
 
-        // Resizing images and putting them into an Array for Barry's kicking animation
+        // Resizing images and putting them into an Array for character movement 
         ImageArrays(kickImages, "Kick", 150);
         ImageArrays(chopImages, "Chop", 150);
         ImageArrays(walkBarry, "Walk", 150);
@@ -129,18 +129,24 @@ public class Sketch1 extends PApplet {
         ImageArrays(walkNormR, "NormWalkR", 100);
         ImageArrays(biteNormR, "NormBiteR", 100);
 
+        // Collision and positioning of the characters
         EnemyDetails(numDoc, DocX, 750, 200, docWalkIndex, enemyVisibleDoc, isPunching, contactCounterDoc);        
         EnemyDetails(numDocR, DocXR, 0, -150, docWalkIndexR, enemyVisibleDocR, isPunchingR, contactCounterDocR);
         EnemyDetails(numNorm, NormX, 0, -150, normWalkIndex, enemyVisibleNorm, isBiting, contactCounterNorm);
         EnemyDetails(numNormR, NormXR, 750, 200, normWalkIndexR, enemyVisibleNormR, isBitingR, contactCounterNormR);
 
+        // Life System details
         barryLives = 3;
         isInvincible = false;
         invincibilityCounter = 0;
 
+        // Frame Rate
         frameRate(60);
     }
 
+    /**
+     * Helps distingush home screen and the actual game
+     */
     public void draw() {
         if (showHomeScreen) {
             displayHomeScreen();
@@ -148,7 +154,9 @@ public class Sketch1 extends PApplet {
             runGame();
         }
     }
-
+    /**
+     * Home screen of the game
+     */
     public void displayHomeScreen() {
         background(0); // Black background
         fill(255); // White text
@@ -158,16 +166,22 @@ public class Sketch1 extends PApplet {
         textSize(24);
         text("Press any key to start", width / 2, height / 2 + 50);
     }
-
+    /**
+     * The main game code
+     */
     public void runGame() {
+        // Kick Delay
         if (kickDelay > 0){ 
             kickDelay--;
         }
+        // Adding an image of a background
         background(imgBackground);
 
+        // Setting the original boolean values to true so Barry can move left and right
         boolean canMoveLeft = true;
         boolean canMoveRight = true;
 
+        // Checks collision with Barry and Doc enemies to determine whether or not Barry can move or not
         for (int i = 0; i < numDoc; i++) {
             if (enemyVisibleDoc[i]) {
                 if (checkCollision(intBarryX - intBarrySpeed, intBarryY, DocX[i], DocY)) {
@@ -178,7 +192,7 @@ public class Sketch1 extends PApplet {
                 }
             }
         }
-
+        // Checks collision with Barry and DocR enemies to determine whether or not Barry can move or not
         for (int i = 0; i < numDocR; i++) {
             if (enemyVisibleDocR[i]) {
                 if (checkCollision(intBarryX - intBarrySpeed, intBarryY, DocXR[i], DocYR)) {
@@ -190,7 +204,7 @@ public class Sketch1 extends PApplet {
             }
         }
 
-        // Check for collisions with Norms
+        // Check for collisions with Barry and Norm enemies to determine whether or not Barry can move or not
         for (int i = 0; i < numNorm; i++) {
             if (enemyVisibleNorm[i]) {
                 if (checkCollision(intBarryX - intBarrySpeed, intBarryY, NormX[i], NormY)) {
@@ -201,7 +215,7 @@ public class Sketch1 extends PApplet {
                 }
             }
         }
-
+        // Checks collision with Barry and NormR enemies to determine whether or not Barry can move or not
         for ( int i = 0; i < numNormR; i++) {
             if (enemyVisibleNormR[i]) {
                 if (checkCollision(intBarryX - intBarrySpeed, intBarryY, NormXR[i], NormYR)) {
@@ -212,7 +226,7 @@ public class Sketch1 extends PApplet {
                 }
             }
         }
-
+        // Boundaries on the x - position of Barry
         if (movingLeft && canMoveLeft) {
             intBarryX -= intBarrySpeed;
             intBarryX = max(intBarryX, 0);
@@ -221,7 +235,7 @@ public class Sketch1 extends PApplet {
             intBarryX += intBarrySpeed;
             intBarryX = min(intBarryX, width);
         }
-
+        // Using boolean values to perform Barry's actions
         if (isKicking) {
             animateKick();
         } else if (isChopping) {
@@ -236,23 +250,28 @@ public class Sketch1 extends PApplet {
             }
         }
 
+        // Life indicator
         fill(255);
         textSize(24);
-        text("Lives: " + barryLives, 10, 30);
+        text("Lives: " + barryLives, 50, 30);
 
+        // Setting initial boolean contact values for all enemies to false
         isInContactDoc = false;
         isInContactDocR = false;
         isInContactNorm = false;
         isInContactNormR = false;
 
+        // Adds invincibility when the boolean variable is true
         if (isInvincible) {
             invincibilityCounter++;
+            // When the counter adds to a certain value, the invincibility is lost
             if (invincibilityCounter >= invincibilityDuration) {
                 isInvincible = false;
                 invincibilityCounter = 0;
             }
         }
 
+        // Determines the action of Doc enemies 
         for (int i = 0; i < numDoc; i++) {
             if (enemyVisibleDoc[i]) {
                 if (dist(intBarryX, intBarryY, DocX[i], DocY) < 60) {
@@ -262,13 +281,13 @@ public class Sketch1 extends PApplet {
                     isPunching[i] = false;
                     DocX[i] += docSpeedR;
                 }
-                
+                // When this boolean array is true, Doc will start punching Barry
                 if (isPunching[i]) {
                     animateEnemyPunch(i);
                 } else {
                     animateEnemyWalk(i);
                 }
-   
+                // Checks whether or not Barry loses a life due to a Doc enemy or not
                 BarryLives(isInContactDoc, contactCounterDoc);
 
                 // Check for collision with Barry's kick
@@ -277,6 +296,7 @@ public class Sketch1 extends PApplet {
                 }
             }
         }
+        // Determines the action of DocR enemies 
         for (int i = 0; i < numDocR; i++) {
             if (enemyVisibleDocR[i]) {
                 if (dist(intBarryX, intBarryY, DocXR[i], DocYR) < 60) {
@@ -287,12 +307,13 @@ public class Sketch1 extends PApplet {
                     DocXR[i] += docSpeed;
                 }
 
+                // When this boolean array is true, DocR will start punching Barry
                 if (isPunchingR[i]) {
                     animateEnemyPunchR(i);
                 } else {
                     animateEnemyWalkR(i);
                 }
-
+                // Checks whether or not Barry loses a life due to a DocR enemy or not
                 BarryLives(isInContactDocR, contactCounterDocR);
 
                 // Check for collision with Barry's kick
@@ -302,7 +323,7 @@ public class Sketch1 extends PApplet {
             }
         }
 
-        // Move and animate Norms
+        // Determines the action of Norm enemies 
         for (int i = 0; i < numNorm; i++) {
             if (enemyVisibleNorm[i]) {
                 if (dist(intBarryX, intBarryY, NormX[i], NormY) < 60) {
@@ -312,13 +333,14 @@ public class Sketch1 extends PApplet {
                     isBiting[i] = false;
                     NormX[i] += normSpeed;
                 }
-
+                
+                // When this boolean array is true, Norm will start punching Barry
                 if (isBiting[i]) {
                     animateNormBite(i);
                 } else {
                     animateNormWalk(i);
                 }
-
+                // Checks whether or not Barry loses a life due to a Norm enemy or not
                BarryLives(isInContactNorm, contactCounterNorm);
 
                 // Check for collision with Barry's kick
@@ -337,13 +359,13 @@ public class Sketch1 extends PApplet {
                     isBitingR[i] = false;
                     NormXR[i] += normSpeedR;
                 }
-
+                // When this boolean array is true, NormR will start punching Barry
                 if (isBitingR[i]) {
                     animateNormBiteR(i);
                 } else {
                     animateNormWalkR(i);
                 }
-
+                // Checks whether or not Barry loses a life due to a NormR enemy or not
                BarryLives(isInContactNormR, contactCounterNormR);
 
                 // Check for collision with Barry's kick
@@ -354,7 +376,12 @@ public class Sketch1 extends PApplet {
         }
         killBill();
     }
-
+    /**
+     * A method Image Arrays 
+     * @param images
+     * @param name
+     * @param intSize
+     */
     private void ImageArrays(PImage[] images, String name, int intSize){
         for (int i = 0; i < images.length; i++) {
             images[i] = loadImage( name + (i + 1) + ".png");
