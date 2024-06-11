@@ -377,10 +377,10 @@ public class Sketch1 extends PApplet {
         killBill();
     }
     /**
-     * A method Image Arrays 
-     * @param images
-     * @param name
-     * @param intSize
+     * A method named, Image Arrays, that takes images that follow a simple name pattern and input them in an array
+     * @param images    images is the array that the images were placed in
+     * @param name      name is the main phrase that the images all follow
+     * @param intSize   intSize is the size of the image in the game
      */
     private void ImageArrays(PImage[] images, String name, int intSize){
         for (int i = 0; i < images.length; i++) {
@@ -388,7 +388,17 @@ public class Sketch1 extends PApplet {
             images[i].resize(intSize, intSize);
         }
     }
-
+    /**
+     *  A method named Enemy details that 
+     * @param intNumEnemies
+     * @param intEnemies
+     * @param intStartPosition
+     * @param intSpacing
+     * @param intIndex
+     * @param isVisible
+     * @param isAttacking
+     * @param intContact
+     */
     private void EnemyDetails(int intNumEnemies, int[] intEnemies, int intStartPosition, int intSpacing, int[] intIndex, boolean[] isVisible, boolean[] isAttacking, int[] intContact){
         for (int i = 0; i < intNumEnemies; i++) {
             intEnemies[i] = intStartPosition + intSpacing * (i + 1);
@@ -398,7 +408,9 @@ public class Sketch1 extends PApplet {
             intContact[i] = 0;
         } 
     }
-
+    /**
+     * 
+     */
     private void animateKick() {
         if (lastMove) {
             image(kickImages[kickImageIndex], intBarryX, intBarryY);
@@ -413,7 +425,9 @@ public class Sketch1 extends PApplet {
             }
         }
     }
-
+    /**
+     * 
+     */
     private void animateChop() {
         if (lastMove) {
             image(chopImages[chopImageIndex], intBarryX, intBarryY);
@@ -434,7 +448,9 @@ public class Sketch1 extends PApplet {
             }
         }
     }
-
+    /**
+     * 
+     */
     private void animateWalk() {
         if (movingLeft) {
             image(walkBarry[walkImageIndex], intBarryX, intBarryY);
@@ -453,7 +469,9 @@ public class Sketch1 extends PApplet {
             }
         }
     }
-
+    /*
+     * 
+     */
     private void animateEnemyWalk(int i) {
         if (enemyVisibleDoc[i]) {
             int index = docWalkIndex[i] % walkDoc.length;
@@ -463,7 +481,9 @@ public class Sketch1 extends PApplet {
             }
         }
     }
-
+    /** 
+     * 
+     */
     private void animateEnemyPunch(int i) {
         if (enemyVisibleDoc[i]) {
             image(punchDoc[docWalkIndex[i]], DocX[i], DocY);
@@ -472,7 +492,10 @@ public class Sketch1 extends PApplet {
             }
         }
     }
-
+    /**
+     * 
+     * @param i
+     */
     private void animateEnemyWalkR(int i) {
         if (enemyVisibleDocR[i]) {
             int index = docWalkIndexR[i] % walkDocR.length;
@@ -484,7 +507,10 @@ public class Sketch1 extends PApplet {
     }
 
   
-
+    /**
+     * 
+     * @param i
+     */
     private void animateEnemyPunchR(int i) {
         if (enemyVisibleDocR[i]) {
             image(punchDocR[docWalkIndexR[i]], DocXR[i], DocYR);
@@ -493,7 +519,10 @@ public class Sketch1 extends PApplet {
             }
         }
     }
-
+    /**
+     * 
+     * @param i
+     */
     private void animateNormWalk(int i) {
         int index = normWalkIndex[i] % walkNorm.length;
         image(walkNorm[index], NormX[i], NormY);
@@ -501,7 +530,10 @@ public class Sketch1 extends PApplet {
             normWalkIndex[i] = (normWalkIndex[i] + 1) % walkNorm.length;
         }
     }
-
+    /**
+     * 
+     * @param i
+     */
     private void animateNormBite(int i) {
         if (enemyVisibleNorm[i]) {
             image(biteNorm[normWalkIndex[i]], NormX[i], NormY);
@@ -510,7 +542,10 @@ public class Sketch1 extends PApplet {
             }
         }
     }
-
+    /**
+     * 
+     * @param i
+     */
     private void animateNormWalkR(int i) {
         int index = normWalkIndexR[i] % walkNormR.length;
         image(walkNormR[index], NormXR[i], NormYR);
@@ -518,7 +553,10 @@ public class Sketch1 extends PApplet {
             normWalkIndexR[i] = (normWalkIndexR[i] + 1) % walkNormR.length;
         }
     }
-
+    /**
+     * 
+     * @param i
+     */
     private void animateNormBiteR(int i) {
         if (enemyVisibleNormR[i]) {
             image(biteNormR[normWalkIndexR[i]], NormXR[i], NormYR);
@@ -527,14 +565,20 @@ public class Sketch1 extends PApplet {
             }
         }
     }
-
+    /** 
+     * 
+     */
     public void killBill() {
         if (barryLives <= 0) {
             println("Game Over");
             noLoop(); 
         }
     }
-
+    /**
+     * 
+     * @param isInContactEnemy
+     * @param contactCounter
+     */
     private void BarryLives(boolean isInContactEnemy, int[] contactCounter) {
         
         for (int i = 0; i < contactCounter.length; i++) {
@@ -549,7 +593,14 @@ public class Sketch1 extends PApplet {
             }
         } 
     }
-
+    /**
+     * 
+     * @param barryX
+     * @param barryY
+     * @param enemyX
+     * @param enemyY
+     * @return
+     */
     private boolean checkCollision(float barryX, float barryY, float enemyX, float enemyY) {
         float barryWidth = 60; 
         float barryHeight = 100; 
@@ -561,7 +612,9 @@ public class Sketch1 extends PApplet {
                barryY < enemyY + enemyHeight &&
                barryY + barryHeight > enemyY;
     }
-
+    /**
+     * 
+     */
     public void keyPressed() {
         if (key == 'a' && !isChopping) {
             isKicking = true;
@@ -577,7 +630,9 @@ public class Sketch1 extends PApplet {
             isWalking = true;
         }
     }
-
+    /**
+     * 
+     */
     public void keyReleased() {
         if (key == 'a') {
             isKicking = false;
