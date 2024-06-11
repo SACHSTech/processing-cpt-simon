@@ -45,8 +45,8 @@ public class Sketch1 extends PApplet {
     int animationFrameRate = 20;
     int kickDelay = 0;
 
-    int numDoc = 1;
-    int numDocR = 1;
+    int numDoc = 5;
+    int numDocR = 5;
     int[] DocX = new int[numDoc];
     int[] DocXR = new int[numDocR];
     int DocY = intBarryY;
@@ -60,8 +60,8 @@ public class Sketch1 extends PApplet {
     boolean[] enemyVisibleDocR = new boolean[numDocR];
     boolean[] isPunchingR = new boolean[numDocR];
 
-    int numNorm = 1;
-    int numNormR = 1;
+    int numNorm = 5;
+    int numNormR = 5;
     int[] NormX = new int[numNorm];
     int[] NormXR = new int[numNormR];
     int NormY = intBarryY + 50;
@@ -389,7 +389,7 @@ public class Sketch1 extends PApplet {
         }
     }
     /**
-     *  A method named Enemy details that 
+     *  A method named EnemyDetails that takes in parameters sets the initial details of the Emy
      * @param intNumEnemies
      * @param intEnemies
      * @param intStartPosition
