@@ -1,8 +1,11 @@
 import processing.core.PApplet;
 import processing.core.PImage;
+import java.util.Random;
 
 public class Sketch1 extends PApplet {
     // Initializing / declaring variables
+    Random myRandom = new Random();
+
     PImage imgBackground;
     PImage imgPlatypus;
     PImage imgPlatypusR;
@@ -45,35 +48,35 @@ public class Sketch1 extends PApplet {
     int animationFrameRate = 20;
     int kickDelay = 0;
 
-    int numDoc = 5;
-    int numDocR = 5;
+    int numDoc = myRandom.nextInt(20, 30);
+    int numDocR = myRandom.nextInt(20, 30);
     int[] DocX = new int[numDoc];
     int[] DocXR = new int[numDocR];
     int DocY = intBarryY;
     int DocYR = intBarryY;
     int[] docWalkIndex = new int[numDoc];
     int[] docWalkIndexR = new int[numDocR];
-    int docSpeedR = -2;
-    int docSpeed = 2;
+    int docSpeedR = -1;
+    int docSpeed = 1;
     boolean[] enemyVisibleDoc = new boolean[numDoc];
     boolean[] isPunching = new boolean[numDoc];
     boolean[] enemyVisibleDocR = new boolean[numDocR];
     boolean[] isPunchingR = new boolean[numDocR];
 
-    int numNorm = 5;
-    int numNormR = 5;
+    int numNorm = myRandom.nextInt(15, 25);
+    int numNormR = myRandom.nextInt(15, 25);
     int[] NormX = new int[numNorm];
     int[] NormXR = new int[numNormR];
     int NormY = intBarryY + 50;
     int NormYR = intBarryY + 50;
     int[] normWalkIndex = new int[numNorm];
     int[] normWalkIndexR = new int[numNormR];
-    int normSpeed = 4;
-    int normSpeedR = -4;
+    int normSpeed = 2;
+    int normSpeedR = -2;
     boolean[] enemyVisibleNorm = new boolean[numNorm];
     boolean[] enemyVisibleNormR = new boolean[numNormR];
     boolean[] isBiting = new boolean[numNorm];
-    boolean[] isBitingR = new boolean[numNorm];
+    boolean[] isBitingR = new boolean[numNormR];
 
     int barryLives;
     boolean isInvincible = false;
@@ -130,13 +133,13 @@ public class Sketch1 extends PApplet {
         ImageArrays(biteNormR, "NormBiteR", 100);
 
         // Collision and positioning of the characters
-        EnemyDetails(numDoc, DocX, 750, 200, docWalkIndex, enemyVisibleDoc, isPunching, contactCounterDoc);        
-        EnemyDetails(numDocR, DocXR, 0, -150, docWalkIndexR, enemyVisibleDocR, isPunchingR, contactCounterDocR);
-        EnemyDetails(numNorm, NormX, 0, -150, normWalkIndex, enemyVisibleNorm, isBiting, contactCounterNorm);
-        EnemyDetails(numNormR, NormXR, 750, 200, normWalkIndexR, enemyVisibleNormR, isBitingR, contactCounterNormR);
+        EnemyDetails(DocX, false, docWalkIndex, enemyVisibleDoc, isPunching, contactCounterDoc);        
+        EnemyDetails(DocXR, true, docWalkIndexR, enemyVisibleDocR, isPunchingR, contactCounterDocR);
+        EnemyDetails(NormX, true, normWalkIndex, enemyVisibleNorm, isBiting, contactCounterNorm);
+        EnemyDetails(NormXR,false, normWalkIndexR, enemyVisibleNormR, isBitingR, contactCounterNormR);
 
         // Life System details
-        barryLives = 3;
+        barryLives = 5;
         isInvincible = false;
         invincibilityCounter = 0;
 
@@ -184,9 +187,6 @@ public class Sketch1 extends PApplet {
         // Checks collision with Barry and Doc enemies to determine whether or not Barry can move or not
         for (int i = 0; i < numDoc; i++) {
             if (enemyVisibleDoc[i]) {
-                if (checkCollision(intBarryX - intBarrySpeed, intBarryY, DocX[i], DocY)) {
-                    canMoveLeft = false;
-                }
                 if (checkCollision(intBarryX + intBarrySpeed, intBarryY, DocX[i], DocY)) {
                     canMoveRight = false;
                 }
@@ -198,9 +198,6 @@ public class Sketch1 extends PApplet {
                 if (checkCollision(intBarryX - intBarrySpeed, intBarryY, DocXR[i], DocYR)) {
                     canMoveLeft = false;
                 }
-                if (checkCollision(intBarryX + intBarrySpeed, intBarryY, DocXR[i], DocYR)) {
-                    canMoveRight = false;
-                }
             }
         }
 
@@ -210,17 +207,11 @@ public class Sketch1 extends PApplet {
                 if (checkCollision(intBarryX - intBarrySpeed, intBarryY, NormX[i], NormY)) {
                 canMoveLeft = false;
                 }
-                if (checkCollision(intBarryX + intBarrySpeed, intBarryY, NormX[i], NormY)) {
-                canMoveRight = false;
-                }
             }
         }
         // Checks collision with Barry and NormR enemies to determine whether or not Barry can move or not
         for ( int i = 0; i < numNormR; i++) {
             if (enemyVisibleNormR[i]) {
-                if (checkCollision(intBarryX - intBarrySpeed, intBarryY, NormXR[i], NormYR)) {
-                    canMoveLeft = false;
-                }
                 if (checkCollision(intBarryX + intBarrySpeed, intBarryY, NormXR[i], NormYR)) {
                     canMoveRight = false;
                 }
@@ -352,7 +343,7 @@ public class Sketch1 extends PApplet {
 
         for (int i = 0; i < numNormR; i++) {
             if (enemyVisibleNormR[i]) {
-                if (dist(intBarryX, intBarryY, NormXR[i], NormYR) < 60) {
+                if (dist(intBarryX, intBarryY, NormXR[i] - 50, NormYR) < 60) {
                     isBitingR[i] = true;
                     BarryLives(true, contactCounterNormR);
                 } else {
@@ -369,12 +360,12 @@ public class Sketch1 extends PApplet {
                BarryLives(isInContactNormR, contactCounterNormR);
 
                 // Check for collision with Barry's kick
-                if (isChopping && checkCollision(intBarryX, intBarryY, NormXR[i], NormYR) && !lastMove) {
+                if (isChopping && checkCollision(intBarryX, intBarryY, NormXR[i] - 50, NormYR) && !lastMove) {
                     enemyVisibleNormR[i] = false;
                 }
             }
-        }
-        killBill();
+        } 
+        killBillPage();
     }
     /**
      * A method named, Image Arrays, that takes images that follow a simple name pattern and input them in an array
@@ -389,23 +380,36 @@ public class Sketch1 extends PApplet {
         }
     }
     /**
-     *  A method named EnemyDetails that takes in parameters sets the initial details of the Emy
-     * @param intNumEnemies
+     * 
      * @param intEnemies
-     * @param intStartPosition
-     * @param intSpacing
+     * @param leftOrRight
      * @param intIndex
      * @param isVisible
      * @param isAttacking
      * @param intContact
      */
-    private void EnemyDetails(int intNumEnemies, int[] intEnemies, int intStartPosition, int intSpacing, int[] intIndex, boolean[] isVisible, boolean[] isAttacking, int[] intContact){
-        for (int i = 0; i < intNumEnemies; i++) {
-            intEnemies[i] = intStartPosition + intSpacing * (i + 1);
+    private void EnemyDetails(int[] intEnemies, boolean leftOrRight, int[] intIndex, boolean[] isVisible, boolean[] isAttacking, int[] intContact){
+        for (int i = 0; i < intEnemies.length; i++) {
+            try{
+            if (leftOrRight) {
+                intEnemies[i] = myRandom.nextInt( -3000, -10); 
+            }
+            else {
+                intEnemies[i] = myRandom.nextInt(760, 3700);
+            }
             intIndex[i] = 0;
             isVisible[i] = true;
             isAttacking[i] = false;
             intContact[i] = 0;
+        } catch(ArrayIndexOutOfBoundsException e){
+            System.out.println(i);
+            System.out.println(intIndex.length);
+            System.out.println(isVisible.length);
+            System.out.println(isAttacking.length);
+            System.out.println(intContact.length);
+            System.out.println("An error occured, Im too lazy to fix: " + e);
+            break;
+        }
         } 
     }
     /**
@@ -568,10 +572,15 @@ public class Sketch1 extends PApplet {
     /** 
      * 
      */
-    public void killBill() {
+    public void killBillPage() {
         if (barryLives <= 0) {
-            println("Game Over");
-            noLoop(); 
+            background(imgBackground);
+            image(imgPlatypus, 250, 550);
+            textSize(48);
+            textAlign(CENTER, CENTER);
+            text("YOU KILLED BARRY", width / 2, height / 2 - 50);
+            textSize(36);
+            text("Click the R key to restart", width / 2, height / 2 - 10);
         }
     }
     /**
