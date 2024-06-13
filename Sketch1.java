@@ -11,6 +11,7 @@ public class Sketch1 extends PApplet {
     PImage imgPlatypusR;
     PImage imgDoc;
     PImage imgNorm;
+    PImage imgHome;
 
     PImage[] kickImages = new PImage[8];
     PImage[] chopImages = new PImage[8];
@@ -95,7 +96,6 @@ public class Sketch1 extends PApplet {
 
     // Games
     boolean lastMove = false; 
-
     boolean showHomeScreen = true;
 
     /**
@@ -106,9 +106,13 @@ public class Sketch1 extends PApplet {
     }
 
     public void setup() {
-        // Resizing image for background
+        // Resizing image for background of level 1
         imgBackground = loadImage("FirstStage.jpg");
         imgBackground.resize(width, height);
+
+        //Resizing image for HomeScreen 
+        imgHome = loadImage("HomeScreen.jpg");
+        imgHome.resize(width, height);
 
         // Resizing image for Platypus
         imgPlatypus = loadImage("Barry.png");
@@ -161,13 +165,23 @@ public class Sketch1 extends PApplet {
      * Home screen of the game
      */
     public void displayHomeScreen() {
-        background(0); // Black background
+        background(imgHome); 
         fill(255); // White text
-        textSize(48);
+        textSize(96);
         textAlign(CENTER, CENTER);
-        text("Barry's Adventure", width / 2, height / 2 - 50);
-        textSize(24);
-        text("Press any key to start", width / 2, height / 2 + 50);
+        text("Barry's Adventure", width / 2, height / 2 - 325);
+        fill(249, 255, 207);
+        rectMode(CORNER);
+        rect(50, 550, 200, 100, 20);
+        fill(0);
+        textSize(56);
+        text("Play", 150, 600);
+        fill(249, 255, 207);
+        rect(500, 550, 200, 100, 20);
+        fill(0);
+        text("Tutorial", 600, 600);
+        image(imgPlatypusR, 300, 550);
+    
     }
     /**
      * The main game code
@@ -657,7 +671,10 @@ public class Sketch1 extends PApplet {
             isWalking = false;
             walkImageIndex = 0;
         }
-        if (showHomeScreen) {
+    }
+
+    public void mouseClicked(){
+        if(mouseX > 50 && mouseX < 250 && mouseY > 550 && mouseY < 650) {
             showHomeScreen = false;
         }
     }
