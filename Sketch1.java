@@ -526,6 +526,8 @@ public class Sketch1 extends PApplet {
             }
         } 
         killBarryPage();
+
+
     }
     /**
      * A method named, Image Arrays, that takes images that follow a simple name pattern and input them in an array
@@ -733,7 +735,7 @@ public class Sketch1 extends PApplet {
      * 
      */
     public void loadScreen(){
-        for(int i=0;i<=2;i++){
+        for(int i = 0; i <= 2; i++){
             background(0);
             image(imgPlatypusR, 225, 375);
             fill(255);
@@ -744,7 +746,25 @@ public class Sketch1 extends PApplet {
     }
 
     public void winPage() {
-        for (int i = 0)
+        for (int i = 0; i < DocX.length; i++) {
+            if(!enemyVisibleDoc[i]) {
+                for (int a = 0; a < DocXR.length; a++) {
+                    if(!enemyVisibleDocR[a]) {
+                        for (int b = 0; b < NormX.length; b++) {
+                            if(!enemyVisibleNorm[b]) {
+                                for (int c = 0; c < NormXR.length; c++) {
+                                    if(!enemyVisibleNormR[c]){
+                                        
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
     }
     public void killBarryPage() {
         if (barryLives <= 0) {
