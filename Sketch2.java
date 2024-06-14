@@ -49,8 +49,8 @@ public class Sketch2 extends PApplet {
     int animationFrameRate = 20;
     int kickDelay = 0;
 
-    int numSister = myRandom.nextInt(20, 30);
-    int numSisterR = myRandom.nextInt(20, 30);
+    int numSister = myRandom.nextInt(30, 40);
+    int numSisterR = myRandom.nextInt(30, 40);
     int[] SisterX = new int[numSister];
     int[] SisterXR = new int[numSisterR];
     int SisterY = intBarryY;
@@ -64,16 +64,16 @@ public class Sketch2 extends PApplet {
     boolean[] enemyVisibleSisterR = new boolean[numSisterR];
     boolean[] isPunchingR = new boolean[numSisterR];
 
-    int numSuzie = myRandom.nextInt(15, 25);
-    int numSuzieR = myRandom.nextInt(15, 25);
+    int numSuzie = myRandom.nextInt(25, 35);
+    int numSuzieR = myRandom.nextInt(25, 35);
     int[] SuzieX = new int[numSuzie];
     int[] SuzieXR = new int[numSuzieR];
     int SuzieY = intBarryY + 25;
     int SuzieYR = intBarryY + 50;
     int[] SuzieWalkIndex = new int[numSuzie];
     int[] SuzieWalkIndexR = new int[numSuzieR];
-    int SuzieSpeed = 2;
-    int SuzieSpeedR = -2;
+    int SuzieSpeed = 3;
+    int SuzieSpeedR = -3;
     boolean[] enemyVisibleSuzie = new boolean[numSuzie];
     boolean[] enemyVisibleSuzieR = new boolean[numSuzieR];
     boolean[] isBiting = new boolean[numSuzie];
