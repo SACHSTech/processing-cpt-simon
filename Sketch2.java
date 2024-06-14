@@ -6,11 +6,11 @@ public class Sketch2 extends PApplet {
     // Initializing / declaring variables
     Random myRandom = new Random();
 
-    PImage imgBackground;
+    PImage imgLab;
     PImage imgPlatypus;
     PImage imgPlatypusR;
-    PImage imgDoc;
-    PImage imgNorm;
+    PImage imgSister;
+    PImage imgSuzie;
 
     PImage[] kickImages = new PImage[8];
     PImage[] chopImages = new PImage[8];
@@ -19,15 +19,15 @@ public class Sketch2 extends PApplet {
     PImage[] chopImagesR = new PImage[8];
     PImage[] walkBarryR = new PImage[5];
 
-    PImage[] walkDoc = new PImage[5];
-    PImage[] punchDoc = new PImage[6];
-    PImage[] walkDocR = new PImage[5];
-    PImage[] punchDocR = new PImage[6];
+    PImage[] walkSister = new PImage[5];
+    PImage[] punchSister = new PImage[6];
+    PImage[] walkSisterR = new PImage[5];
+    PImage[] punchSisterR = new PImage[6];
 
-    PImage[] walkNorm = new PImage[5];
-    PImage[] biteNorm = new PImage[8];
-    PImage[] walkNormR = new PImage[5];
-    PImage[] biteNormR = new PImage[8];
+    PImage[] walkSuzie = new PImage[5];
+    PImage[] kickSuzie = new PImage[7];
+    PImage[] walkSuzieR = new PImage[5];
+    PImage[] kickSuzieR = new PImage[7];
 
     boolean isKicking = false;
     boolean isChopping = false;
@@ -48,49 +48,49 @@ public class Sketch2 extends PApplet {
     int animationFrameRate = 20;
     int kickDelay = 0;
 
-    int numDoc = myRandom.nextInt(20, 30);
-    int numDocR = myRandom.nextInt(20, 30);
-    int[] DocX = new int[numDoc];
-    int[] DocXR = new int[numDocR];
-    int DocY = intBarryY;
-    int DocYR = intBarryY;
-    int[] docWalkIndex = new int[numDoc];
-    int[] docWalkIndexR = new int[numDocR];
-    int docSpeedR = -1;
-    int docSpeed = 1;
-    boolean[] enemyVisibleDoc = new boolean[numDoc];
-    boolean[] isPunching = new boolean[numDoc];
-    boolean[] enemyVisibleDocR = new boolean[numDocR];
-    boolean[] isPunchingR = new boolean[numDocR];
+    int numSister = myRandom.nextInt(20, 30);
+    int numSisterR = myRandom.nextInt(20, 30);
+    int[] SisterX = new int[numSister];
+    int[] SisterXR = new int[numSisterR];
+    int SisterY = intBarryY;
+    int SisterYR = intBarryY - 15;
+    int[] SisterWalkIndex = new int[numSister];
+    int[] SisterWalkIndexR = new int[numSisterR];
+    int SisterSpeedR = -1;
+    int SisterSpeed = 1;
+    boolean[] enemyVisibleSister = new boolean[numSister];
+    boolean[] isPunching = new boolean[numSister];
+    boolean[] enemyVisibleSisterR = new boolean[numSisterR];
+    boolean[] isPunchingR = new boolean[numSisterR];
 
-    int numNorm = myRandom.nextInt(15, 25);
-    int numNormR = myRandom.nextInt(15, 25);
-    int[] NormX = new int[numNorm];
-    int[] NormXR = new int[numNormR];
-    int NormY = intBarryY + 50;
-    int NormYR = intBarryY + 50;
-    int[] normWalkIndex = new int[numNorm];
-    int[] normWalkIndexR = new int[numNormR];
-    int normSpeed = 2;
-    int normSpeedR = -2;
-    boolean[] enemyVisibleNorm = new boolean[numNorm];
-    boolean[] enemyVisibleNormR = new boolean[numNormR];
-    boolean[] isBiting = new boolean[numNorm];
-    boolean[] isBitingR = new boolean[numNormR];
+    int numSuzie = myRandom.nextInt(15, 25);
+    int numSuzieR = myRandom.nextInt(15, 25);
+    int[] SuzieX = new int[numSuzie];
+    int[] SuzieXR = new int[numSuzieR];
+    int SuzieY = intBarryY + 25;
+    int SuzieYR = intBarryY + 50;
+    int[] SuzieWalkIndex = new int[numSuzie];
+    int[] SuzieWalkIndexR = new int[numSuzieR];
+    int SuzieSpeed = 2;
+    int SuzieSpeedR = -2;
+    boolean[] enemyVisibleSuzie = new boolean[numSuzie];
+    boolean[] enemyVisibleSuzieR = new boolean[numSuzieR];
+    boolean[] isBiting = new boolean[numSuzie];
+    boolean[] isBitingR = new boolean[numSuzieR];
 
     int barryLives;
     boolean isInvincible = false;
     int invincibilityDuration = 120;
     int invincibilityCounter = 0;
 
-    boolean isInContactDoc = false;
-    boolean isInContactDocR = false;
-    boolean isInContactNorm = false;
-    boolean isInContactNormR = false;
-    int[] contactCounterDoc = new int[numDoc];
-    int[] contactCounterDocR = new int[numDocR];
-    int[] contactCounterNorm = new int[numNorm];
-    int[] contactCounterNormR = new int[numNormR];
+    boolean isInContactSister = false;
+    boolean isInContactSisterR = false;
+    boolean isInContactSuzie = false;
+    boolean isInContactSuzieR = false;
+    int[] contactCounterSister = new int[numSister];
+    int[] contactCounterSisterR = new int[numSisterR];
+    int[] contactCounterSuzie = new int[numSuzie];
+    int[] contactCounterSuzieR = new int[numSuzieR];
     int contactDuration = 24;
 
     // Games
@@ -107,8 +107,8 @@ public class Sketch2 extends PApplet {
 
     public void setup() {
         // Resizing image for background
-        imgBackground = loadImage("FirstStage.jpg");
-        imgBackground.resize(width, height);
+        imgLab = loadImage("Background For COM SCI.png");
+        imgLab.resize(width, height);
 
         // Resizing image for Platypus
         imgPlatypus = loadImage("Barry.png");
@@ -123,20 +123,20 @@ public class Sketch2 extends PApplet {
         ImageArrays(kickImagesR, "KickReversed", 150);
         ImageArrays(chopImagesR, "ChopReversed", 150);
         ImageArrays(walkBarryR, "WalkReversed", 150);
-        ImageArrays(walkDoc, "DocWalk", 160);
-        ImageArrays(punchDoc, "DocPunch", 160);
-        ImageArrays(walkDocR, "DocWalkR", 160);
-        ImageArrays(punchDocR, "DocPunchR", 160);
-        ImageArrays(walkNorm, "NormWalk", 100);
-        ImageArrays(biteNorm, "NormBite", 100);
-        ImageArrays(walkNormR, "NormWalkR", 100);
-        ImageArrays(biteNormR, "NormBiteR", 100);
+        ImageArrays(walkSister, "SisterWalk", 160);
+        ImageArrays(punchSister, "SisterPunch", 160);
+        ImageArrays(walkSisterR, "SisterWalkR", 220);
+        ImageArrays(punchSisterR, "SisterPunchR", 220);
+        ImageArrays(walkSuzie, "SuzieWalkR", 160);
+        ImageArrays(kickSuzie, "SuzieKickR", 16zzz0);
+        ImageArrays(walkSuzieR, "SuzieWalk", 100);
+        ImageArrays(kickSuzieR, "SuzieKick", 100);
 
         // Collision and positioning of the characters
-        EnemyDetails(DocX, false, docWalkIndex, enemyVisibleDoc, isPunching, contactCounterDoc);        
-        EnemyDetails(DocXR, true, docWalkIndexR, enemyVisibleDocR, isPunchingR, contactCounterDocR);
-        EnemyDetails(NormX, true, normWalkIndex, enemyVisibleNorm, isBiting, contactCounterNorm);
-        EnemyDetails(NormXR,false, normWalkIndexR, enemyVisibleNormR, isBitingR, contactCounterNormR);
+        EnemyDetails(SisterX, false, SisterWalkIndex, enemyVisibleSister, isPunching, contactCounterSister);        
+        EnemyDetails(SisterXR, true, SisterWalkIndexR, enemyVisibleSisterR, isPunchingR, contactCounterSisterR);
+        EnemyDetails(SuzieX, true, SuzieWalkIndex, enemyVisibleSuzie, isBiting, contactCounterSuzie);
+        EnemyDetails(SuzieXR,false, SuzieWalkIndexR, enemyVisibleSuzieR, isBitingR, contactCounterSuzieR);
 
         // Life System details
         barryLives = 5;
@@ -178,41 +178,41 @@ public class Sketch2 extends PApplet {
             kickDelay--;
         }
         // Adding an image of a background
-        background(imgBackground);
+        background(imgLab);
 
         // Setting the original boolean values to true so Barry can move left and right
         boolean canMoveLeft = true;
         boolean canMoveRight = true;
 
-        // Checks collision with Barry and Doc enemies to determine whether or not Barry can move or not
-        for (int i = 0; i < numDoc; i++) {
-            if (enemyVisibleDoc[i]) {
-                if (checkCollision(intBarryX + intBarrySpeed, intBarryY, DocX[i], DocY)) {
+        // Checks collision with Barry and Sister enemies to determine whether or not Barry can move or not
+        for (int i = 0; i < numSister; i++) {
+            if (enemyVisibleSister[i]) {
+                if (checkCollision(intBarryX + intBarrySpeed, intBarryY, SisterX[i], SisterY)) {
                     canMoveRight = false;
                 }
             }
         }
-        // Checks collision with Barry and DocR enemies to determine whether or not Barry can move or not
-        for (int i = 0; i < numDocR; i++) {
-            if (enemyVisibleDocR[i]) {
-                if (checkCollision(intBarryX - intBarrySpeed, intBarryY, DocXR[i], DocYR)) {
+        // Checks collision with Barry and SisterR enemies to determine whether or not Barry can move or not
+        for (int i = 0; i < numSisterR; i++) {
+            if (enemyVisibleSisterR[i]) {
+                if (checkCollision(intBarryX - intBarrySpeed, intBarryY, SisterXR[i], SisterYR)) {
                     canMoveLeft = false;
                 }
             }
         }
 
-        // Check for collisions with Barry and Norm enemies to determine whether or not Barry can move or not
-        for (int i = 0; i < numNorm; i++) {
-            if (enemyVisibleNorm[i]) {
-                if (checkCollision(intBarryX - intBarrySpeed, intBarryY, NormX[i], NormY)) {
+        // Check for collisions with Barry and Suzie enemies to determine whether or not Barry can move or not
+        for (int i = 0; i < numSuzie; i++) {
+            if (enemyVisibleSuzie[i]) {
+                if (checkCollision(intBarryX - intBarrySpeed, intBarryY, SuzieX[i], SuzieY)) {
                 canMoveLeft = false;
                 }
             }
         }
-        // Checks collision with Barry and NormR enemies to determine whether or not Barry can move or not
-        for ( int i = 0; i < numNormR; i++) {
-            if (enemyVisibleNormR[i]) {
-                if (checkCollision(intBarryX + intBarrySpeed, intBarryY, NormXR[i], NormYR)) {
+        // Checks collision with Barry and SuzieR enemies to determine whether or not Barry can move or not
+        for ( int i = 0; i < numSuzieR; i++) {
+            if (enemyVisibleSuzieR[i]) {
+                if (checkCollision(intBarryX + intBarrySpeed, intBarryY, SuzieXR[i], SuzieYR)) {
                     canMoveRight = false;
                 }
             }
@@ -247,10 +247,10 @@ public class Sketch2 extends PApplet {
         text("Lives: " + barryLives, 50, 30);
 
         // Setting initial boolean contact values for all enemies to false
-        isInContactDoc = false;
-        isInContactDocR = false;
-        isInContactNorm = false;
-        isInContactNormR = false;
+        isInContactSister = false;
+        isInContactSisterR = false;
+        isInContactSuzie = false;
+        isInContactSuzieR = false;
 
         // Adds invincibility when the boolean variable is true
         if (isInvincible) {
@@ -262,106 +262,106 @@ public class Sketch2 extends PApplet {
             }
         }
 
-        // Determines the action of Doc enemies 
-        for (int i = 0; i < numDoc; i++) {
-            if (enemyVisibleDoc[i]) {
-                if (dist(intBarryX, intBarryY, DocX[i], DocY) < 60) {
+        // Determines the action of Sister enemies 
+        for (int i = 0; i < numSister; i++) {
+            if (enemyVisibleSister[i]) {
+                if (dist(intBarryX, intBarryY, SisterX[i], SisterY) < 60) {
                     isPunching[i] = true;
-                    BarryLives(true, contactCounterDoc);
+                    BarryLives(true, contactCounterSister);
                 } else {
                     isPunching[i] = false;
-                    DocX[i] += docSpeedR;
+                    SisterX[i] += SisterSpeedR;
                 }
-                // When this boolean array is true, Doc will start punching Barry
+                // When this boolean array is true, Sister will start punching Barry
                 if (isPunching[i]) {
                     animateEnemyPunch(i);
                 } else {
                     animateEnemyWalk(i);
                 }
-                // Checks whether or not Barry loses a life due to a Doc enemy or not
-                BarryLives(isInContactDoc, contactCounterDoc);
+                // Checks whether or not Barry loses a life due to a Sister enemy or not
+                BarryLives(isInContactSister, contactCounterSister);
 
                 // Check for collision with Barry's kick
-                if (isKicking && checkCollision(intBarryX, intBarryY, DocX[i], DocY) && !lastMove) {
-                    enemyVisibleDoc[i] = false;
+                if (isKicking && checkCollision(intBarryX, intBarryY, SisterX[i], SisterY) && !lastMove) {
+                    enemyVisibleSister[i] = false;
                 }
             }
         }
-        // Determines the action of DocR enemies 
-        for (int i = 0; i < numDocR; i++) {
-            if (enemyVisibleDocR[i]) {
-                if (dist(intBarryX, intBarryY, DocXR[i], DocYR) < 60) {
+        // Determines the action of SisterR enemies 
+        for (int i = 0; i < numSisterR; i++) {
+            if (enemyVisibleSisterR[i]) {
+                if (dist(intBarryX, intBarryY, SisterXR[i], SisterYR) < 60) {
                     isPunchingR[i] = true;
-                     BarryLives(true, contactCounterDocR);
+                     BarryLives(true, contactCounterSisterR);
                 } else {
                     isPunchingR[i] = false;
-                    DocXR[i] += docSpeed;
+                    SisterXR[i] += SisterSpeed;
                 }
 
-                // When this boolean array is true, DocR will start punching Barry
+                // When this boolean array is true, SisterR will start punching Barry
                 if (isPunchingR[i]) {
                     animateEnemyPunchR(i);
                 } else {
                     animateEnemyWalkR(i);
                 }
-                // Checks whether or not Barry loses a life due to a DocR enemy or not
-                BarryLives(isInContactDocR, contactCounterDocR);
+                // Checks whether or not Barry loses a life due to a SisterR enemy or not
+                BarryLives(isInContactSisterR, contactCounterSisterR);
 
                 // Check for collision with Barry's kick
-                if (isKicking && checkCollision(intBarryX, intBarryY, DocXR[i], DocYR) && lastMove) {
-                    enemyVisibleDocR[i] = false;
+                if (isKicking && checkCollision(intBarryX, intBarryY, SisterXR[i], SisterYR) && lastMove) {
+                    enemyVisibleSisterR[i] = false;
                 }
             }
         }
 
-        // Determines the action of Norm enemies 
-        for (int i = 0; i < numNorm; i++) {
-            if (enemyVisibleNorm[i]) {
-                if (dist(intBarryX, intBarryY, NormX[i], NormY) < 60) {
+        // Determines the action of Suzie enemies 
+        for (int i = 0; i < numSuzie; i++) {
+            if (enemyVisibleSuzie[i]) {
+                if (dist(intBarryX, intBarryY, SuzieX[i], SuzieY) < 60) {
                     isBiting[i] = true;
-                    BarryLives(true, contactCounterNorm);
+                    BarryLives(true, contactCounterSuzie);
                 } else {
                     isBiting[i] = false;
-                    NormX[i] += normSpeed;
+                    SuzieX[i] += SuzieSpeed;
                 }
                 
-                // When this boolean array is true, Norm will start punching Barry
+                // When this boolean array is true, Suzie will start punching Barry
                 if (isBiting[i]) {
-                    animateNormBite(i);
+                    animateSuzieKick(i);
                 } else {
-                    animateNormWalk(i);
+                    animateSuzieWalk(i);
                 }
-                // Checks whether or not Barry loses a life due to a Norm enemy or not
-               BarryLives(isInContactNorm, contactCounterNorm);
+                // Checks whether or not Barry loses a life due to a Suzie enemy or not
+               BarryLives(isInContactSuzie, contactCounterSuzie);
 
                 // Check for collision with Barry's kick
-                if (isChopping && checkCollision(intBarryX, intBarryY, NormX[i], NormY) && lastMove) {
-                    enemyVisibleNorm[i] = false;
+                if (isChopping && checkCollision(intBarryX, intBarryY, SuzieX[i], SuzieY) && lastMove) {
+                    enemyVisibleSuzie[i] = false;
                 }
             }
         }
 
-        for (int i = 0; i < numNormR; i++) {
-            if (enemyVisibleNormR[i]) {
-                if (dist(intBarryX, intBarryY, NormXR[i] - 50, NormYR) < 60) {
+        for (int i = 0; i < numSuzieR; i++) {
+            if (enemyVisibleSuzieR[i]) {
+                if (dist(intBarryX, intBarryY, SuzieXR[i] - 50, SuzieYR) < 60) {
                     isBitingR[i] = true;
-                    BarryLives(true, contactCounterNormR);
+                    BarryLives(true, contactCounterSuzieR);
                 } else {
                     isBitingR[i] = false;
-                    NormXR[i] += normSpeedR;
+                    SuzieXR[i] += SuzieSpeedR;
                 }
-                // When this boolean array is true, NormR will start punching Barry
+                // When this boolean array is true, SuzieR will start punching Barry
                 if (isBitingR[i]) {
-                    animateNormBiteR(i);
+                    animateSuzieKickR(i);
                 } else {
-                    animateNormWalkR(i);
+                    animateSuzieWalkR(i);
                 }
-                // Checks whether or not Barry loses a life due to a NormR enemy or not
-               BarryLives(isInContactNormR, contactCounterNormR);
+                // Checks whether or not Barry loses a life due to a SuzieR enemy or not
+               BarryLives(isInContactSuzieR, contactCounterSuzieR);
 
                 // Check for collision with Barry's kick
-                if (isChopping && checkCollision(intBarryX, intBarryY, NormXR[i] - 50, NormYR) && !lastMove) {
-                    enemyVisibleNormR[i] = false;
+                if (isChopping && checkCollision(intBarryX, intBarryY, SuzieXR[i] - 50, SuzieYR) && !lastMove) {
+                    enemyVisibleSuzieR[i] = false;
                 }
             }
         } 
@@ -477,11 +477,11 @@ public class Sketch2 extends PApplet {
      * 
      */
     private void animateEnemyWalk(int i) {
-        if (enemyVisibleDoc[i]) {
-            int index = docWalkIndex[i] % walkDoc.length;
-            image(walkDoc[index], DocX[i], DocY);
+        if (enemyVisibleSister[i]) {
+            int index = SisterWalkIndex[i] % walkSister.length;
+            image(walkSister[index], SisterX[i], SisterY);
             if (frameCount % (60 / animationFrameRate) == 0) {
-                docWalkIndex[i] = (docWalkIndex[i] + 1) % walkDoc.length;
+                SisterWalkIndex[i] = (SisterWalkIndex[i] + 1) % walkSister.length;
             }
         }
     }
@@ -489,10 +489,10 @@ public class Sketch2 extends PApplet {
      * 
      */
     private void animateEnemyPunch(int i) {
-        if (enemyVisibleDoc[i]) {
-            image(punchDoc[docWalkIndex[i]], DocX[i], DocY);
+        if (enemyVisibleSister[i]) {
+            image(punchSister[SisterWalkIndex[i]], SisterX[i], SisterY);
             if (frameCount % (60 / animationFrameRate) == 0) {
-                docWalkIndex[i] = (docWalkIndex[i] + 1) % punchDoc.length;
+                SisterWalkIndex[i] = (SisterWalkIndex[i] + 1) % punchSister.length;
             }
         }
     }
@@ -501,11 +501,11 @@ public class Sketch2 extends PApplet {
      * @param i
      */
     private void animateEnemyWalkR(int i) {
-        if (enemyVisibleDocR[i]) {
-            int index = docWalkIndexR[i] % walkDocR.length;
-            image(walkDocR[index], DocXR[i], DocYR);
+        if (enemyVisibleSisterR[i]) {
+            int index = SisterWalkIndexR[i] % walkSisterR.length;
+            image(walkSisterR[index], SisterXR[i], SisterYR);
             if (frameCount % (60 / animationFrameRate) == 0) {
-                docWalkIndexR[i] = (docWalkIndexR[i] + 1) % walkDocR.length;
+                SisterWalkIndexR[i] = (SisterWalkIndexR[i] + 1) % walkSisterR.length;
             }
         }
     }
@@ -516,10 +516,10 @@ public class Sketch2 extends PApplet {
      * @param i
      */
     private void animateEnemyPunchR(int i) {
-        if (enemyVisibleDocR[i]) {
-            image(punchDocR[docWalkIndexR[i]], DocXR[i], DocYR);
+        if (enemyVisibleSisterR[i]) {
+            image(punchSisterR[SisterWalkIndexR[i]], SisterXR[i], SisterYR);
             if (frameCount % (60 / animationFrameRate) == 0) {
-                docWalkIndexR[i] = (docWalkIndexR[i] + 1) % punchDocR.length;
+                SisterWalkIndexR[i] = (SisterWalkIndexR[i] + 1) % punchSisterR.length;
             }
         }
     }
@@ -527,22 +527,22 @@ public class Sketch2 extends PApplet {
      * 
      * @param i
      */
-    private void animateNormWalk(int i) {
-        int index = normWalkIndex[i] % walkNorm.length;
-        image(walkNorm[index], NormX[i], NormY);
+    private void animateSuzieWalk(int i) {
+        int index = SuzieWalkIndex[i] % walkSuzie.length;
+        image(walkSuzie[index], SuzieX[i], SuzieY);
         if (frameCount % (60 / animationFrameRate) == 0) {
-            normWalkIndex[i] = (normWalkIndex[i] + 1) % walkNorm.length;
+            SuzieWalkIndex[i] = (SuzieWalkIndex[i] + 1) % walkSuzie.length;
         }
     }
     /**
      * 
      * @param i
      */
-    private void animateNormBite(int i) {
-        if (enemyVisibleNorm[i]) {
-            image(biteNorm[normWalkIndex[i]], NormX[i], NormY);
+    private void animateSuzieKick(int i) {
+        if (enemyVisibleSuzie[i]) {
+            image(kickSuzie[SuzieWalkIndex[i]], SuzieX[i], SuzieY);
             if (frameCount % (60 / animationFrameRate) == 0) {
-                normWalkIndex[i] = (normWalkIndex[i] + 1) % biteNorm.length;
+                SuzieWalkIndex[i] = (SuzieWalkIndex[i] + 1) % kickSuzie.length;
             }
         }
     }
@@ -550,22 +550,22 @@ public class Sketch2 extends PApplet {
      * 
      * @param i
      */
-    private void animateNormWalkR(int i) {
-        int index = normWalkIndexR[i] % walkNormR.length;
-        image(walkNormR[index], NormXR[i], NormYR);
+    private void animateSuzieWalkR(int i) {
+        int index = SuzieWalkIndexR[i] % walkSuzieR.length;
+        image(walkSuzieR[index], SuzieXR[i], SuzieYR);
         if (frameCount % (60 / animationFrameRate) == 0) {
-            normWalkIndexR[i] = (normWalkIndexR[i] + 1) % walkNormR.length;
+            SuzieWalkIndexR[i] = (SuzieWalkIndexR[i] + 1) % walkSuzieR.length;
         }
     }
     /**
      * 
      * @param i
      */
-    private void animateNormBiteR(int i) {
-        if (enemyVisibleNormR[i]) {
-            image(biteNormR[normWalkIndexR[i]], NormXR[i], NormYR);
+    private void animateSuzieKickR(int i) {
+        if (enemyVisibleSuzieR[i]) {
+            image(kickSuzieR[SuzieWalkIndexR[i]], SuzieXR[i], SuzieYR);
             if (frameCount % (60 / animationFrameRate) == 0) {
-                normWalkIndexR[i] = (normWalkIndexR[i] + 1) % biteNormR.length;
+                SuzieWalkIndexR[i] = (SuzieWalkIndexR[i] + 1) % kickSuzieR.length;
             }
         }
     }
@@ -574,8 +574,8 @@ public class Sketch2 extends PApplet {
      */
     public void killBillPage() {
         if (barryLives <= 0) {
-            background(imgBackground);
-            image(imgPlatypus, 250, 550);
+            background(imgLab);
+            image(imgPlatypus, 250, 450);
             textSize(48);
             textAlign(CENTER, CENTER);
             text("YOU KILLED BARRY", width / 2, height / 2 - 50);
