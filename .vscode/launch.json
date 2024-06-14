@@ -9,6 +9,20 @@
             "name": "Sketch1",
             "request": "launch",
             "mainClass": "Sketch1",
+            "projectName": "processing-cpt-simon-3_712cb180"
+        },
+        {
+            "type": "java",
+            "name": "Sketch2",
+            "request": "launch",
+            "mainClass": "Sketch2",
+            "projectName": "processing-cpt-simon-3_712cb180"
+        },
+        {
+            "type": "java",
+            "name": "Sketch1",
+            "request": "launch",
+            "mainClass": "Sketch1",
             "projectName": "processing-cpt-simon_a4510a93"
         },
         {
