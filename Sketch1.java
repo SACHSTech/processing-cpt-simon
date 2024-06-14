@@ -790,6 +790,7 @@ public class Sketch1 extends PApplet {
 
     public void winPage() {
         onWin = true;
+        onDeath = false;
         background(imgBackground);
         textSize(75);
         fill(255);
@@ -806,10 +807,10 @@ public class Sketch1 extends PApplet {
         textSize(30);
         text("Restart", 525, 385);
         fill(249, 255, 207);
-        rect (225, 450, 150, 50);
+        rect (300, 450, 150, 50);
         fill(0);
         textSize(30);
-        text("Main Menu", 525, 385);
+        text("Main Menu", 375, 475);
 
 
             numDoc = 0;
@@ -923,18 +924,15 @@ public class Sketch1 extends PApplet {
     }
 
     public void mouseClicked(){
-        if(onDeath) {
-            if(mouseX > 50 && mouseX < 250 && mouseY > 550 && mouseY < 650) {
-                showHomeScreen = false;
-                barryLives = 5;
-                if (isOld){
-                    isOld = false;
-                    restartGame = true;
-                }
-
-            
+        if(mouseX > 50 && mouseX < 250 && mouseY > 550 && mouseY < 650) {
+            showHomeScreen = false;
+            barryLives = 5;
+            if (isOld){
+                isOld = false;
+                restartGame = true;
             }
-
+        }
+        if(onDeath) {
             if(barryLives <= 0 && mouseX > 100 && mouseX < 250 && mouseY > 360 && mouseY < 410) {
                 loadScreen();
                 restartGame = true;
@@ -947,15 +945,43 @@ public class Sketch1 extends PApplet {
             }
 
             else if(mouseX > 450 && mouseX < 600 && mouseY > 360 && mouseY < 410) {
+                loadScreen();
                 showHomeScreen = true;
                 isOld = true;
                 numDoc = 0;
                 numDocR = 0;
                 numNorm = 0;
                 numNormR = 0;
-
                 barryLives = 5;
-                
+            }
+        }
+        if(onWin){
+            if(mouseX > 100 && mouseX < 250 && mouseY > 360 && mouseY < 410) {
+                loadScreen();
+                numDoc = 0;
+                numDocR = 0;
+                numNorm = 0;
+                numNormR = 0;
+                barryLives = 5;
+            }
+            else if (mouseX > 450 && mouseX < 600 && mouseY > 360 && mouseY < 410) {
+                loadScreen();
+                restartGame = true;
+                numDoc = 0;
+                numDocR = 0;
+                numNorm = 0;
+                numNormR = 0;
+                barryLives = 5;
+            }
+            else if (mouseX > 300 && mouseX < 450 && mouseY > 450 && mouseY < 500) {
+                loadScreen();
+                showHomeScreen = true;
+                isOld = true;
+                numDoc = 0;
+                numDocR = 0;
+                numNorm = 0;
+                numNormR = 0;
+                barryLives = 5;
             }
         }
     }
