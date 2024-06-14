@@ -99,7 +99,10 @@ public class Sketch1 extends PApplet {
         boolean showHomeScreen = true;
         boolean redoGame = false;
         boolean restartGame = false;
+        boolean onDeath = false;
         boolean isOld = false;
+        boolean allEnemiesDefeated = true;
+        boolean onWin = false;
     /**
      * Size of the window
      */
@@ -526,28 +529,49 @@ public class Sketch1 extends PApplet {
             }
         } 
         killBarryPage();
-        for (int i = 0; i < DocX.length; i++) {
-            if(!enemyVisibleDoc[i]) {
-                for (int a = 0; a < DocXR.length; a++) {
-                    if(!enemyVisibleDocR[a]) {
-                        for (int b = 0; b < NormX.length; b++) {
-                            if(!enemyVisibleNorm[b]) {
-                                for (int c = 0; c < NormXR.length; c++) {
-                                    if(!enemyVisibleNormR[c]){
-                                        winPage();
-                                    }
-                                }
+        allEnemiesDefeated = true;
+        // Check if any enemy in DocX is visible
+    for (int i = 0; i < DocX.length; i++) {
+        if (enemyVisibleDoc[i]) {
+            allEnemiesDefeated = false;
+            break;
+        }
+    }
 
-                            }
-                        }
-
-                    }
-                }
+    // Check if any enemy in DocXR is visible
+    if (allEnemiesDefeated) {
+        for (int i = 0; i < DocXR.length; i++) {
+            if (enemyVisibleDocR[i]) {
+                allEnemiesDefeated = false;
+                break;
             }
         }
-
-
     }
+
+    // Check if any enemy in NormX is visible
+    if (allEnemiesDefeated) {
+        for (int i = 0; i < NormX.length; i++) {
+            if (enemyVisibleNorm[i]) {
+                allEnemiesDefeated = false;
+                break;
+            }
+        }
+    }
+
+    // Check if any enemy in NormXR is visible
+    if (allEnemiesDefeated) {
+        for (int i = 0; i < NormXR.length; i++) {
+            if (enemyVisibleNormR[i]) {
+                allEnemiesDefeated = false;
+                break;
+            }
+        }
+    }
+
+    if (allEnemiesDefeated) {
+        winPage();
+    }
+ }
     /**
      * A method named, Image Arrays, that takes images that follow a simple name pattern and input them in an array
      * @param images    images is the array that the images were placed in
@@ -765,12 +789,38 @@ public class Sketch1 extends PApplet {
     }
 
     public void winPage() {
+        onWin = true;
         background(imgBackground);
         textSize(75);
-        fill(0);
+        fill(255);
         text("Barry Survived!!!", 375, 250);
+        rectMode(CORNER);
+        fill(249, 255, 207);
+        rect (100, 360, 150, 50);
+        fill(0);
+        textSize(36);
+        text("Next Level", 175, 385);
+        fill(249, 255, 207);
+        rect (450, 360, 150, 50);
+        fill(0);
+        textSize(30);
+        text("Restart", 525, 385);
+        fill(249, 255, 207);
+        rect (225, 450, 150, 50);
+        fill(0);
+        textSize(30);
+        text("Main Menu", 525, 385);
+
+
+            numDoc = 0;
+            numDocR = 0;
+            numNorm = 0;
+            numNorm = 0;
+
+
     }
     public void killBarryPage() {
+        onDeath = true;
         if (barryLives <= 0) {
             background(imgBackground);
             image(imgPlatypus, 250, 550);
@@ -873,38 +923,40 @@ public class Sketch1 extends PApplet {
     }
 
     public void mouseClicked(){
-        if(mouseX > 50 && mouseX < 250 && mouseY > 550 && mouseY < 650) {
-            showHomeScreen = false;
-            barryLives = 5;
-            if (isOld){
-                isOld = false;
-                restartGame = true;
+        if(onDeath) {
+            if(mouseX > 50 && mouseX < 250 && mouseY > 550 && mouseY < 650) {
+                showHomeScreen = false;
+                barryLives = 5;
+                if (isOld){
+                    isOld = false;
+                    restartGame = true;
+                }
+
+            
             }
 
-          
-        }
+            if(barryLives <= 0 && mouseX > 100 && mouseX < 250 && mouseY > 360 && mouseY < 410) {
+                loadScreen();
+                restartGame = true;
+                numDoc = 0;
+                numDocR = 0;
+                numNorm = 0;
+                numNormR = 0;
+                barryLives = 5;
 
-        if(barryLives <= 0 && mouseX > 100 && mouseX < 250 && mouseY > 360 && mouseY < 410) {
-            loadScreen();
-            restartGame = true;
-            numDoc = 0;
-            numDocR = 0;
-            numNorm = 0;
-            numNormR = 0;
-            barryLives = 5;
+            }
 
-        }
+            else if(mouseX > 450 && mouseX < 600 && mouseY > 360 && mouseY < 410) {
+                showHomeScreen = true;
+                isOld = true;
+                numDoc = 0;
+                numDocR = 0;
+                numNorm = 0;
+                numNormR = 0;
 
-        else if(mouseX > 450 && mouseX < 600 && mouseY > 360 && mouseY < 410) {
-            showHomeScreen = true;
-            isOld = true;
-            numDoc = 0;
-            numDocR = 0;
-            numNorm = 0;
-            numNormR = 0;
-
-            barryLives = 5;
-            
+                barryLives = 5;
+                
+            }
         }
     }
 
