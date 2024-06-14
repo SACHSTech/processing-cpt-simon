@@ -4,100 +4,102 @@ import java.util.Random;
 
 public class Sketch1 extends PApplet {
     // Initializing / declaring variables
-    Random myRandom = new Random();
+        Random myRandom = new Random();
 
-    PImage imgBackground;
-    PImage imgPlatypus;
-    PImage imgPlatypusR;
-    PImage imgDoc;
-    PImage imgNorm;
-    PImage imgHome;
+        PImage imgBackground;
+        PImage imgPlatypus;
+        PImage imgPlatypusR;
+        PImage imgDoc;
+        PImage imgNorm;
+        PImage imgHome;
 
-    PImage[] kickImages = new PImage[8];
-    PImage[] chopImages = new PImage[8];
-    PImage[] walkBarry = new PImage[5];
-    PImage[] kickImagesR = new PImage[8];
-    PImage[] chopImagesR = new PImage[8];
-    PImage[] walkBarryR = new PImage[5];
+        PImage[] kickImages = new PImage[8];
+        PImage[] chopImages = new PImage[8];
+        PImage[] walkBarry = new PImage[5];
+        PImage[] kickImagesR = new PImage[8];
+        PImage[] chopImagesR = new PImage[8];
+        PImage[] walkBarryR = new PImage[5];
 
-    PImage[] walkDoc = new PImage[5];
-    PImage[] punchDoc = new PImage[6];
-    PImage[] walkDocR = new PImage[5];
-    PImage[] punchDocR = new PImage[6];
+        PImage[] walkDoc = new PImage[5];
+        PImage[] punchDoc = new PImage[6];
+        PImage[] walkDocR = new PImage[5];
+        PImage[] punchDocR = new PImage[6];
 
-    PImage[] walkNorm = new PImage[5];
-    PImage[] biteNorm = new PImage[8];
-    PImage[] walkNormR = new PImage[5];
-    PImage[] biteNormR = new PImage[8];
+        PImage[] walkNorm = new PImage[5];
+        PImage[] biteNorm = new PImage[8];
+        PImage[] walkNormR = new PImage[5];
+        PImage[] biteNormR = new PImage[8];
 
-    boolean isKicking = false;
-    boolean isChopping = false;
-    boolean isWalking = false;
-    boolean movingLeft = false;
-    boolean movingRight = false;
+        boolean isKicking = false;
+        boolean isChopping = false;
+        boolean isWalking = false;
+        boolean movingLeft = false;
+        boolean movingRight = false;
 
-    int intBarryX = 550;
-    int intBarryY = 550;
-    int intBarrySpeed = 5;
+        int intBarryX = 550;
+        int intBarryY = 550;
+        int intBarrySpeed = 5;
 
-    int kickImageIndex = 0;
-    int chopImageIndex = 0;
-    int walkImageIndex = 0;
-    int kickImageIndexR = 0;
-    int chopImageIndexR = 0;
-    int walkImageIndexR = 0;
-    int animationFrameRate = 20;
-    int kickDelay = 0;
+        int kickImageIndex = 0;
+        int chopImageIndex = 0;
+        int walkImageIndex = 0;
+        int kickImageIndexR = 0;
+        int chopImageIndexR = 0;
+        int walkImageIndexR = 0;
+        int animationFrameRate = 20;
+        int kickDelay = 0;
 
-    int numDoc = myRandom.nextInt(20, 30);
-    int numDocR = myRandom.nextInt(20, 30);
-    int[] DocX = new int[numDoc];
-    int[] DocXR = new int[numDocR];
-    int DocY = intBarryY;
-    int DocYR = intBarryY;
-    int[] docWalkIndex = new int[numDoc];
-    int[] docWalkIndexR = new int[numDocR];
-    int docSpeedR = -1;
-    int docSpeed = 1;
-    boolean[] enemyVisibleDoc = new boolean[numDoc];
-    boolean[] isPunching = new boolean[numDoc];
-    boolean[] enemyVisibleDocR = new boolean[numDocR];
-    boolean[] isPunchingR = new boolean[numDocR];
+        int numDoc = myRandom.nextInt(20, 30);
+        int numDocR = myRandom.nextInt(20, 30);
+        int[] DocX = new int[numDoc];
+        int[] DocXR = new int[numDocR];
+        int DocY = intBarryY;
+        int DocYR = intBarryY;
+        int[] docWalkIndex = new int[numDoc];
+        int[] docWalkIndexR = new int[numDocR];
+        int docSpeedR = -1;
+        int docSpeed = 1;
+        boolean[] enemyVisibleDoc = new boolean[numDoc];
+        boolean[] isPunching = new boolean[numDoc];
+        boolean[] enemyVisibleDocR = new boolean[numDocR];
+        boolean[] isPunchingR = new boolean[numDocR];
 
-    int numNorm = myRandom.nextInt(15, 25);
-    int numNormR = myRandom.nextInt(15, 25);
-    int[] NormX = new int[numNorm];
-    int[] NormXR = new int[numNormR];
-    int NormY = intBarryY + 50;
-    int NormYR = intBarryY + 50;
-    int[] normWalkIndex = new int[numNorm];
-    int[] normWalkIndexR = new int[numNormR];
-    int normSpeed = 2;
-    int normSpeedR = -2;
-    boolean[] enemyVisibleNorm = new boolean[numNorm];
-    boolean[] enemyVisibleNormR = new boolean[numNormR];
-    boolean[] isBiting = new boolean[numNorm];
-    boolean[] isBitingR = new boolean[numNormR];
+        int numNorm = myRandom.nextInt(15, 25);
+        int numNormR = myRandom.nextInt(15, 25);
+        int[] NormX = new int[numNorm];
+        int[] NormXR = new int[numNormR];
+        int NormY = intBarryY + 50;
+        int NormYR = intBarryY + 50;
+        int[] normWalkIndex = new int[numNorm];
+        int[] normWalkIndexR = new int[numNormR];
+        int normSpeed = 2;
+        int normSpeedR = -2;
+        boolean[] enemyVisibleNorm = new boolean[numNorm];
+        boolean[] enemyVisibleNormR = new boolean[numNormR];
+        boolean[] isBiting = new boolean[numNorm];
+        boolean[] isBitingR = new boolean[numNormR];
 
-    int barryLives;
-    boolean isInvincible = false;
-    int invincibilityDuration = 120;
-    int invincibilityCounter = 0;
+        int barryLives;
+        boolean isInvincible = false;
+        int invincibilityDuration = 120;
+        int invincibilityCounter = 0;
 
-    boolean isInContactDoc = false;
-    boolean isInContactDocR = false;
-    boolean isInContactNorm = false;
-    boolean isInContactNormR = false;
-    int[] contactCounterDoc = new int[numDoc];
-    int[] contactCounterDocR = new int[numDocR];
-    int[] contactCounterNorm = new int[numNorm];
-    int[] contactCounterNormR = new int[numNormR];
-    int contactDuration = 24;
+        boolean isInContactDoc = false;
+        boolean isInContactDocR = false;
+        boolean isInContactNorm = false;
+        boolean isInContactNormR = false;
+        int[] contactCounterDoc = new int[numDoc];
+        int[] contactCounterDocR = new int[numDocR];
+        int[] contactCounterNorm = new int[numNorm];
+        int[] contactCounterNormR = new int[numNormR];
+        int contactDuration = 24;
 
-    // Games
-    boolean lastMove = false; 
-    boolean showHomeScreen = true;
-
+        // Games
+        boolean lastMove = false; 
+        boolean showHomeScreen = true;
+        boolean redoGame = false;
+        boolean restartGame = false;
+        boolean isOld = false;
     /**
      * Size of the window
      */
@@ -106,6 +108,10 @@ public class Sketch1 extends PApplet {
     }
 
     public void setup() {
+        background(255);
+        System.out.println("Loading");
+        imgPlatypusR = loadImage("BarryR.png");
+        loadScreen();
         // Resizing image for background of level 1
         imgBackground = loadImage("FirstStage.jpg");
         imgBackground.resize(width, height);
@@ -117,7 +123,6 @@ public class Sketch1 extends PApplet {
         // Resizing image for Platypus
         imgPlatypus = loadImage("Barry.png");
         imgPlatypus.resize(150, 150);
-        imgPlatypusR = loadImage("BarryR.png");
         imgPlatypusR.resize(150, 150);
 
         // Resizing images and putting them into an Array for character movement 
@@ -146,9 +151,9 @@ public class Sketch1 extends PApplet {
         barryLives = 5;
         isInvincible = false;
         invincibilityCounter = 0;
-
+        
         // Frame Rate
-        frameRate(60);
+        // frameRate(60);
     }
 
     /**
@@ -157,8 +162,149 @@ public class Sketch1 extends PApplet {
     public void draw() {
         if (showHomeScreen) {
             displayHomeScreen();
-        } else {
+        } 
+        else {
             runGame();
+        }
+        if (redoGame) {
+            runGame();
+            Random myRandom = new Random();
+
+            isKicking = false;
+            isChopping = false;
+            isWalking = false;
+            movingLeft = false;
+            movingRight = false;
+
+            intBarryX = 550;
+            intBarryY = 550;
+            intBarrySpeed = 5;
+
+             kickImageIndex = 0;
+             chopImageIndex = 0;
+             walkImageIndex = 0;
+             kickImageIndexR = 0;
+             chopImageIndexR = 0;
+             walkImageIndexR = 0;
+             animationFrameRate = 20;
+             kickDelay = 0;
+
+             numDoc = myRandom.nextInt(20, 30);
+             numDocR = myRandom.nextInt(20, 30);
+             DocX = new int[numDoc];
+             DocXR = new int[numDocR];
+             DocY = intBarryY;
+             DocYR = intBarryY;
+             docWalkIndex = new int[numDoc];
+             docWalkIndexR = new int[numDocR];
+             enemyVisibleDoc = new boolean[numDoc];
+             isPunching = new boolean[numDoc];
+             enemyVisibleDocR = new boolean[numDocR];
+             isPunchingR = new boolean[numDocR];
+
+             numNorm = myRandom.nextInt(15, 25);
+             numNormR = myRandom.nextInt(15, 25);
+             NormX = new int[numNorm];
+             NormXR = new int[numNormR];
+             NormY = intBarryY + 50;
+             NormYR = intBarryY + 50;
+             normWalkIndex = new int[numNorm];
+             normWalkIndexR = new int[numNormR];
+             enemyVisibleNorm = new boolean[numNorm];
+             enemyVisibleNormR = new boolean[numNormR];
+             isBiting = new boolean[numNorm];
+             isBitingR = new boolean[numNormR];
+
+            barryLives = 5;
+            isInvincible = false;
+            invincibilityDuration = 120;
+            invincibilityCounter = 0;
+
+            isInContactDoc = false;
+            isInContactDocR = false;
+            isInContactNorm = false;
+            isInContactNormR = false;
+            contactCounterDoc = new int[numDoc];
+            contactCounterDocR = new int[numDocR];
+            contactCounterNorm = new int[numNorm];
+            contactCounterNormR = new int[numNormR];
+            contactDuration = 24;
+
+            // Games
+            lastMove = false; 
+            showHomeScreen = true;
+            redoGame = false;
+            setup();
+        }if (restartGame){
+            runGame();
+            Random myRandom = new Random();
+
+            isKicking = false;
+            isChopping = false;
+            isWalking = false;
+            movingLeft = false;
+            movingRight = false;
+
+            intBarryX = 550;
+            intBarryY = 550;
+            intBarrySpeed = 5;
+
+             kickImageIndex = 0;
+             chopImageIndex = 0;
+             walkImageIndex = 0;
+             kickImageIndexR = 0;
+             chopImageIndexR = 0;
+             walkImageIndexR = 0;
+             animationFrameRate = 20;
+             kickDelay = 0;
+
+             numDoc = myRandom.nextInt(20, 30);
+             numDocR = myRandom.nextInt(20, 30);
+             DocX = new int[numDoc];
+             DocXR = new int[numDocR];
+             DocY = intBarryY;
+             DocYR = intBarryY;
+             docWalkIndex = new int[numDoc];
+             docWalkIndexR = new int[numDocR];
+             enemyVisibleDoc = new boolean[numDoc];
+             isPunching = new boolean[numDoc];
+             enemyVisibleDocR = new boolean[numDocR];
+             isPunchingR = new boolean[numDocR];
+
+             numNorm = myRandom.nextInt(15, 25);
+             numNormR = myRandom.nextInt(15, 25);
+             NormX = new int[numNorm];
+             NormXR = new int[numNormR];
+             NormY = intBarryY + 50;
+             NormYR = intBarryY + 50;
+             normWalkIndex = new int[numNorm];
+             normWalkIndexR = new int[numNormR];
+             enemyVisibleNorm = new boolean[numNorm];
+             enemyVisibleNormR = new boolean[numNormR];
+             isBiting = new boolean[numNorm];
+             isBitingR = new boolean[numNormR];
+
+            barryLives = 5;
+            isInvincible = false;
+            invincibilityDuration = 120;
+            invincibilityCounter = 0;
+
+            isInContactDoc = false;
+            isInContactDocR = false;
+            isInContactNorm = false;
+            isInContactNormR = false;
+            contactCounterDoc = new int[numDoc];
+            contactCounterDocR = new int[numDocR];
+            contactCounterNorm = new int[numNorm];
+            contactCounterNormR = new int[numNormR];
+            contactDuration = 24;
+
+            // Games
+            lastMove = false; 
+            showHomeScreen = false;
+            redoGame = false;
+            restartGame = false;
+            setup();
         }
     }
     /**
@@ -188,9 +334,9 @@ public class Sketch1 extends PApplet {
      */
     public void runGame() {
         // Kick Delay
-        if (kickDelay > 0){ 
-            kickDelay--;
-        }
+        // if (kickDelay > 0){ 
+        //     kickDelay--;
+        // }
         // Adding an image of a background
         background(imgBackground);
 
@@ -279,7 +425,7 @@ public class Sketch1 extends PApplet {
         // Determines the action of Doc enemies 
         for (int i = 0; i < numDoc; i++) {
             if (enemyVisibleDoc[i]) {
-                if (dist(intBarryX, intBarryY, DocX[i], DocY) < 60) {
+                if (dist(intBarryX, intBarryY, DocX[i], DocY) < 58) {
                     isPunching[i] = true;
                     BarryLives(true, contactCounterDoc);
                 } else {
@@ -304,7 +450,7 @@ public class Sketch1 extends PApplet {
         // Determines the action of DocR enemies 
         for (int i = 0; i < numDocR; i++) {
             if (enemyVisibleDocR[i]) {
-                if (dist(intBarryX, intBarryY, DocXR[i], DocYR) < 60) {
+                if (dist(intBarryX, intBarryY, DocXR[i], DocYR) < 58) {
                     isPunchingR[i] = true;
                      BarryLives(true, contactCounterDocR);
                 } else {
@@ -379,7 +525,7 @@ public class Sketch1 extends PApplet {
                 }
             }
         } 
-        killBillPage();
+        killBarryPage();
     }
     /**
      * A method named, Image Arrays, that takes images that follow a simple name pattern and input them in an array
@@ -586,15 +732,43 @@ public class Sketch1 extends PApplet {
     /** 
      * 
      */
-    public void killBillPage() {
+    public void loadScreen(){
+        for(int i=0;i<=2;i++){
+            background(0);
+            image(imgPlatypusR, 225, 375);
+            fill(255);
+            textSize(64);
+            text("Loading", 375, 250);
+            delay(1000);
+        }
+    }
+
+    public void winPage() {
+        for (int i = 0)
+    }
+    public void killBarryPage() {
         if (barryLives <= 0) {
             background(imgBackground);
             image(imgPlatypus, 250, 550);
             textSize(48);
             textAlign(CENTER, CENTER);
-            text("YOU KILLED BARRY", width / 2, height / 2 - 50);
+            text("YOU KILLED BARRY", width / 2, height / 2 - 40);
+            rectMode(CORNER);
+            fill(249, 255, 207);
+            rect (100, 360, 150, 50);
+            fill(0);
             textSize(36);
-            text("Click the R key to restart", width / 2, height / 2 - 10);
+            text("Restart", 175, 385);
+            fill(249, 255, 207);
+            rect (450, 360, 150, 50);
+            fill(0);
+            textSize(30);
+            text("Main Menu", 525, 385);
+            numDoc = 0;
+            numDocR = 0;
+            numNorm = 0;
+            numNorm = 0;
+            
         }
     }
     /**
@@ -616,6 +790,7 @@ public class Sketch1 extends PApplet {
             }
         } 
     }
+
     /**
      * 
      * @param barryX
@@ -676,6 +851,36 @@ public class Sketch1 extends PApplet {
     public void mouseClicked(){
         if(mouseX > 50 && mouseX < 250 && mouseY > 550 && mouseY < 650) {
             showHomeScreen = false;
+            barryLives = 5;
+            if (isOld){
+                isOld = false;
+                restartGame = true;
+            }
+
+          
+        }
+
+        if(barryLives <= 0 && mouseX > 100 && mouseX < 250 && mouseY > 360 && mouseY < 410) {
+            loadScreen();
+            restartGame = true;
+            numDoc = 0;
+            numDocR = 0;
+            numNorm = 0;
+            numNormR = 0;
+            barryLives = 5;
+
+        }
+
+        else if(mouseX > 450 && mouseX < 600 && mouseY > 360 && mouseY < 410) {
+            showHomeScreen = true;
+            isOld = true;
+            numDoc = 0;
+            numDocR = 0;
+            numNorm = 0;
+            numNormR = 0;
+
+            barryLives = 5;
+            
         }
     }
 
