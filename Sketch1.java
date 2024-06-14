@@ -526,6 +526,25 @@ public class Sketch1 extends PApplet {
             }
         } 
         killBarryPage();
+        for (int i = 0; i < DocX.length; i++) {
+            if(!enemyVisibleDoc[i]) {
+                for (int a = 0; a < DocXR.length; a++) {
+                    if(!enemyVisibleDocR[a]) {
+                        for (int b = 0; b < NormX.length; b++) {
+                            if(!enemyVisibleNorm[b]) {
+                                for (int c = 0; c < NormXR.length; c++) {
+                                    if(!enemyVisibleNormR[c]){
+                                        winPage();
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
 
 
     }
@@ -746,25 +765,10 @@ public class Sketch1 extends PApplet {
     }
 
     public void winPage() {
-        for (int i = 0; i < DocX.length; i++) {
-            if(!enemyVisibleDoc[i]) {
-                for (int a = 0; a < DocXR.length; a++) {
-                    if(!enemyVisibleDocR[a]) {
-                        for (int b = 0; b < NormX.length; b++) {
-                            if(!enemyVisibleNorm[b]) {
-                                for (int c = 0; c < NormXR.length; c++) {
-                                    if(!enemyVisibleNormR[c]){
-                                        
-                                    }
-                                }
-
-                            }
-                        }
-
-                    }
-                }
-            }
-        }
+        background(imgBackground);
+        textSize(75);
+        fill(0);
+        text("Barry Survived!!!", 375, 250);
     }
     public void killBarryPage() {
         if (barryLives <= 0) {
