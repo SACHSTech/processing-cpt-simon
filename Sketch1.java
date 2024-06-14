@@ -97,6 +97,7 @@ public class Sketch1 extends PApplet {
     // Games
     boolean lastMove = false; 
     boolean showHomeScreen = true;
+    boolean redoGame = false;
 
     /**
      * Size of the window
@@ -157,7 +158,11 @@ public class Sketch1 extends PApplet {
     public void draw() {
         if (showHomeScreen) {
             displayHomeScreen();
-        } else {
+        } 
+        else {
+            runGame();
+        }
+        if (redoGame) {
             runGame();
         }
     }
@@ -592,9 +597,20 @@ public class Sketch1 extends PApplet {
             image(imgPlatypus, 250, 550);
             textSize(48);
             textAlign(CENTER, CENTER);
-            text("YOU KILLED BARRY", width / 2, height / 2 - 50);
+            text("YOU KILLED BARRY", width / 2, height / 2 - 40);
+            rectMode(CORNER);
+            fill(249, 255, 207);
+            rect (100, 360, 150, 50);
+            fill(0);
             textSize(36);
-            text("Click the R key to restart", width / 2, height / 2 - 10);
+            text("Restart", 175, 385);
+
+            fill(249, 255, 207);
+            rect (450, 360, 150, 50);
+            fill(0);
+            textSize(30);
+            text("Main Menu", 525, 385);
+            
         }
     }
     /**
@@ -616,6 +632,7 @@ public class Sketch1 extends PApplet {
             }
         } 
     }
+
     /**
      * 
      * @param barryX
@@ -676,6 +693,14 @@ public class Sketch1 extends PApplet {
     public void mouseClicked(){
         if(mouseX > 50 && mouseX < 250 && mouseY > 550 && mouseY < 650) {
             showHomeScreen = false;
+        }
+
+        if(mouseX > 100 && mouseX < 250 && mouseY > 360 && mouseY < 410) {
+            redoGame = true;
+        }
+
+        if(mouseX > 450 && mouseX < 600 && mouseY > 360 && mouseY < 410) {
+            showHomeScreen = true;
         }
     }
 
