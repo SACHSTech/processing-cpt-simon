@@ -11,6 +11,7 @@ public class Sketch2 extends PApplet {
     PImage imgPlatypusR;
     PImage imgSister;
     PImage imgSuzie;
+    PImage imgGameOver;
 
     PImage[] kickImages = new PImage[8];
     PImage[] chopImages = new PImage[8];
@@ -53,7 +54,7 @@ public class Sketch2 extends PApplet {
     int[] SisterX = new int[numSister];
     int[] SisterXR = new int[numSisterR];
     int SisterY = intBarryY;
-    int SisterYR = intBarryY - 15;
+    int SisterYR = intBarryY - 35;
     int[] SisterWalkIndex = new int[numSister];
     int[] SisterWalkIndexR = new int[numSisterR];
     int SisterSpeedR = -1;
@@ -109,6 +110,8 @@ public class Sketch2 extends PApplet {
         // Resizing image for background
         imgLab = loadImage("Background For COM SCI.png");
         imgLab.resize(width, height);
+        imgGameOver = loadImage("GameOver.png");
+        imgGameOver.resize(width, height);
 
         // Resizing image for Platypus
         imgPlatypus = loadImage("Barry.png");
@@ -125,10 +128,10 @@ public class Sketch2 extends PApplet {
         ImageArrays(walkBarryR, "WalkReversed", 150);
         ImageArrays(walkSister, "SisterWalk", 160);
         ImageArrays(punchSister, "SisterPunch", 160);
-        ImageArrays(walkSisterR, "SisterWalkR", 220);
-        ImageArrays(punchSisterR, "SisterPunchR", 220);
+        ImageArrays(walkSisterR, "SisterWalkR", 225);
+        ImageArrays(punchSisterR, "SisterPunchR", 225);
         ImageArrays(walkSuzie, "SuzieWalkR", 160);
-        ImageArrays(kickSuzie, "SuzieKickR", 16zzz0);
+        ImageArrays(kickSuzie, "SuzieKickR", 160);
         ImageArrays(walkSuzieR, "SuzieWalk", 100);
         ImageArrays(kickSuzieR, "SuzieKick", 100);
 
@@ -574,10 +577,11 @@ public class Sketch2 extends PApplet {
      */
     public void killBillPage() {
         if (barryLives <= 0) {
-            background(imgLab);
+            background(imgGameOver);
             image(imgPlatypus, 250, 450);
             textSize(48);
             textAlign(CENTER, CENTER);
+            fill(0);
             text("YOU KILLED BARRY", width / 2, height / 2 - 50);
             textSize(36);
             text("Click the R key to restart", width / 2, height / 2 - 10);
