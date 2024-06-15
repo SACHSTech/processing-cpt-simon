@@ -584,6 +584,7 @@ public class Sketch2 extends PApplet {
             fill(0);
             text("YOU KILLED BARRY", width / 2, height / 2 - 50);
             textSize(36);
+                fill(249, 255, 207);
             rect (100, 360, 150, 50);
             fill(0);
             textSize(36);
@@ -593,7 +594,6 @@ public class Sketch2 extends PApplet {
             fill(0);
             textSize(30);
             text("Main Menu", 525, 385);
-            numSister = 0;
             numSisterR = 0;
             numSuzie = 0;
             numSuzieR = 0;
