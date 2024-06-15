@@ -584,7 +584,19 @@ public class Sketch2 extends PApplet {
             fill(0);
             text("YOU KILLED BARRY", width / 2, height / 2 - 50);
             textSize(36);
-            text("Click the R key to restart", width / 2, height / 2 - 10);
+            rect (100, 360, 150, 50);
+            fill(0);
+            textSize(36);
+            text("Restart", 175, 385);
+            fill(249, 255, 207);
+            rect (450, 360, 150, 50);
+            fill(0);
+            textSize(30);
+            text("Main Menu", 525, 385);
+            numSister = 0;
+            numSisterR = 0;
+            numSuzie = 0;
+            numSuzieR = 0;
         }
     }
     /**

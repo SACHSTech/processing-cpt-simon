@@ -313,7 +313,7 @@ public class Sketch1 extends PApplet {
     public void displayHomeScreen() {
         background(imgHome); 
         fill(255); // White text
-        textSize(96);
+        textSize(85);
         textAlign(CENTER, CENTER);
         text("Barry's Adventure", width / 2, height / 2 - 325);
         fill(249, 255, 207);
