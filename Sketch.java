@@ -48,8 +48,8 @@ public class Sketch extends PApplet {
   int animationFrameRate = 20;
   int kickDelay = 0;
 
-  int numDoc = myRandom.nextInt(20, 30);
-  int numDocR = myRandom.nextInt(20, 30);
+  int numDoc = myRandom.nextInt(1, 2);
+  int numDocR = myRandom.nextInt(1, 2);
   int[] DocX = new int[numDoc];
   int[] DocXR = new int[numDocR];
   int DocY = intBarryY;
@@ -63,8 +63,8 @@ public class Sketch extends PApplet {
   boolean[] enemyVisibleDocR = new boolean[numDocR];
   boolean[] isPunchingR = new boolean[numDocR];
 
-  int numNorm = myRandom.nextInt(15, 25);
-  int numNormR = myRandom.nextInt(15, 25);
+  int numNorm = myRandom.nextInt(1, 2);
+  int numNormR = myRandom.nextInt(1, 2);
   int[] NormX = new int[numNorm];
   int[] NormXR = new int[numNormR];
   int NormY = intBarryY + 50;
@@ -487,7 +487,7 @@ public class Sketch extends PApplet {
 
 public void runGame2() {
   // Adding an image of a background
-  background(imgLab);
+  background(imgBackground);
   boolean canMoveLeft = true;
   boolean canMoveRight = true;
 
@@ -1136,6 +1136,7 @@ public void runGame2() {
     }
     if(onWin){
       if(mouseX > 100 && mouseX < 250 && mouseY > 360 && mouseY < 410) {
+        System.out.println("Next");
         loadScreen();
         nextLevel = true;
       }
