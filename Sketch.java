@@ -149,11 +149,11 @@ public class Sketch extends PApplet {
   boolean lastMove = false; 
   boolean showHomeScreen = true;
   boolean redoGame = false;
-  boolean restartGame = false;
   boolean onDeath = false;
   boolean isOld = false;
   boolean allEnemiesDefeated = true;
   boolean onWin = false;
+  boolean nextLevel = false;
   /**
    * Size of the window
    */
@@ -225,152 +225,121 @@ public class Sketch extends PApplet {
    */
   public void draw() {
       if (showHomeScreen) {
-          displayHomeScreen();
+        displayHomeScreen();
       } 
       else {
-          runGame();
+        runGame();
       }
       if (redoGame) {
-          runGame();
-          Random myRandom = new Random();
+        runGame();
+        isKicking = false;
+        isChopping = false;
+        isWalking = false;
+        movingLeft = false;
+        movingRight = false;
 
-          isKicking = false;
-          isChopping = false;
-          isWalking = false;
-          movingLeft = false;
-          movingRight = false;
+        intBarryX = 550;
+        intBarryY = 550;
+        intBarrySpeed = 5;
 
-          intBarryX = 550;
-          intBarryY = 550;
-          intBarrySpeed = 5;
+        kickImageIndex = 0;
+        chopImageIndex = 0;
+        walkImageIndex = 0;
+        kickImageIndexR = 0;
+        chopImageIndexR = 0;
+        walkImageIndexR = 0;
+        animationFrameRate = 20;
+        kickDelay = 0;
 
-            kickImageIndex = 0;
-            chopImageIndex = 0;
-            walkImageIndex = 0;
-            kickImageIndexR = 0;
-            chopImageIndexR = 0;
-            walkImageIndexR = 0;
-            animationFrameRate = 20;
-            kickDelay = 0;
+        numDoc = myRandom.nextInt(20, 30);
+        numDocR = myRandom.nextInt(20, 30);
+        DocX = new int[numDoc];
+        DocXR = new int[numDocR];
+        DocY = intBarryY;
+        DocYR = intBarryY;
+        docWalkIndex = new int[numDoc];
+        docWalkIndexR = new int[numDocR];
+        enemyVisibleDoc = new boolean[numDoc];
+        isPunching = new boolean[numDoc];
+        enemyVisibleDocR = new boolean[numDocR];
+        isPunchingR = new boolean[numDocR];
 
-            numDoc = myRandom.nextInt(20, 30);
-            numDocR = myRandom.nextInt(20, 30);
-            DocX = new int[numDoc];
-            DocXR = new int[numDocR];
-            DocY = intBarryY;
-            DocYR = intBarryY;
-            docWalkIndex = new int[numDoc];
-            docWalkIndexR = new int[numDocR];
-            enemyVisibleDoc = new boolean[numDoc];
-            isPunching = new boolean[numDoc];
-            enemyVisibleDocR = new boolean[numDocR];
-            isPunchingR = new boolean[numDocR];
+        numNorm = myRandom.nextInt(15, 25);
+        numNormR = myRandom.nextInt(15, 25);
+        NormX = new int[numNorm];
+        NormXR = new int[numNormR];
+        NormY = intBarryY + 50;
+        NormYR = intBarryY + 50;
+        normWalkIndex = new int[numNorm];
+        normWalkIndexR = new int[numNormR];
+        enemyVisibleNorm = new boolean[numNorm];
+        enemyVisibleNormR = new boolean[numNormR];
+        isBiting = new boolean[numNorm];
+        isBitingR = new boolean[numNormR];
 
-            numNorm = myRandom.nextInt(15, 25);
-            numNormR = myRandom.nextInt(15, 25);
-            NormX = new int[numNorm];
-            NormXR = new int[numNormR];
-            NormY = intBarryY + 50;
-            NormYR = intBarryY + 50;
-            normWalkIndex = new int[numNorm];
-            normWalkIndexR = new int[numNormR];
-            enemyVisibleNorm = new boolean[numNorm];
-            enemyVisibleNormR = new boolean[numNormR];
-            isBiting = new boolean[numNorm];
-            isBitingR = new boolean[numNormR];
+        barryLives = 5;
+        isInvincible = false;
+        invincibilityDuration = 120;
+        invincibilityCounter = 0;
 
-          barryLives = 5;
-          isInvincible = false;
-          invincibilityDuration = 120;
-          invincibilityCounter = 0;
+        isInContactDoc = false;
+        isInContactDocR = false;
+        isInContactNorm = false;
+        isInContactNormR = false;
+        contactCounterDoc = new int[numDoc];
+        contactCounterDocR = new int[numDocR];
+        contactCounterNorm = new int[numNorm];
+        contactCounterNormR = new int[numNormR];
+        contactDuration = 24;
 
-          isInContactDoc = false;
-          isInContactDocR = false;
-          isInContactNorm = false;
-          isInContactNormR = false;
-          contactCounterDoc = new int[numDoc];
-          contactCounterDocR = new int[numDocR];
-          contactCounterNorm = new int[numNorm];
-          contactCounterNormR = new int[numNormR];
-          contactDuration = 24;
-
-          // Games
-          lastMove = false; 
-          showHomeScreen = true;
-          redoGame = false;
-          setup();
-      }if (restartGame){
-          runGame();
-          Random myRandom = new Random();
-
-          isKicking = false;
-          isChopping = false;
-          isWalking = false;
-          movingLeft = false;
-          movingRight = false;
-
-          intBarryX = 550;
-          intBarryY = 550;
-          intBarrySpeed = 5;
-
-            kickImageIndex = 0;
-            chopImageIndex = 0;
-            walkImageIndex = 0;
-            kickImageIndexR = 0;
-            chopImageIndexR = 0;
-            walkImageIndexR = 0;
-            animationFrameRate = 20;
-            kickDelay = 0;
-
-            numDoc = myRandom.nextInt(20, 30);
-            numDocR = myRandom.nextInt(20, 30);
-            DocX = new int[numDoc];
-            DocXR = new int[numDocR];
-            DocY = intBarryY;
-            DocYR = intBarryY;
-            docWalkIndex = new int[numDoc];
-            docWalkIndexR = new int[numDocR];
-            enemyVisibleDoc = new boolean[numDoc];
-            isPunching = new boolean[numDoc];
-            enemyVisibleDocR = new boolean[numDocR];
-            isPunchingR = new boolean[numDocR];
-
-            numNorm = myRandom.nextInt(15, 25);
-            numNormR = myRandom.nextInt(15, 25);
-            NormX = new int[numNorm];
-            NormXR = new int[numNormR];
-            NormY = intBarryY + 50;
-            NormYR = intBarryY + 50;
-            normWalkIndex = new int[numNorm];
-            normWalkIndexR = new int[numNormR];
-            enemyVisibleNorm = new boolean[numNorm];
-            enemyVisibleNormR = new boolean[numNormR];
-            isBiting = new boolean[numNorm];
-            isBitingR = new boolean[numNormR];
-
-          barryLives = 5;
-          isInvincible = false;
-          invincibilityDuration = 120;
-          invincibilityCounter = 0;
-
-          isInContactDoc = false;
-          isInContactDocR = false;
-          isInContactNorm = false;
-          isInContactNormR = false;
-          contactCounterDoc = new int[numDoc];
-          contactCounterDocR = new int[numDocR];
-          contactCounterNorm = new int[numNorm];
-          contactCounterNormR = new int[numNormR];
-          contactDuration = 24;
-
-          // Games
-          lastMove = false; 
-          showHomeScreen = false;
-          redoGame = false;
-          restartGame = false;
-          setup();
+        // Games
+        lastMove = false; 
+        redoGame = false;
+        setup();
       }
-  }
+      if (nextLevel) {
+        runGame2();
+        numSister = myRandom.nextInt(30, 40);
+        numSisterR = myRandom.nextInt(30, 40);
+        SisterX = new int[numSister];
+        SisterXR = new int[numSisterR];
+        SisterY = intBarryY;
+        SisterYR = intBarryY - 35;
+        SisterWalkIndex = new int[numSister];
+        SisterWalkIndexR = new int[numSisterR];
+        SisterSpeedR = -1;
+        SisterSpeed = 1;
+        enemyVisibleSister = new boolean[numSister];
+        isPunchingS = new boolean[numSister];
+        enemyVisibleSisterR = new boolean[numSisterR];
+        isPunchingSR = new boolean[numSisterR];
+
+        numSuzie = myRandom.nextInt(25, 35);
+        numSuzieR = myRandom.nextInt(25, 35);
+        SuzieX = new int[numSuzie];
+        SuzieXR = new int[numSuzieR];
+        SuzieY = intBarryY + 25;
+        SuzieYR = intBarryY + 50;
+        SuzieWalkIndex = new int[numSuzie];
+        SuzieWalkIndexR = new int[numSuzieR];
+        SuzieSpeed = 3;
+        SuzieSpeedR = -3;
+        enemyVisibleSuzie = new boolean[numSuzie];
+        enemyVisibleSuzieR = new boolean[numSuzieR];
+        isKickingS = new boolean[numSuzie];
+        isKickingSR = new boolean[numSuzieR];
+
+        isInContactSister = false;
+        isInContactSisterR = false;
+        isInContactSuzie = false;
+        isInContactSuzieR = false;
+        contactCounterSister = new int[numSister];
+        contactCounterSisterR = new int[numSisterR];
+        contactCounterSuzie = new int[numSuzie];
+        contactCounterSuzieR = new int[numSuzieR];
+        setup();
+      }
+  } 
   /**
    * Home screen of the game
    */
@@ -391,7 +360,6 @@ public class Sketch extends PApplet {
       fill(0);
       text("Tutorial", 600, 600);
       image(imgPlatypusR, 300, 550);
-  
   }
   /**
    * The main game code
@@ -1097,7 +1065,7 @@ private void animateSuzieKickR(int i) {
           fill(255);
           textSize(64);
           text("Loading", 375, 250);
-          delay(1000);
+          delay(2000);
       }
   }
 
@@ -1240,13 +1208,13 @@ private void animateSuzieKickR(int i) {
         barryLives = 5;
         if (isOld){
             isOld = false;
-            restartGame = true;
+            redoGame = true;
         }
     }
     if(onDeath) {
       if(barryLives <= 0 && mouseX > 100 && mouseX < 250 && mouseY > 360 && mouseY < 410) {
         loadScreen();
-        restartGame = true;
+        redoGame = true;
         numDoc = 0;
         numDocR = 0;
         numNorm = 0;
@@ -1268,15 +1236,11 @@ private void animateSuzieKickR(int i) {
     if(onWin){
       if(mouseX > 100 && mouseX < 250 && mouseY > 360 && mouseY < 410) {
         loadScreen();
-        numDoc = 0;
-        numDocR = 0;
-        numNorm = 0;
-        numNormR = 0;
-        barryLives = 5;
+        nextLevel = true;
       }
       else if (mouseX > 450 && mouseX < 600 && mouseY > 360 && mouseY < 410) {
         loadScreen();
-        restartGame = true;
+        redoGame = true;
         numDoc = 0;
         numDocR = 0;
         numNorm = 0;
