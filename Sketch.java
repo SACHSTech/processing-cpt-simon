@@ -151,7 +151,6 @@ public class Sketch extends PApplet {
   boolean redoGame = false;
   boolean onDeath = false;
   boolean isOld = false;
-  boolean allEnemiesDefeated = true;
   boolean onWin = false;
   boolean nextLevel = false;
   /**
@@ -162,9 +161,6 @@ public class Sketch extends PApplet {
   }
 
   public void setup() {
-
-      imgLab = loadImage("Background For COM SCI.png");
-      imgLab.resize(width, height);
 
       // Resizing image for background of level 1
       imgBackground = loadImage("FirstStage.jpg");
@@ -195,30 +191,59 @@ public class Sketch extends PApplet {
       ImageArrays(biteNorm, "NormBite", 100);
       ImageArrays(walkNormR, "NormWalkR", 100);
       ImageArrays(biteNormR, "NormBiteR", 100);
-      ImageArrays(walkSister, "SisterWalk", 160);
-      ImageArrays(punchSister, "SisterPunch", 160);
-      ImageArrays(walkSisterR, "SisterWalkR", 225);
-      ImageArrays(punchSisterR, "SisterPunchR", 225);
-      ImageArrays(walkSuzie, "SuzieWalkR", 160);
-      ImageArrays(kickSuzie, "SuzieKickR", 160);
-      ImageArrays(walkSuzieR, "SuzieWalk", 100);
-      ImageArrays(kickSuzieR, "SuzieKick", 100);
 
       // Collision and positioning of the characters
       EnemyDetails(DocX, false, docWalkIndex, enemyVisibleDoc, isPunching, contactCounterDoc);        
       EnemyDetails(DocXR, true, docWalkIndexR, enemyVisibleDocR, isPunchingR, contactCounterDocR);
       EnemyDetails(NormX, true, normWalkIndex, enemyVisibleNorm, isBiting, contactCounterNorm);
       EnemyDetails(NormXR,false, normWalkIndexR, enemyVisibleNormR, isBitingR, contactCounterNormR);
-      EnemyDetails(SisterX, false, SisterWalkIndex, enemyVisibleSister, isPunchingS, contactCounterSister);        
-      EnemyDetails(SisterXR, true, SisterWalkIndexR, enemyVisibleSisterR, isPunchingSR, contactCounterSisterR);
-      EnemyDetails(SuzieX, true, SuzieWalkIndex, enemyVisibleSuzie, isKickingS, contactCounterSuzie);
-      EnemyDetails(SuzieXR,false, SuzieWalkIndexR, enemyVisibleSuzieR, isKickingSR, contactCounterSuzieR);
 
       // Life System details
       barryLives = 5;
       isInvincible = false;
       invincibilityCounter = 0;
   }
+
+    private void setup2() {
+        imgLab = loadImage("Background For COM SCI.png");
+        imgLab.resize(width, height);
+
+        //Resizing image for HomeScreen 
+        imgHome = loadImage("HomeScreen.jpg");
+        imgHome.resize(width, height);
+
+        // Resizing image for Platypus
+        imgPlatypus = loadImage("Barry.png");
+        imgPlatypus.resize(150, 150);
+        imgPlatypusR = loadImage("BarryR.png");
+        imgPlatypusR.resize(150, 150);
+        
+        ImageArrays(kickImages, "Kick", 150);
+        ImageArrays(chopImages, "Chop", 150);
+        ImageArrays(walkBarry, "Walk", 150);
+        ImageArrays(kickImagesR, "KickReversed", 150);
+        ImageArrays(chopImagesR, "ChopReversed", 150);
+        ImageArrays(walkBarryR, "WalkReversed", 150);
+        ImageArrays(walkSister, "SisterWalk", 160);
+        ImageArrays(punchSister, "SisterPunch", 160);
+        ImageArrays(walkSisterR, "SisterWalkR", 225);
+        ImageArrays(punchSisterR, "SisterPunchR", 225);
+        ImageArrays(walkSuzie, "SuzieWalkR", 160);
+        ImageArrays(kickSuzie, "SuzieKickR", 160);
+        ImageArrays(walkSuzieR, "SuzieWalk", 100);
+        ImageArrays(kickSuzieR, "SuzieKick", 100);
+
+        EnemyDetails(SisterX, false, SisterWalkIndex, enemyVisibleSister, isPunchingS, contactCounterSister);        
+        EnemyDetails(SisterXR, true, SisterWalkIndexR, enemyVisibleSisterR, isPunchingSR, contactCounterSisterR);
+        EnemyDetails(SuzieX, true, SuzieWalkIndex, enemyVisibleSuzie, isKickingS, contactCounterSuzie);
+        EnemyDetails(SuzieXR,false, SuzieWalkIndexR, enemyVisibleSuzieR, isKickingSR, contactCounterSuzieR);
+
+        // Life System details
+        barryLives = 5;
+        isInvincible = false;
+        invincibilityCounter = 0;
+
+    }
 
   /**
    * Helps distingush home screen and the actual game
@@ -232,112 +257,13 @@ public class Sketch extends PApplet {
       }
       if (redoGame) {
         runGame();
-        isKicking = false;
-        isChopping = false;
-        isWalking = false;
-        movingLeft = false;
-        movingRight = false;
-
-        intBarryX = 550;
-        intBarryY = 550;
-        intBarrySpeed = 5;
-
-        kickImageIndex = 0;
-        chopImageIndex = 0;
-        walkImageIndex = 0;
-        kickImageIndexR = 0;
-        chopImageIndexR = 0;
-        walkImageIndexR = 0;
-        animationFrameRate = 20;
-        kickDelay = 0;
-
-        numDoc = myRandom.nextInt(20, 30);
-        numDocR = myRandom.nextInt(20, 30);
-        DocX = new int[numDoc];
-        DocXR = new int[numDocR];
-        DocY = intBarryY;
-        DocYR = intBarryY;
-        docWalkIndex = new int[numDoc];
-        docWalkIndexR = new int[numDocR];
-        enemyVisibleDoc = new boolean[numDoc];
-        isPunching = new boolean[numDoc];
-        enemyVisibleDocR = new boolean[numDocR];
-        isPunchingR = new boolean[numDocR];
-
-        numNorm = myRandom.nextInt(15, 25);
-        numNormR = myRandom.nextInt(15, 25);
-        NormX = new int[numNorm];
-        NormXR = new int[numNormR];
-        NormY = intBarryY + 50;
-        NormYR = intBarryY + 50;
-        normWalkIndex = new int[numNorm];
-        normWalkIndexR = new int[numNormR];
-        enemyVisibleNorm = new boolean[numNorm];
-        enemyVisibleNormR = new boolean[numNormR];
-        isBiting = new boolean[numNorm];
-        isBitingR = new boolean[numNormR];
-
-        barryLives = 5;
-        isInvincible = false;
-        invincibilityDuration = 120;
-        invincibilityCounter = 0;
-
-        isInContactDoc = false;
-        isInContactDocR = false;
-        isInContactNorm = false;
-        isInContactNormR = false;
-        contactCounterDoc = new int[numDoc];
-        contactCounterDocR = new int[numDocR];
-        contactCounterNorm = new int[numNorm];
-        contactCounterNormR = new int[numNormR];
-        contactDuration = 24;
-
-        // Games
-        lastMove = false; 
-        redoGame = false;
+        variableStorage();
         setup();
       }
       if (nextLevel) {
         runGame2();
-        numSister = myRandom.nextInt(30, 40);
-        numSisterR = myRandom.nextInt(30, 40);
-        SisterX = new int[numSister];
-        SisterXR = new int[numSisterR];
-        SisterY = intBarryY;
-        SisterYR = intBarryY - 35;
-        SisterWalkIndex = new int[numSister];
-        SisterWalkIndexR = new int[numSisterR];
-        SisterSpeedR = -1;
-        SisterSpeed = 1;
-        enemyVisibleSister = new boolean[numSister];
-        isPunchingS = new boolean[numSister];
-        enemyVisibleSisterR = new boolean[numSisterR];
-        isPunchingSR = new boolean[numSisterR];
-
-        numSuzie = myRandom.nextInt(25, 35);
-        numSuzieR = myRandom.nextInt(25, 35);
-        SuzieX = new int[numSuzie];
-        SuzieXR = new int[numSuzieR];
-        SuzieY = intBarryY + 25;
-        SuzieYR = intBarryY + 50;
-        SuzieWalkIndex = new int[numSuzie];
-        SuzieWalkIndexR = new int[numSuzieR];
-        SuzieSpeed = 3;
-        SuzieSpeedR = -3;
-        enemyVisibleSuzie = new boolean[numSuzie];
-        enemyVisibleSuzieR = new boolean[numSuzieR];
-        isKickingS = new boolean[numSuzie];
-        isKickingSR = new boolean[numSuzieR];
-
-        isInContactSister = false;
-        isInContactSisterR = false;
-        isInContactSuzie = false;
-        isInContactSuzieR = false;
-        contactCounterSister = new int[numSister];
-        contactCounterSisterR = new int[numSisterR];
-        contactCounterSuzie = new int[numSuzie];
-        contactCounterSuzieR = new int[numSuzieR];
-        setup();
+        variableStorage2();
+        setup2();
       }
   } 
   /**
@@ -462,9 +388,9 @@ public class Sketch extends PApplet {
               }
               // When this boolean array is true, Doc will start punching Barry
               if (isPunching[i]) {
-                  animateEnemyPunch(i);
+                  animateEnemyAttacks(i, enemyVisibleDoc, punchDoc, docWalkIndex, DocX, DocY);
               } else {
-                  animateEnemyWalk(i);
+                  animateEnemyWalks(i, docWalkIndex, walkDoc, DocX, DocY);
               }
               // Checks whether or not Barry loses a life due to a Doc enemy or not
               BarryLives(isInContactDoc, contactCounterDoc);
@@ -488,9 +414,9 @@ public class Sketch extends PApplet {
 
               // When this boolean array is true, DocR will start punching Barry
               if (isPunchingR[i]) {
-                  animateEnemyPunchR(i);
+                  animateEnemyAttacks(i, enemyVisibleDocR, punchDocR, docWalkIndexR, DocXR, DocY);
               } else {
-                  animateEnemyWalkR(i);
+                  animateEnemyWalks(i, docWalkIndexR, walkDocR, DocXR, DocYR);
               }
               // Checks whether or not Barry loses a life due to a DocR enemy or not
               BarryLives(isInContactDocR, contactCounterDocR);
@@ -515,9 +441,9 @@ public class Sketch extends PApplet {
               
               // When this boolean array is true, Norm will start punching Barry
               if (isBiting[i]) {
-                  animateNormBite(i);
+                  animateEnemyAttacks(i, enemyVisibleNorm, biteNorm, normWalkIndex, NormX, NormY);
               } else {
-                  animateNormWalk(i);
+                  animateEnemyWalks(i, normWalkIndex, walkNorm, NormX, NormY);
               }
               // Checks whether or not Barry loses a life due to a Norm enemy or not
               BarryLives(isInContactNorm, contactCounterNorm);
@@ -540,9 +466,9 @@ public class Sketch extends PApplet {
               }
               // When this boolean array is true, NormR will start punching Barry
               if (isBitingR[i]) {
-                  animateNormBiteR(i);
+                  animateEnemyAttacks(i, enemyVisibleNormR, biteNormR, normWalkIndexR, NormXR, NormYR);
               } else {
-                  animateNormWalkR(i);
+                  animateEnemyWalks(i, normWalkIndexR, walkNormR, NormXR, NormYR);
               }
               // Checks whether or not Barry loses a life due to a NormR enemy or not
               BarryLives(isInContactNormR, contactCounterNormR);
@@ -554,59 +480,14 @@ public class Sketch extends PApplet {
           }
       } 
       killBarryPage();
-      allEnemiesDefeated = true;
-      // Check if any enemy in DocX is visible
-  for (int i = 0; i < DocX.length; i++) {
-      if (enemyVisibleDoc[i]) {
-          allEnemiesDefeated = false;
-          break;
+      if (enemyDetector(DocX, DocXR, NormX, NormXR, enemyVisibleDoc, enemyVisibleDocR, enemyVisibleNorm, enemyVisibleNormR)) {
+        winPage();
       }
-  }
-
-  // Check if any enemy in DocXR is visible
-  if (allEnemiesDefeated) {
-      for (int i = 0; i < DocXR.length; i++) {
-          if (enemyVisibleDocR[i]) {
-              allEnemiesDefeated = false;
-              break;
-          }
-      }
-  }
-
-  // Check if any enemy in NormX is visible
-  if (allEnemiesDefeated) {
-      for (int i = 0; i < NormX.length; i++) {
-          if (enemyVisibleNorm[i]) {
-              allEnemiesDefeated = false;
-              break;
-          }
-      }
-  }
-
-  // Check if any enemy in NormXR is visible
-  if (allEnemiesDefeated) {
-      for (int i = 0; i < NormXR.length; i++) {
-          if (enemyVisibleNormR[i]) {
-              allEnemiesDefeated = false;
-              break;
-          }
-      }
-  }
-
-  if (allEnemiesDefeated) {
-      winPage();
-  }
 }
 
 public void runGame2() {
-  // Kick Delay
-  if (kickDelay > 0){ 
-      kickDelay--;
-  }
   // Adding an image of a background
   background(imgLab);
-
-  // Setting the original boolean values to true so Barry can move left and right
   boolean canMoveLeft = true;
   boolean canMoveRight = true;
 
@@ -700,9 +581,9 @@ public void runGame2() {
           }
           // When this boolean array is true, Sister will start punching Barry
           if (isPunchingS[i]) {
-              animateSisterPunch(i);
+              animateEnemyAttacks(i, enemyVisibleSister, punchSister, SisterWalkIndex, SisterX, SisterY);
           } else {
-              animateSisterWalk(i);
+              animateEnemyWalks(i, SisterWalkIndex, walkSister, SisterX, SisterY);
           }
           // Checks whether or not Barry loses a life due to a Sister enemy or not
           BarryLives(isInContactSister, contactCounterSister);
@@ -726,9 +607,9 @@ public void runGame2() {
 
           // When this boolean array is true, SisterR will start punching Barry
           if (isPunchingSR[i]) {
-              animateSisterPunchR(i);
+            animateEnemyAttacks(i, enemyVisibleSisterR, punchSisterR, SisterWalkIndexR, SisterXR, SisterYR);
           } else {
-              animateSisterWalkR(i);
+              animateEnemyWalks(i, SisterWalkIndexR, walkSisterR, SisterXR, SisterYR);
           }
           // Checks whether or not Barry loses a life due to a SisterR enemy or not
           BarryLives(isInContactSisterR, contactCounterSisterR);
@@ -753,9 +634,9 @@ public void runGame2() {
           
           // When this boolean array is true, Suzie will start punching Barry
           if (isKickingS[i]) {
-              animateSuzieKick(i);
+              animateEnemyAttacks(i, enemyVisibleSuzie, kickSuzie, SuzieWalkIndex, SuzieX, SuzieY);
           } else {
-              animateSuzieWalk(i);
+              animateEnemyWalks(i, SuzieWalkIndex, walkSuzie, SuzieX, SuzieY);
           }
           // Checks whether or not Barry loses a life due to a Suzie enemy or not
          BarryLives(isInContactSuzie, contactCounterSuzie);
@@ -778,9 +659,9 @@ public void runGame2() {
           }
           // When this boolean array is true, SuzieR will start punching Barry
           if (isKickingSR[i]) {
-              animateSuzieKickR(i);
+              animateEnemyAttacks(i, enemyVisibleSuzieR, kickSuzieR, SuzieWalkIndexR, SuzieXR, SuzieYR);
           } else {
-              animateSuzieWalkR(i);
+              animateEnemyWalks(i, SuzieWalkIndexR, walkSuzieR, SuzieXR, SuzieYR);
           }
           // Checks whether or not Barry loses a life due to a SuzieR enemy or not
          BarryLives(isInContactSuzieR, contactCounterSuzieR);
@@ -806,13 +687,13 @@ public void runGame2() {
       }
   }
   /**
-   * 
-   * @param intEnemies
-   * @param leftOrRight
-   * @param intIndex
-   * @param isVisible
-   * @param isAttacking
-   * @param intContact
+   * A method named Enemy Details that takes in a number of variables and arrays and sets their value and the positions of enemies
+   * @param intEnemies The number of a specific type of enemy
+   * @param leftOrRight Determining whether or not the enemy should be positioned from the left of right side
+   * @param intIndex  The animation array for the type of enemy , Sets all the animation to the first frame  
+   * @param isVisible Makes all the enemies visible on screen
+   * @param isAttacking Sets the enemies attacking condition to false so they walk up to the enemy first
+   * @param intContact  The array for the contact of enemies. Setting it zero ensures it starts from the first frame of animation
    */
   private void EnemyDetails(int[] intEnemies, boolean leftOrRight, int[] intIndex, boolean[] isVisible, boolean[] isAttacking, int[] intContact){
       for (int i = 0; i < intEnemies.length; i++) {
@@ -829,7 +710,7 @@ public void runGame2() {
       }
   }
   /**
-   * 
+   * animateKick is a method that contains the animations for Barry's Kick
    */
   private void animateKick() {
       if (lastMove) {
@@ -846,7 +727,7 @@ public void runGame2() {
       }
   }
   /**
-   * 
+   * animateChop is a method the contains the animations for Barry's chop
    */
   private void animateChop() {
       if (lastMove) {
@@ -869,7 +750,7 @@ public void runGame2() {
       }
   }
   /**
-   * 
+   * animateWalk is a method that contains all the animations for Barry's movement
    */
   private void animateWalk() {
       if (movingLeft) {
@@ -889,172 +770,194 @@ public void runGame2() {
           }
       }
   }
-  /*
-    * 
-    */
-  private void animateEnemyWalk(int i) {
-      if (enemyVisibleDoc[i]) {
-          int index = docWalkIndex[i] % walkDoc.length;
-          image(walkDoc[index], DocX[i], DocY);
-          if (frameCount % (60 / animationFrameRate) == 0) {
-              docWalkIndex[i] = (docWalkIndex[i] + 1) % walkDoc.length;
-          }
-      }
-  }
-  /** 
-   * 
-   */
-  private void animateEnemyPunch(int i) {
-      if (enemyVisibleDoc[i]) {
-          image(punchDoc[docWalkIndex[i]], DocX[i], DocY);
-          if (frameCount % (60 / animationFrameRate) == 0) {
-              docWalkIndex[i] = (docWalkIndex[i] + 1) % punchDoc.length;
-          }
-      }
-  }
-  /**
-   * 
-   * @param i
-   */
-  private void animateEnemyWalkR(int i) {
-      if (enemyVisibleDocR[i]) {
-          int index = docWalkIndexR[i] % walkDocR.length;
-          image(walkDocR[index], DocXR[i], DocYR);
-          if (frameCount % (60 / animationFrameRate) == 0) {
-              docWalkIndexR[i] = (docWalkIndexR[i] + 1) % walkDocR.length;
-          }
-      }
-  }
-
-
-  /**
-   * 
-   * @param i
-   */
-  private void animateEnemyPunchR(int i) {
-      if (enemyVisibleDocR[i]) {
-          image(punchDocR[docWalkIndexR[i]], DocXR[i], DocYR);
-          if (frameCount % (60 / animationFrameRate) == 0) {
-              docWalkIndexR[i] = (docWalkIndexR[i] + 1) % punchDocR.length;
-          }
-      }
-  }
-  /**
-   * 
-   * @param i
-   */
-  private void animateNormWalk(int i) {
-      int index = normWalkIndex[i] % walkNorm.length;
-      image(walkNorm[index], NormX[i], NormY);
-      if (frameCount % (60 / animationFrameRate) == 0) {
-          normWalkIndex[i] = (normWalkIndex[i] + 1) % walkNorm.length;
-      }
-  }
-  /**
-   * 
-   * @param i
-   */
-  private void animateNormBite(int i) {
-      if (enemyVisibleNorm[i]) {
-          image(biteNorm[normWalkIndex[i]], NormX[i], NormY);
-          if (frameCount % (60 / animationFrameRate) == 0) {
-              normWalkIndex[i] = (normWalkIndex[i] + 1) % biteNorm.length;
-          }
-      }
-  }
-  /**
-   * 
-   * @param i
-   */
-  private void animateNormWalkR(int i) {
-      int index = normWalkIndexR[i] % walkNormR.length;
-      image(walkNormR[index], NormXR[i], NormYR);
-      if (frameCount % (60 / animationFrameRate) == 0) {
-          normWalkIndexR[i] = (normWalkIndexR[i] + 1) % walkNormR.length;
-      }
-  }
-  /**
-   * 
-   * @param i
-   */
-  private void animateNormBiteR(int i) {
-      if (enemyVisibleNormR[i]) {
-          image(biteNormR[normWalkIndexR[i]], NormXR[i], NormYR);
-          if (frameCount % (60 / animationFrameRate) == 0) {
-              normWalkIndexR[i] = (normWalkIndexR[i] + 1) % biteNormR.length;
-          }
-      }
-  }
-
-  private void animateSisterWalk(int i) {
-    if (enemyVisibleSister[i]) {
-        int index = SisterWalkIndex[i] % walkSister.length;
-        image(walkSister[index], SisterX[i], SisterY);
-        if (frameCount % (60 / animationFrameRate) == 0) {
-            SisterWalkIndex[i] = (SisterWalkIndex[i] + 1) % walkSister.length;
-        }
-    }
-  }
-  private void animateSisterPunch(int i) {
-    if (enemyVisibleSister[i]) {
-        image(punchSister[SisterWalkIndex[i]], SisterX[i], SisterY);
-        if (frameCount % (60 / animationFrameRate) == 0) {
-            SisterWalkIndex[i] = (SisterWalkIndex[i] + 1) % punchSister.length;
-        }
-    }
-}
-private void animateSisterWalkR(int i) {
-  if (enemyVisibleSisterR[i]) {
-      int index = SisterWalkIndexR[i] % walkSisterR.length;
-      image(walkSisterR[index], SisterXR[i], SisterYR);
-      if (frameCount % (60 / animationFrameRate) == 0) {
-          SisterWalkIndexR[i] = (SisterWalkIndexR[i] + 1) % walkSisterR.length;
-      }
-  }
-}
-
-private void animateSisterPunchR(int i) {
-    if (enemyVisibleSisterR[i]) {
-        image(punchSisterR[SisterWalkIndexR[i]], SisterXR[i], SisterYR);
-        if (frameCount % (60 / animationFrameRate) == 0) {
-            SisterWalkIndexR[i] = (SisterWalkIndexR[i] + 1) % punchSisterR.length;
-        }
-    }
-}
   
-private void animateSuzieWalk(int i) {
-    int index = SuzieWalkIndex[i] % walkSuzie.length;
-    image(walkSuzie[index], SuzieX[i], SuzieY);
-    if (frameCount % (60 / animationFrameRate) == 0) {
-        SuzieWalkIndex[i] = (SuzieWalkIndex[i] + 1) % walkSuzie.length;
-    }
-}
-
-private void animateSuzieKick(int i) {
-    if (enemyVisibleSuzie[i]) {
-        image(kickSuzie[SuzieWalkIndex[i]], SuzieX[i], SuzieY);
+    private void animateEnemyWalks(int i, int[] enemyWalkIndex, PImage[] walkEnemy, int[] enemyX, int enemyY) {
+        int index = enemyWalkIndex[i] % walkEnemy.length;
+        image(walkEnemy[index], enemyX[i], enemyY);
         if (frameCount % (60 / animationFrameRate) == 0) {
-            SuzieWalkIndex[i] = (SuzieWalkIndex[i] + 1) % kickSuzie.length;
+            enemyWalkIndex[i] = (enemyWalkIndex[i] + 1) % walkEnemy.length;
         }
     }
-}
 
-private void animateSuzieWalkR(int i) {
-    int index = SuzieWalkIndexR[i] % walkSuzieR.length;
-    image(walkSuzieR[index], SuzieXR[i], SuzieYR);
-    if (frameCount % (60 / animationFrameRate) == 0) {
-        SuzieWalkIndexR[i] = (SuzieWalkIndexR[i] + 1) % walkSuzieR.length;
-    }
-}
-
-private void animateSuzieKickR(int i) {
-    if (enemyVisibleSuzieR[i]) {
-        image(kickSuzieR[SuzieWalkIndexR[i]], SuzieXR[i], SuzieYR);
-        if (frameCount % (60 / animationFrameRate) == 0) {
-            SuzieWalkIndexR[i] = (SuzieWalkIndexR[i] + 1) % kickSuzieR.length;
+    private void animateEnemyAttacks(int i, boolean[] enemyVisible, PImage[] attackEnemy, int[] enemyWalkIndex, int[] enemyX, int enemyY) {
+        if (enemyVisible[i]) {
+            image(attackEnemy[enemyWalkIndex[i]], enemyX[i], enemyY);
+            if (frameCount % (60 / animationFrameRate) == 0) {
+                enemyWalkIndex[i] = (enemyWalkIndex[i] + 1) % attackEnemy.length;
+            }
         }
     }
-}
+    private boolean enemyDetector(int[] enemyX1, int[] enemyX2, int[] enemyX3, int[] enemyX4, boolean[] enemyVisible1, boolean[] enemyVisible2, boolean[] enemyVisible3, boolean[] enemyVisible4) {
+        boolean allEnemiesDead = true;
+
+        for (int i = 0; i < enemyX1.length; i++) {
+            if (enemyVisible1[i]) {
+                allEnemiesDead = false;
+                break;
+            }
+        }
+        if (allEnemiesDead) {
+            for (int i = 0; i < enemyX2.length; i++) {
+                if (enemyVisible2[i]) {
+                    allEnemiesDead = false;
+                    break;
+                }
+            }
+        }
+
+        if (allEnemiesDead) {
+            for (int i = 0; i < enemyX3.length; i++) {
+                if (enemyVisible3[i]) {
+                    allEnemiesDead = false;
+                    break;
+                }
+            }
+        }
+
+        if (allEnemiesDead) {
+            for (int i = 0; i < enemyX4.length; i++) {
+                if (enemyVisible4[i]) {
+                    allEnemiesDead = false;
+                    break;
+                }
+            }
+        }
+        return allEnemiesDead;
+    }
+
+    public void variableStorage() {
+        isKicking = false;
+        isChopping = false;
+        isWalking = false;
+        movingLeft = false;
+        movingRight = false;
+
+        intBarryX = 550;
+        intBarryY = 550;
+        intBarrySpeed = 5;
+
+        kickImageIndex = 0;
+        chopImageIndex = 0;
+        walkImageIndex = 0;
+        kickImageIndexR = 0;
+        chopImageIndexR = 0;
+        walkImageIndexR = 0;
+        animationFrameRate = 20;
+        kickDelay = 0;
+
+        numDoc = myRandom.nextInt(20, 30);
+        numDocR = myRandom.nextInt(20, 30);
+        DocX = new int[numDoc];
+        DocXR = new int[numDocR];
+        DocY = intBarryY;
+        DocYR = intBarryY;
+        docWalkIndex = new int[numDoc];
+        docWalkIndexR = new int[numDocR];
+        enemyVisibleDoc = new boolean[numDoc];
+        isPunching = new boolean[numDoc];
+        enemyVisibleDocR = new boolean[numDocR];
+        isPunchingR = new boolean[numDocR];
+
+        numNorm = myRandom.nextInt(15, 25);
+        numNormR = myRandom.nextInt(15, 25);
+        NormX = new int[numNorm];
+        NormXR = new int[numNormR];
+        NormY = intBarryY + 50;
+        NormYR = intBarryY + 50;
+        normWalkIndex = new int[numNorm];
+        normWalkIndexR = new int[numNormR];
+        enemyVisibleNorm = new boolean[numNorm];
+        enemyVisibleNormR = new boolean[numNormR];
+        isBiting = new boolean[numNorm];
+        isBitingR = new boolean[numNormR];
+
+        barryLives = 5;
+        isInvincible = false;
+        invincibilityDuration = 120;
+        invincibilityCounter = 0;
+
+        isInContactDoc = false;
+        isInContactDocR = false;
+        isInContactNorm = false;
+        isInContactNormR = false;
+        contactCounterDoc = new int[numDoc];
+        contactCounterDocR = new int[numDocR];
+        contactCounterNorm = new int[numNorm];
+        contactCounterNormR = new int[numNormR];
+        contactDuration = 24;
+
+        // Games
+        lastMove = false; 
+        redoGame = false;
+    }
+
+    public void variableStorage2() {
+        isKicking = false;
+        isChopping = false;
+        isWalking = false;
+        movingLeft = false;
+        movingRight = false;
+
+        intBarryX = 550;
+        intBarryY = 550;
+        intBarrySpeed = 5;
+
+        kickImageIndex = 0;
+        chopImageIndex = 0;
+        walkImageIndex = 0;
+        kickImageIndexR = 0;
+        chopImageIndexR = 0;
+        walkImageIndexR = 0;
+        animationFrameRate = 20;
+        kickDelay = 0;
+
+        numSister = myRandom.nextInt(30, 40);
+        numSisterR = myRandom.nextInt(30, 40);
+        SisterX = new int[numSister];
+        SisterXR = new int[numSisterR];
+        SisterY = intBarryY;
+        SisterYR = intBarryY - 35;
+        SisterWalkIndex = new int[numSister];
+        SisterWalkIndexR = new int[numSisterR];
+        SisterSpeedR = -1;
+        SisterSpeed = 1;
+        enemyVisibleSister = new boolean[numSister];
+        isPunchingS = new boolean[numSister];
+        enemyVisibleSisterR = new boolean[numSisterR];
+        isPunchingSR = new boolean[numSisterR];
+
+        numSuzie = myRandom.nextInt(25, 35);
+        numSuzieR = myRandom.nextInt(25, 35);
+        SuzieX = new int[numSuzie];
+        SuzieXR = new int[numSuzieR];
+        SuzieY = intBarryY + 25;
+        SuzieYR = intBarryY + 50;
+        SuzieWalkIndex = new int[numSuzie];
+        SuzieWalkIndexR = new int[numSuzieR];
+        SuzieSpeed = 3;
+        SuzieSpeedR = -3;
+        enemyVisibleSuzie = new boolean[numSuzie];
+        enemyVisibleSuzieR = new boolean[numSuzieR];
+        isKickingS = new boolean[numSuzie];
+        isKickingSR = new boolean[numSuzieR];
+
+        barryLives = 5;
+        isInvincible = false;
+        invincibilityDuration = 120;
+        invincibilityCounter = 0;
+
+        isInContactSister = false;
+        isInContactSisterR = false;
+        isInContactSuzie = false;
+        isInContactSuzieR = false;
+        contactCounterSister = new int[numSister];
+        contactCounterSisterR = new int[numSisterR];
+        contactCounterSuzie = new int[numSuzie];
+        contactCounterSuzieR = new int[numSuzieR];
+
+        lastMove = false; 
+    }
+
   /** 
    * 
    */
@@ -1096,8 +999,6 @@ private void animateSuzieKickR(int i) {
           numDocR = 0;
           numNorm = 0;
           numNorm = 0;
-
-
   }
   public void killBarryPage() {
       onDeath = true;
