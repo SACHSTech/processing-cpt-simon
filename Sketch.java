@@ -162,7 +162,6 @@ public class Sketch extends PApplet {
   }
 
   public void setup() {
-      loadScreen();
 
       imgLab = loadImage("Background For COM SCI.png");
       imgLab.resize(width, height);
@@ -178,6 +177,7 @@ public class Sketch extends PApplet {
       // Resizing image for Platypus
       imgPlatypus = loadImage("Barry.png");
       imgPlatypus.resize(150, 150);
+      imgPlatypusR = loadImage("BarryR.png");
       imgPlatypusR.resize(150, 150);
 
       // Resizing images and putting them into an Array for character movement 
@@ -209,10 +209,10 @@ public class Sketch extends PApplet {
       EnemyDetails(DocXR, true, docWalkIndexR, enemyVisibleDocR, isPunchingR, contactCounterDocR);
       EnemyDetails(NormX, true, normWalkIndex, enemyVisibleNorm, isBiting, contactCounterNorm);
       EnemyDetails(NormXR,false, normWalkIndexR, enemyVisibleNormR, isBitingR, contactCounterNormR);
-      EnemyDetails(SisterX, false, SisterWalkIndex, enemyVisibleSister, isPunching, contactCounterSister);        
-      EnemyDetails(SisterXR, true, SisterWalkIndexR, enemyVisibleSisterR, isPunchingR, contactCounterSisterR);
-      EnemyDetails(SuzieX, true, SuzieWalkIndex, enemyVisibleSuzie, isBiting, contactCounterSuzie);
-      EnemyDetails(SuzieXR,false, SuzieWalkIndexR, enemyVisibleSuzieR, isBitingR, contactCounterSuzieR);
+      EnemyDetails(SisterX, false, SisterWalkIndex, enemyVisibleSister, isPunchingS, contactCounterSister);        
+      EnemyDetails(SisterXR, true, SisterWalkIndexR, enemyVisibleSisterR, isPunchingSR, contactCounterSisterR);
+      EnemyDetails(SuzieX, true, SuzieWalkIndex, enemyVisibleSuzie, isKickingS, contactCounterSuzie);
+      EnemyDetails(SuzieXR,false, SuzieWalkIndexR, enemyVisibleSuzieR, isKickingSR, contactCounterSuzieR);
 
       // Life System details
       barryLives = 5;
@@ -396,7 +396,7 @@ public class Sketch extends PApplet {
   /**
    * The main game code
    */
-  public void runGame2() {
+  public void runGame() {
       // Adding an image of a background
       background(imgBackground);
 
@@ -630,7 +630,7 @@ public class Sketch extends PApplet {
   }
 }
 
-public void runGame() {
+public void runGame2() {
   // Kick Delay
   if (kickDelay > 0){ 
       kickDelay--;
@@ -731,7 +731,7 @@ public void runGame() {
               SisterX[i] += SisterSpeedR;
           }
           // When this boolean array is true, Sister will start punching Barry
-          if (isPunching[i]) {
+          if (isPunchingS[i]) {
               animateSisterPunch(i);
           } else {
               animateSisterWalk(i);
@@ -749,15 +749,15 @@ public void runGame() {
   for (int i = 0; i < numSisterR; i++) {
       if (enemyVisibleSisterR[i]) {
           if (dist(intBarryX, intBarryY, SisterXR[i], SisterYR) < 60) {
-              isPunchingR[i] = true;
+              isPunchingSR[i] = true;
                BarryLives(true, contactCounterSisterR);
           } else {
-              isPunchingR[i] = false;
+              isPunchingSR[i] = false;
               SisterXR[i] += SisterSpeed;
           }
 
           // When this boolean array is true, SisterR will start punching Barry
-          if (isPunchingR[i]) {
+          if (isPunchingSR[i]) {
               animateSisterPunchR(i);
           } else {
               animateSisterWalkR(i);
@@ -776,15 +776,15 @@ public void runGame() {
   for (int i = 0; i < numSuzie; i++) {
       if (enemyVisibleSuzie[i]) {
           if (dist(intBarryX, intBarryY, SuzieX[i], SuzieY) < 60) {
-              isBiting[i] = true;
+              isKickingS[i] = true;
               BarryLives(true, contactCounterSuzie);
           } else {
-              isBiting[i] = false;
+              isKickingS[i] = false;
               SuzieX[i] += SuzieSpeed;
           }
           
           // When this boolean array is true, Suzie will start punching Barry
-          if (isBiting[i]) {
+          if (isKickingS[i]) {
               animateSuzieKick(i);
           } else {
               animateSuzieWalk(i);
@@ -802,14 +802,14 @@ public void runGame() {
   for (int i = 0; i < numSuzieR; i++) {
       if (enemyVisibleSuzieR[i]) {
           if (dist(intBarryX, intBarryY, SuzieXR[i] - 50, SuzieYR) < 60) {
-              isBitingR[i] = true;
+              isKickingSR[i] = true;
               BarryLives(true, contactCounterSuzieR);
           } else {
-              isBitingR[i] = false;
+              isKickingSR[i] = false;
               SuzieXR[i] += SuzieSpeedR;
           }
           // When this boolean array is true, SuzieR will start punching Barry
-          if (isBitingR[i]) {
+          if (isKickingSR[i]) {
               animateSuzieKickR(i);
           } else {
               animateSuzieWalkR(i);
@@ -823,7 +823,7 @@ public void runGame() {
           }
       }
   } 
-  killBillPage();
+  killBarryPage();
 }
   /**
    * A method named, Image Arrays, that takes images that follow a simple name pattern and input them in an array
@@ -1044,7 +1044,49 @@ private void animateSisterWalkR(int i) {
       }
   }
 }
+
+private void animateSisterPunchR(int i) {
+    if (enemyVisibleSisterR[i]) {
+        image(punchSisterR[SisterWalkIndexR[i]], SisterXR[i], SisterYR);
+        if (frameCount % (60 / animationFrameRate) == 0) {
+            SisterWalkIndexR[i] = (SisterWalkIndexR[i] + 1) % punchSisterR.length;
+        }
+    }
+}
   
+private void animateSuzieWalk(int i) {
+    int index = SuzieWalkIndex[i] % walkSuzie.length;
+    image(walkSuzie[index], SuzieX[i], SuzieY);
+    if (frameCount % (60 / animationFrameRate) == 0) {
+        SuzieWalkIndex[i] = (SuzieWalkIndex[i] + 1) % walkSuzie.length;
+    }
+}
+
+private void animateSuzieKick(int i) {
+    if (enemyVisibleSuzie[i]) {
+        image(kickSuzie[SuzieWalkIndex[i]], SuzieX[i], SuzieY);
+        if (frameCount % (60 / animationFrameRate) == 0) {
+            SuzieWalkIndex[i] = (SuzieWalkIndex[i] + 1) % kickSuzie.length;
+        }
+    }
+}
+
+private void animateSuzieWalkR(int i) {
+    int index = SuzieWalkIndexR[i] % walkSuzieR.length;
+    image(walkSuzieR[index], SuzieXR[i], SuzieYR);
+    if (frameCount % (60 / animationFrameRate) == 0) {
+        SuzieWalkIndexR[i] = (SuzieWalkIndexR[i] + 1) % walkSuzieR.length;
+    }
+}
+
+private void animateSuzieKickR(int i) {
+    if (enemyVisibleSuzieR[i]) {
+        image(kickSuzieR[SuzieWalkIndexR[i]], SuzieXR[i], SuzieYR);
+        if (frameCount % (60 / animationFrameRate) == 0) {
+            SuzieWalkIndexR[i] = (SuzieWalkIndexR[i] + 1) % kickSuzieR.length;
+        }
+    }
+}
   /** 
    * 
    */
@@ -1082,8 +1124,6 @@ private void animateSisterWalkR(int i) {
       fill(0);
       textSize(30);
       text("Main Menu", 375, 475);
-
-
           numDoc = 0;
           numDocR = 0;
           numNorm = 0;
