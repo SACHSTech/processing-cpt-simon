@@ -824,7 +824,6 @@ public void runGame() {
           }
       }
   } 
-  killBillPage();
 }
   /**
    * A method named, Image Arrays, that takes images that follow a simple name pattern and input them in an array
