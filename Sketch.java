@@ -241,7 +241,7 @@ public class Sketch extends PApplet {
         ImageArrays(kickSuzie, "SuzieKickR", 160);
         ImageArrays(walkSuzieR, "SuzieWalk", 100);
         ImageArrays(kickSuzieR, "SuzieKick", 100);
-        
+
         // Collision and positioning of the characters
         EnemyDetails(SisterX, false, SisterWalkIndex, enemyVisibleSister, isPunchingS, contactCounterSister);        
         EnemyDetails(SisterXR, true, SisterWalkIndexR, enemyVisibleSisterR, isPunchingSR, contactCounterSisterR);
@@ -291,10 +291,6 @@ public class Sketch extends PApplet {
       fill(0);
       textSize(56);
       text("Play", 150, 600);
-      fill(249, 255, 207);
-      rect(500, 550, 200, 100, 20);
-      fill(0);
-      text("Tutorial", 600, 600);
       image(imgPlatypusR, 300, 550);
   }
   /**
