@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.Random;
 
 public class Sketch extends PApplet {
-	Random myRandom = new Random();
+  Random myRandom = new Random();
 
   PImage imgBackground;
   PImage imgPlatypus;
@@ -11,6 +11,7 @@ public class Sketch extends PApplet {
   PImage imgDoc;
   PImage imgNorm;
   PImage imgHome;
+  PImage imgWinningBackground;
 
   PImage[] kickImages = new PImage[8];
   PImage[] chopImages = new PImage[8];
@@ -150,8 +151,10 @@ public class Sketch extends PApplet {
   boolean showHomeScreen = true;
   boolean redoGame = false;
   boolean onDeath = false;
+  boolean onDeath2 = false;
   boolean isOld = false;
   boolean onWin = false;
+  boolean onWin2 = false;
   boolean nextLevel = false;
   /**
    * Size of the window
@@ -205,8 +208,11 @@ public class Sketch extends PApplet {
   }
 
     private void setup2() {
-        imgLab = loadImage("Background For COM SCI.png");
+        imgLab = loadImage("Lab.jpg");
         imgLab.resize(width, height);
+
+        imgWinningBackground = loadImage("Winning background.png");
+        imgWinningBackground.resize(width, height);
 
         //Resizing image for HomeScreen 
         imgHome = loadImage("HomeScreen.jpg");
@@ -261,9 +267,9 @@ public class Sketch extends PApplet {
         setup();
       }
       if (nextLevel) {
-        runGame2();
         variableStorage2();
         setup2();
+        runGame2();
       }
   } 
   /**
@@ -673,6 +679,10 @@ public void runGame2() {
       }
   } 
   killBarryPage();
+
+  if (enemyDetector(SisterX, SisterXR, SuzieX, SuzieXR, enemyVisibleSister, enemyVisibleSisterR, enemyVisibleSuzie, enemyVisibleSuzieR)) {
+    winningBackground();
+  }
 }
   /**
    * A method named, Image Arrays, that takes images that follow a simple name pattern and input them in an array
@@ -770,7 +780,14 @@ public void runGame2() {
           }
       }
   }
-  
+    /**
+     * A method animateEnemyWalks that sets the movement animations for different enemies
+     * @param i i refers to the specific enemy out the many
+     * @param enemyWalkIndex Keeps track of the frame of the specific enemy
+     * @param walkEnemy walkEnemy refers to the image frames of the enemy's movement
+     * @param enemyX X coordinate of enemy
+     * @param enemyY Y coordinate of enemy
+     */
     private void animateEnemyWalks(int i, int[] enemyWalkIndex, PImage[] walkEnemy, int[] enemyX, int enemyY) {
         int index = enemyWalkIndex[i] % walkEnemy.length;
         image(walkEnemy[index], enemyX[i], enemyY);
@@ -778,7 +795,15 @@ public void runGame2() {
             enemyWalkIndex[i] = (enemyWalkIndex[i] + 1) % walkEnemy.length;
         }
     }
-
+    /**
+     * A method animate EnemyWalks that sets the attacking animations for different enemies
+     * @param i  i refers to the specific enemy out the many
+     * @param enemyVisible Keeps track of the frame of the specific enemy
+     * @param attackEnemy Refers to the image frames of the enemy's attacks
+     * @param enemyWalkIndex Keeps track of the frame of the specific enemy
+     * @param enemyX X coordinate of enemy
+     * @param enemyY Y coordinate of enemy
+     */
     private void animateEnemyAttacks(int i, boolean[] enemyVisible, PImage[] attackEnemy, int[] enemyWalkIndex, int[] enemyX, int enemyY) {
         if (enemyVisible[i]) {
             image(attackEnemy[enemyWalkIndex[i]], enemyX[i], enemyY);
@@ -787,6 +812,19 @@ public void runGame2() {
             }
         }
     }
+
+    /**
+     * A method enemyDectector that checks whether all enemies are defeated or not
+     * @param enemyX1 One type of enemy on the x - axis 
+     * @param enemyX2 Another type of enemy on the x - axis
+     * @param enemyX3 Another type of enemy on the x - axis
+     * @param enemyX4 Another type of enemy on the x - axis
+     * @param enemyVisible1 A boolean variable that returns whether or not a specific type of enemy is defeat or not
+     * @param enemyVisible2 A boolean variable that returns whether or not a specific type of enemy is defeat or not
+     * @param enemyVisible3 A boolean variable that returns whether or not a specific type of enemy is defeat or not
+     * @param enemyVisible4 A boolean variable that returns whether or not a specific type of enemy is defeat or not
+     * @return Returns whether or not all enemies are defearted or not, true being all defeated, false being the opposite
+     */
     private boolean enemyDetector(int[] enemyX1, int[] enemyX2, int[] enemyX3, int[] enemyX4, boolean[] enemyVisible1, boolean[] enemyVisible2, boolean[] enemyVisible3, boolean[] enemyVisible4) {
         boolean allEnemiesDead = true;
 
@@ -824,7 +862,9 @@ public void runGame2() {
         }
         return allEnemiesDead;
     }
-
+    /**
+     * A method that holds all the variables for level 1
+     */
     public void variableStorage() {
         isKicking = false;
         isChopping = false;
@@ -890,7 +930,9 @@ public void runGame2() {
         lastMove = false; 
         redoGame = false;
     }
-
+    /**
+     * A method variableStorage2 that holds all the variables for level 2
+     */
     public void variableStorage2() {
         isKicking = false;
         isChopping = false;
@@ -954,12 +996,11 @@ public void runGame2() {
         contactCounterSisterR = new int[numSisterR];
         contactCounterSuzie = new int[numSuzie];
         contactCounterSuzieR = new int[numSuzieR];
-
         lastMove = false; 
     }
 
   /** 
-   * 
+   *  A method loadScreen that displays a load screen
    */
   public void loadScreen(){
       for(int i = 0; i <= 2; i++){
@@ -971,7 +1012,9 @@ public void runGame2() {
           delay(2000);
       }
   }
-
+  /**
+   * A method winPage that shows a win page when users beat the first level
+   */
   public void winPage() {
       onWin = true;
       onDeath = false;
@@ -1000,6 +1043,26 @@ public void runGame2() {
           numNorm = 0;
           numNorm = 0;
   }
+/**
+ *  A method WinningBackground when the users beat the second level
+ */
+  public void winningBackground(){
+    onWin = true;
+    onDeath = false;
+    background(imgWinningBackground);
+    textSize(75);
+    fill(255);
+    text("Congraulations,You help Barry Escape!!!", 375, 250);
+    fill(249, 255, 207);
+    rect (300, 450, 150, 50);
+    fill(0);
+    textSize(30);
+    text("Main Menu", 375, 475);
+  }
+
+  /**
+   * A method called killBarryPage that displays a page when Barry runs out of lives
+   */
   public void killBarryPage() {
       onDeath = true;
       if (barryLives <= 0) {
@@ -1027,9 +1090,9 @@ public void runGame2() {
       }
   }
   /**
-   * 
-   * @param isInContactEnemy
-   * @param contactCounter
+   * BarryLives is a method that checks the collision with enemies and determines whether or not Barry should lose a life or not after a certain time
+   * @param isInContactEnemy A boolean variable that checks whether or not Barry is in collision with an enemy
+   * @param contactCounter A buffer timmer before Barry loses a life
    */
   private void BarryLives(boolean isInContactEnemy, int[] contactCounter) {
       
@@ -1047,12 +1110,12 @@ public void runGame2() {
   }
 
   /**
-   * 
-   * @param barryX
-   * @param barryY
-   * @param enemyX
-   * @param enemyY
-   * @return
+   * A method checkCollision that takes parameters and sets the bounds of collision
+   * @param barryX Barry's x coordinate
+   * @param barryY Barry's y coordinate
+   * @param enemyX Enemies' x coordinate
+   * @param enemyY Enemies' y coordinate
+   * @return Returns true if the enemies overlap with Barry, false if not
    */
   private boolean checkCollision(float barryX, float barryY, float enemyX, float enemyY) {
       float barryWidth = 60; 
@@ -1066,17 +1129,21 @@ public void runGame2() {
               barryY + barryHeight > enemyY;
   }
   /**
-   * 
+   * A method keyPressed that does actions when the user does inputs on their keyboard
    */
   public void keyPressed() {
+        // Barry Kicking
       if (key == 'a' && !isChopping) {
           isKicking = true;
+        // Barry Chopping
       } else if (key == 's' && !isKicking && kickDelay == 0) {
           isChopping = true;
+        // Barry Walking left
       } else if (keyCode == LEFT) {
           movingLeft = true;
           lastMove = true;
           isWalking = true;
+        // Barry Walking right
       } else if (keyCode == RIGHT) {
           movingRight = true;
           lastMove = false;
@@ -1084,17 +1151,20 @@ public void runGame2() {
       }
   }
   /**
-   * 
+   * KeyReleased is a method that does actions when the user releases certain keys.
    */
   public void keyReleased() {
+    // Barry stops kicking
       if (key == 'a') {
           isKicking = false;
           kickImageIndex = 0;
       }
+      // Barry stops Chopping
       if (key == 's') {
           isChopping = false;
           chopImageIndex = 0;
       }
+      // Barry stops moving
       if (keyCode == LEFT || keyCode == RIGHT) {
           movingLeft = false;
           movingRight = false;
@@ -1102,8 +1172,11 @@ public void runGame2() {
           walkImageIndex = 0;
       }
   }
-
+  /**
+   * A method mouseClicked that does certain actions when the user clicks their mouse
+   */
   public void mouseClicked(){
+    // Button for homepage
     if(mouseX > 50 && mouseX < 250 && mouseY > 550 && mouseY < 650) {
         showHomeScreen = false;
         barryLives = 5;
@@ -1112,6 +1185,7 @@ public void runGame2() {
             redoGame = true;
         }
     }
+    // Buttons for deathPage on level 1
     if(onDeath) {
       if(barryLives <= 0 && mouseX > 100 && mouseX < 250 && mouseY > 360 && mouseY < 410) {
         loadScreen();
@@ -1134,6 +1208,7 @@ public void runGame2() {
         barryLives = 5;
       }
     }
+    // Buttons for winPage on level 1
     if(onWin){
       if(mouseX > 100 && mouseX < 250 && mouseY > 360 && mouseY < 410) {
         loadScreen();
