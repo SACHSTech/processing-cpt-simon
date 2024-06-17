@@ -3,6 +3,8 @@ import processing.core.PImage;
 import java.util.Random;
 
 public class Sketch extends PApplet {
+
+// Initialize and declaring variables
   Random myRandom = new Random();
 
   PImage imgBackground;
@@ -146,7 +148,7 @@ public class Sketch extends PApplet {
   int[] contactCounterSisterR = new int[numSisterR];
   int[] contactCounterSuzie = new int[numSuzie];
   int[] contactCounterSuzieR = new int[numSuzieR];
-  // Games
+ 
   boolean lastMove = false; 
   boolean showHomeScreen = true;
   boolean redoGame = false;
@@ -223,7 +225,8 @@ public class Sketch extends PApplet {
         imgPlatypus.resize(150, 150);
         imgPlatypusR = loadImage("BarryR.png");
         imgPlatypusR.resize(150, 150);
-        
+
+         // Resizing images and putting them into an Array for character movement 
         ImageArrays(kickImages, "Kick", 150);
         ImageArrays(chopImages, "Chop", 150);
         ImageArrays(walkBarry, "Walk", 150);
@@ -238,7 +241,8 @@ public class Sketch extends PApplet {
         ImageArrays(kickSuzie, "SuzieKickR", 160);
         ImageArrays(walkSuzieR, "SuzieWalk", 100);
         ImageArrays(kickSuzieR, "SuzieKick", 100);
-
+        
+        // Collision and positioning of the characters
         EnemyDetails(SisterX, false, SisterWalkIndex, enemyVisibleSister, isPunchingS, contactCounterSister);        
         EnemyDetails(SisterXR, true, SisterWalkIndexR, enemyVisibleSisterR, isPunchingSR, contactCounterSisterR);
         EnemyDetails(SuzieX, true, SuzieWalkIndex, enemyVisibleSuzie, isKickingS, contactCounterSuzie);
