@@ -11,6 +11,7 @@ public class Sketch extends PApplet {
   PImage imgDoc;
   PImage imgNorm;
   PImage imgHome;
+  PImage imgWinningBackground;
 
   PImage[] kickImages = new PImage[8];
   PImage[] chopImages = new PImage[8];
@@ -48,8 +49,8 @@ public class Sketch extends PApplet {
   int animationFrameRate = 20;
   int kickDelay = 0;
 
-  int numDoc = myRandom.nextInt(20, 30);
-  int numDocR = myRandom.nextInt(20, 30);
+  int numDoc = myRandom.nextInt(5, 10);
+  int numDocR = myRandom.nextInt(5, 10);
   int[] DocX = new int[numDoc];
   int[] DocXR = new int[numDocR];
   int DocY = intBarryY;
@@ -63,8 +64,8 @@ public class Sketch extends PApplet {
   boolean[] enemyVisibleDocR = new boolean[numDocR];
   boolean[] isPunchingR = new boolean[numDocR];
 
-  int numNorm = myRandom.nextInt(15, 25);
-  int numNormR = myRandom.nextInt(15, 25);
+  int numNorm = myRandom.nextInt(5, 10);
+  int numNormR = myRandom.nextInt(5, 10);
   int[] NormX = new int[numNorm];
   int[] NormXR = new int[numNormR];
   int NormY = intBarryY + 50;
@@ -1044,7 +1045,56 @@ private void animateSisterWalkR(int i) {
       }
   }
 }
-  
+ private void animateSisterPunchR(int i) {
+    if (enemyVisibleSisterR[i]) {
+        image(punchSisterR[SisterWalkIndexR[i]], SisterXR[i], SisterYR);
+        if (frameCount % (60 / animationFrameRate) == 0) {
+            SisterWalkIndex[i] = (SisterWalkIndex[i] + 1) % punchSister.length;
+        }
+    }
+}
+  private void animateSuzieWalk(int i) {
+        int index = SuzieWalkIndex[i] % walkSuzie.length;
+        image(walkSuzie[index], SuzieX[i], SuzieY);
+        if (frameCount % (60 / animationFrameRate) == 0) {
+            SuzieWalkIndex[i] = (SuzieWalkIndex[i] + 1) % walkSuzie.length;
+        }
+    }
+    /**
+     * 
+     * @param i
+     */
+    private void animateSuzieKick(int i) {
+        if (enemyVisibleSuzie[i]) {
+            image(kickSuzie[SuzieWalkIndex[i]], SuzieX[i], SuzieY);
+            if (frameCount % (60 / animationFrameRate) == 0) {
+                SuzieWalkIndex[i] = (SuzieWalkIndex[i] + 1) % kickSuzie.length;
+            }
+        }
+    }
+    /**
+     * 
+     * @param i
+     */
+    private void animateSuzieWalkR(int i) {
+        int index = SuzieWalkIndexR[i] % walkSuzieR.length;
+        image(walkSuzieR[index], SuzieXR[i], SuzieYR);
+        if (frameCount % (60 / animationFrameRate) == 0) {
+            SuzieWalkIndexR[i] = (SuzieWalkIndexR[i] + 1) % walkSuzieR.length;
+        }
+    }
+    /**
+     * 
+     * @param i
+     */
+    private void animateSuzieKickR(int i) {
+        if (enemyVisibleSuzieR[i]) {
+            image(kickSuzieR[SuzieWalkIndexR[i]], SuzieXR[i], SuzieYR);
+            if (frameCount % (60 / animationFrameRate) == 0) {
+                SuzieWalkIndexR[i] = (SuzieWalkIndexR[i] + 1) % kickSuzieR.length;
+            }
+        }
+    }
   /** 
    * 
    */
@@ -1090,6 +1140,25 @@ private void animateSisterWalkR(int i) {
           numNorm = 0;
 
 
+  }
+  public void winningBackground(){
+    onWin = true;
+    onDeath = false;
+    background(imgWinningBackground);
+    textSize(75);
+    fill(255);
+    text("Congraulations,You help Barry Escape!!!", 375, 250);
+    fill(249, 255, 207);
+    rect (300, 450, 150, 50);
+    fill(0);
+    textSize(30);
+    text("Main Menu", 375, 475);
+
+
+          numSister = 0;
+          numSisterR = 0;
+          numSuzie = 0;
+          numSuzieR = 0;
   }
   public void killBarryPage() {
       onDeath = true;

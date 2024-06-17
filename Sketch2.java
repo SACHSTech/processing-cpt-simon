@@ -12,6 +12,7 @@ public class Sketch2 extends PApplet {
     PImage imgSister;
     PImage imgSuzie;
     PImage imgGameOver;
+    PImage imgWinningBackground;
 
     PImage[] kickImages = new PImage[8];
     PImage[] chopImages = new PImage[8];
@@ -584,7 +585,7 @@ public class Sketch2 extends PApplet {
             fill(0);
             text("YOU KILLED BARRY", width / 2, height / 2 - 50);
             textSize(36);
-                fill(249, 255, 207);
+            fill(249, 255, 207);
             rect (100, 360, 150, 50);
             fill(0);
             textSize(36);
