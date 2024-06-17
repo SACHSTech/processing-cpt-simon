@@ -10,6 +10,7 @@ Story
 Barry's Tale
 Barry, an inquisitive and daring platypus, was once an ordinary inhabitant of a peaceful riverbank. However, his life took a dramatic turn when he was captured by a secretive research laboratory known for its sinister experiments. Barry was subjected to numerous tests in this labyrinth of steel and glass that enhanced his physical abilities, turning him into a powerful yet reluctant hero. Determined to escape and expose the lab's and castle's dangerous activities, Barry must use his newfound skills to fight his way out and ensure his survival.
 
+![image](https://github.com/SACHSTech/processing-cpt-simon/assets/159297823/6e3bb9ac-2be1-44fe-a172-4711633d0f09)
 
 Gameplay Mechanics
 Movement
@@ -19,6 +20,9 @@ Enemies: Barry encounters various enemies, including Sister, Suzie, Norm, and Dr
 Actions
 Kick: Press the 'S' key to make Barry perform a kick. Kicking is an offensive action used to defeat enemies that come into contact with Barry.
 Chop: Press the 'A' key to make Barry perform a chop. This is another offensive move to fend off enemies.
+![image](https://github.com/SACHSTech/processing-cpt-simon/assets/159297823/a8eb18c7-c9bf-456c-b306-3640d88cf0e8)
+
+
 
 Enemy Behavior
 Sister: These enemies walk towards Barry and punch him when close enough. They appear randomly from either the left or right side of the screen. Pressing the "A" key will defeat the Sister(Candice).
@@ -35,8 +39,7 @@ Level one consists of the DR and Norm trying to stop Barry while in a castle whi
 Limitations
 Limited Controls: The game controls are basic, limited to moving left and right and performing two types of attacks (kick and chop).
 No Scoring System: The game does not have a point-based scoring system. Player performance is measured by how long Barry can survive.
-
-Home Screen
+![image](https://github.com/SACHSTech/processing-cpt-simon/assets/159297823/85edca01-a0d4-4564-9d58-2f467d17b3e4)
 
 Credits
 Developer: Simon Tse, Joshua Lo
